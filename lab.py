@@ -196,6 +196,7 @@ def simulate(market,sids,start,end,fee=.001,adverse=.0005,partial=False,atr_mult
 
     for i,t in enumerate(ix):
         realized=0.; entry_risk=0.; turn_start=turnover
+        opening_exit_capacity_used=set()
         for sym in SYMBOLS:
             op=h[sym]['open'][i]
             if np.isfinite(op): last_prices[sym]=op
@@ -206,6 +207,7 @@ def simulate(market,sids,start,end,fee=.001,adverse=.0005,partial=False,atr_mult
             if pos.pending or op<=pos.stop:
                 _,_,prev=market.minutes(sym,t)
                 close(pos,op,t,'stop_gap' if op<=pos.stop else 'scheduled',.01*prev if partial else math.inf)
+                if partial: opening_exit_capacity_used.add(sym)
         equity=cash+sum(p.q*last_prices[s] for s,p in positions.items())
         reserved=sum(p.risk for p in positions.values())
         for sid in sorted(sids):
@@ -262,7 +264,7 @@ def simulate(market,sids,start,end,fee=.001,adverse=.0005,partial=False,atr_mult
                     if j in gap_resume:
                         close(pos,op,tm,'data_gap'); break
                     # Opening partial exit already consumed this minute's capacity.
-                    if j==0 and fills and fills[-1]['time']==t and fills[-1]['side']=='sell' and fills[-1]['symbol']==sym: continue
+                    if j==0 and sym in opening_exit_capacity_used: continue
                     if pos.pending: close(pos,op,tm,'pending_market',cap)
                     elif lo<=pos.stop: close(pos,min(op,pos.stop),tm,'stop',cap)
                     elif hi>pos.target: close(pos,pos.target,tm,'target',cap)

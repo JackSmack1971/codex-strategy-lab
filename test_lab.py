@@ -75,4 +75,30 @@ class EngineTests(unittest.TestCase):
         pd.testing.assert_frame_equal(e.iloc[:3],e2.iloc[:3])
         pd.testing.assert_frame_equal(f[f.time<a+pd.Timedelta(hours=3)],f2[f2.time<a+pd.Timedelta(hours=3)])
 
+    def test_gap_exits_at_resume_not_before_missing_information(self):
+        m,a,b=self.market(kind='quiet'); original=m.minutes
+        def minutes(s,t):
+            ts,arr,prev=original(s,t)
+            if s=='BTCUSDT' and t==a:
+                return np.delete(ts,15),np.delete(arr,15,axis=0),prev
+            return ts,arr,prev
+        m.minutes=minutes
+        e,t,f,c=simulate(m,[IDS[1]],a,b)
+        self.assertEqual(t.iloc[0].exit_time,a+pd.Timedelta(minutes=16))
+        self.assertEqual(t.iloc[0].reason,'data_gap')
+
+    def test_partial_exit_capacity_not_reused_across_assets(self):
+        m,a,b=self.market(kind='scheduled',qv=100.)
+        m.plans['ETHUSDT'][IDS[1]].loc[a,'signal']=True
+        m.plans['ETHUSDT'][IDS[1]].loc[a+pd.Timedelta(hours=1),'exit']=True
+        original=m.minutes
+        def minutes(s,t):
+            ts,arr,prev=original(s,t)
+            return ts,arr,1e9 if t==a else 100.
+        m.minutes=minutes
+        e,t,f,c=simulate(m,[IDS[1]],a,b,partial=True)
+        sells=f[(f.side=='sell')&(f.time==a+pd.Timedelta(hours=1))]
+        for sym,g in sells.groupby('symbol'):
+            self.assertLessEqual((g.quantity*g.price).sum(),1.00001)
+
 if __name__=='__main__': unittest.main()
