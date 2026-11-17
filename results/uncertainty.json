@@ -1,0 +1,38 @@
+{
+  "CRY-TF-001": {
+    "valid_replications": 10000,
+    "lower_adjusted": -0.35380538348276314,
+    "ci95": [
+      -0.3343546677099082,
+      0.3638245140318826
+    ],
+    "estimand": "total_net_PnL/total_initial_reserved_risk"
+  },
+  "CRY-MR-002": {
+    "valid_replications": 10000,
+    "lower_adjusted": -0.2796742755288038,
+    "ci95": [
+      -0.2685927332353245,
+      0.06667440023247005
+    ],
+    "estimand": "total_net_PnL/total_initial_reserved_risk"
+  },
+  "CRY-BO-003": {
+    "valid_replications": 10000,
+    "lower_adjusted": -0.4327530677986858,
+    "ci95": [
+      -0.41518196160754434,
+      0.012734980920395735
+    ],
+    "estimand": "total_net_PnL/total_initial_reserved_risk"
+  },
+  "COMBINED": {
+    "valid_replications": 10000,
+    "lower_adjusted": -0.2499878106902347,
+    "ci95": [
+      -0.23961194470877764,
+      0.08382058658990511
+    ],
+    "estimand": "total_net_PnL/total_initial_reserved_risk"
+  }
+}

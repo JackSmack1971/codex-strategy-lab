@@ -1,0 +1,212 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "month": "2021-11",
+    "field": "open",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "BTCUSDT",
+    "month": "2021-11",
+    "field": "high",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "BTCUSDT",
+    "month": "2021-11",
+    "field": "low",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "BTCUSDT",
+    "month": "2021-11",
+    "field": "close",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "BTCUSDT",
+    "month": "2021-11",
+    "field": "quote_volume",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "BTCUSDT",
+    "month": "2026-10",
+    "field": "open",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "BTCUSDT",
+    "month": "2026-10",
+    "field": "high",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "BTCUSDT",
+    "month": "2026-10",
+    "field": "low",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "BTCUSDT",
+    "month": "2026-10",
+    "field": "close",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "BTCUSDT",
+    "month": "2026-10",
+    "field": "quote_volume",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2021-11",
+    "field": "open",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2021-11",
+    "field": "high",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2021-11",
+    "field": "low",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2021-11",
+    "field": "close",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2021-11",
+    "field": "quote_volume",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2026-10",
+    "field": "open",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2026-10",
+    "field": "high",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2026-10",
+    "field": "low",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2026-10",
+    "field": "close",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "ETHUSDT",
+    "month": "2026-10",
+    "field": "quote_volume",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2021-11",
+    "field": "open",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2021-11",
+    "field": "high",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2021-11",
+    "field": "low",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2021-11",
+    "field": "close",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2021-11",
+    "field": "quote_volume",
+    "bars": 180,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2026-10",
+    "field": "open",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2026-10",
+    "field": "high",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2026-10",
+    "field": "low",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2026-10",
+    "field": "close",
+    "bars": 186,
+    "mismatches": 0
+  },
+  {
+    "symbol": "SOLUSDT",
+    "month": "2026-10",
+    "field": "quote_volume",
+    "bars": 186,
+    "mismatches": 0
+  }
+]

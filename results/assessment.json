@@ -1,0 +1,17 @@
+[
+  {
+    "strategy": "CRY-TF-001",
+    "assessment": "Investigate",
+    "reason": "Positive point estimate is not sufficient for validation; only 81 trades, below preregistered minimum 100; adjusted confidence bound does not establish positive edge; fails cost-robustness requirement; historical status/filter, execution, fixed-cohort and holdout-rerun limitations remain"
+  },
+  {
+    "strategy": "CRY-MR-002",
+    "assessment": "Reject",
+    "reason": "Nonpositive final-test net trade expectancy under the specified model; adjusted confidence bound does not establish positive edge; fails cost-robustness requirement; historical status/filter, execution, fixed-cohort and holdout-rerun limitations remain"
+  },
+  {
+    "strategy": "CRY-BO-003",
+    "assessment": "Reject",
+    "reason": "Nonpositive final-test net trade expectancy under the specified model; adjusted confidence bound does not establish positive edge; fails cost-robustness requirement; historical status/filter, execution, fixed-cohort and holdout-rerun limitations remain"
+  }
+]

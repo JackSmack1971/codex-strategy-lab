@@ -1,0 +1,380 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "time": "2021-08-19 06:00:00+00:00",
+    "minute_quote": 65594401.62895344,
+    "hour_quote": 65603064.35309269,
+    "relative_difference": -0.00013204755333723114
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2021-09-21 13:00:00+00:00",
+    "minute_quote": 110873628.0608484,
+    "hour_quote": 110876281.4540474,
+    "relative_difference": -2.3931116413716305e-05
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2021-09-23 01:00:00+00:00",
+    "minute_quote": 68452980.7260734,
+    "hour_quote": 68457603.3004679,
+    "relative_difference": -6.752463089023598e-05
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2021-10-23 05:00:00+00:00",
+    "minute_quote": 44426447.0770376,
+    "hour_quote": 45015292.8842767,
+    "relative_difference": -0.013081016905807517
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2021-10-30 07:00:00+00:00",
+    "minute_quote": 49964942.8688622,
+    "hour_quote": 49965084.7067446,
+    "relative_difference": -2.8387399567524974e-06
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2021-12-31 00:00:00+00:00",
+    "minute_quote": 51023365.1261191,
+    "hour_quote": 51095337.5804427,
+    "relative_difference": -0.0014085914240274146
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2022-02-05 06:00:00+00:00",
+    "minute_quote": 44987444.2665366,
+    "hour_quote": 45037393.8785244,
+    "relative_difference": -0.0011090697681691868
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2022-02-23 06:00:00+00:00",
+    "minute_quote": 43548743.8423343,
+    "hour_quote": 43642723.9816815,
+    "relative_difference": -0.0021533976519579777
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2022-04-13 06:00:00+00:00",
+    "minute_quote": 39376219.9824917,
+    "hour_quote": 39425990.8728526,
+    "relative_difference": -0.0012623878121772157
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2022-04-25 09:00:00+00:00",
+    "minute_quote": 73781514.2715979,
+    "hour_quote": 73785025.7139905,
+    "relative_difference": -4.759017644310249e-05
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2022-04-28 01:00:00+00:00",
+    "minute_quote": 86121969.7507161,
+    "hour_quote": 86478387.2034964,
+    "relative_difference": -0.004121462764350457
+  },
+  {
+    "symbol": "BTCUSDT",
+    "time": "2022-05-01 08:00:00+00:00",
+    "minute_quote": 30624805.3197918,
+    "hour_quote": 30625734.9672267,
+    "relative_difference": -3.035510611884279e-05
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2021-07-25 04:00:00+00:00",
+    "minute_quote": 47040876.9202111,
+    "hour_quote": 47041313.3067549,
+    "relative_difference": -9.276665831101574e-06
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2021-08-19 06:00:00+00:00",
+    "minute_quote": 48027354.8679278,
+    "hour_quote": 48027587.5413635,
+    "relative_difference": -4.8445788683958195e-06
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2021-09-26 21:00:00+00:00",
+    "minute_quote": 29186498.82981,
+    "hour_quote": 29186845.56009,
+    "relative_difference": -1.187967638664023e-05
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2021-10-23 05:00:00+00:00",
+    "minute_quote": 43648747.913946,
+    "hour_quote": 43913435.633502,
+    "relative_difference": -0.006027488301417788
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2021-10-31 16:00:00+00:00",
+    "minute_quote": 54965610.347902,
+    "hour_quote": 54966686.474102,
+    "relative_difference": -1.957778918518196e-05
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2021-11-01 03:00:00+00:00",
+    "minute_quote": 78763324.62722701,
+    "hour_quote": 78763702.074185,
+    "relative_difference": -4.792143437278024e-06
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2021-12-31 00:00:00+00:00",
+    "minute_quote": 45775970.775757,
+    "hour_quote": 45812137.121505,
+    "relative_difference": -0.0007894489980259565
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2022-02-01 05:00:00+00:00",
+    "minute_quote": 31270963.595344,
+    "hour_quote": 31272653.466675,
+    "relative_difference": -5.403671078949573e-05
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2022-02-05 06:00:00+00:00",
+    "minute_quote": 48158541.457488,
+    "hour_quote": 48206586.74527,
+    "relative_difference": -0.0009966540057249063
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2022-02-23 06:00:00+00:00",
+    "minute_quote": 45937981.259308,
+    "hour_quote": 46125243.525129,
+    "relative_difference": -0.004059865087085657
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2022-04-13 06:00:00+00:00",
+    "minute_quote": 29398549.213614,
+    "hour_quote": 29429451.568216,
+    "relative_difference": -0.0010500486062532117
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2022-04-25 09:00:00+00:00",
+    "minute_quote": 65684547.924731,
+    "hour_quote": 65695828.349799,
+    "relative_difference": -0.0001717068701521743
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2022-04-28 01:00:00+00:00",
+    "minute_quote": 49858731.040625,
+    "hour_quote": 50027364.674325,
+    "relative_difference": -0.0033708278418779925
+  },
+  {
+    "symbol": "ETHUSDT",
+    "time": "2022-06-30 01:00:00+00:00",
+    "minute_quote": 53212764.134933,
+    "hour_quote": 53218400.953972,
+    "relative_difference": -0.00010591860969046838
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-06-29 06:00:00+00:00",
+    "minute_quote": 4970607.232135,
+    "hour_quote": 4975076.691844,
+    "relative_difference": -0.0008983700123310559
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-07-01 01:00:00+00:00",
+    "minute_quote": 6161582.978677,
+    "hour_quote": 6165918.096814,
+    "relative_difference": -0.0007030774766924221
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-10-21 21:00:00+00:00",
+    "minute_quote": 31141679.3947,
+    "hour_quote": 31141737.4453,
+    "relative_difference": -1.8640771121205464e-06
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-10-23 05:00:00+00:00",
+    "minute_quote": 22337776.7227,
+    "hour_quote": 22459769.4507,
+    "relative_difference": -0.00543161087507058
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-03 03:00:00+00:00",
+    "minute_quote": 13329722.919,
+    "hour_quote": 13413824.6649,
+    "relative_difference": -0.00626978121460532
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-03 05:00:00+00:00",
+    "minute_quote": 11107416.3395,
+    "hour_quote": 11225485.784,
+    "relative_difference": -0.010517980849281995
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-06 03:00:00+00:00",
+    "minute_quote": 21176909.5214,
+    "hour_quote": 21378085.644,
+    "relative_difference": -0.009410389964288626
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-08 10:00:00+00:00",
+    "minute_quote": 19581054.3308,
+    "hour_quote": 19639461.444,
+    "relative_difference": -0.0029739671511125627
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-11 03:00:00+00:00",
+    "minute_quote": 13702655.5987,
+    "hour_quote": 13762927.7839,
+    "relative_difference": -0.004379314208892903
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-12 03:00:00+00:00",
+    "minute_quote": 4412730.0589,
+    "hour_quote": 4514684.7551,
+    "relative_difference": -0.02258290483844466
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-23 07:00:00+00:00",
+    "minute_quote": 11059382.4587,
+    "hour_quote": 11124845.1315,
+    "relative_difference": -0.005884367110391783
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-23 09:00:00+00:00",
+    "minute_quote": 5322256.7258,
+    "hour_quote": 5343507.5251,
+    "relative_difference": -0.003976938218984239
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-25 04:00:00+00:00",
+    "minute_quote": 8052518.5561,
+    "hour_quote": 8171625.2442,
+    "relative_difference": -0.01457564248734224
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-25 05:00:00+00:00",
+    "minute_quote": 7794206.6294,
+    "hour_quote": 7867695.3213,
+    "relative_difference": -0.00934056148578174
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-25 06:00:00+00:00",
+    "minute_quote": 6246840.9775,
+    "hour_quote": 6387772.7203,
+    "relative_difference": -0.022062735944271557
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-25 15:00:00+00:00",
+    "minute_quote": 8078181.8238,
+    "hour_quote": 8294528.3336,
+    "relative_difference": -0.026083039456699313
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-25 19:00:00+00:00",
+    "minute_quote": 4418841.8029,
+    "hour_quote": 4508986.8911,
+    "relative_difference": -0.019992315430752687
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-26 06:00:00+00:00",
+    "minute_quote": 8049000.6558,
+    "hour_quote": 8096630.6609,
+    "relative_difference": -0.005882694554663717
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-26 07:00:00+00:00",
+    "minute_quote": 3946642.6179,
+    "hour_quote": 3995395.9795,
+    "relative_difference": -0.012202385408141983
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-27 01:00:00+00:00",
+    "minute_quote": 7529461.9044,
+    "hour_quote": 7651721.2864,
+    "relative_difference": -0.015978023430793332
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-27 03:00:00+00:00",
+    "minute_quote": 9438841.9038,
+    "hour_quote": 9482302.2898,
+    "relative_difference": -0.004583315809995824
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-27 05:00:00+00:00",
+    "minute_quote": 5162666.9623,
+    "hour_quote": 5184338.2313,
+    "relative_difference": -0.004180141810416975
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2021-12-31 00:00:00+00:00",
+    "minute_quote": 6115030.2229,
+    "hour_quote": 6128415.7515,
+    "relative_difference": -0.0021841743678574
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2022-02-05 06:00:00+00:00",
+    "minute_quote": 17668283.4963,
+    "hour_quote": 17748720.231,
+    "relative_difference": -0.004531973779129544
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2022-02-23 06:00:00+00:00",
+    "minute_quote": 9251675.3643,
+    "hour_quote": 9301625.7809,
+    "relative_difference": -0.005370073767380378
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2022-04-13 06:00:00+00:00",
+    "minute_quote": 4632332.8034,
+    "hour_quote": 4640476.3011,
+    "relative_difference": -0.0017548840187094179
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2022-04-25 09:00:00+00:00",
+    "minute_quote": 8424092.1465,
+    "hour_quote": 8429745.9815,
+    "relative_difference": -0.0006707005184268886
+  },
+  {
+    "symbol": "SOLUSDT",
+    "time": "2022-04-28 01:00:00+00:00",
+    "minute_quote": 8069960.0059,
+    "hour_quote": 8095889.1235,
+    "relative_difference": -0.003202751075818823
+  }
+]

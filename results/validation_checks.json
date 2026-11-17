@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "artifact_checks": 814,
+  "synthetic_unit_tests": 10,
+  "scope": "account arithmetic, trade/fill reconciliation, no short inventory, minute participation cap, timing, source hashes",
+  "limitations": "Does not verify historical status/filters, executable spreads/depth, or economic correctness of all provider observations"
+}

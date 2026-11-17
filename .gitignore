@@ -3,3 +3,5 @@ __pycache__/
 .pytest_cache/
 *.pyc
 work_run.log
+validation_run.log
+results/pre_cooldown_fix/

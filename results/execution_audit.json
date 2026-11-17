@@ -1,0 +1,778 @@
+{
+  "baseline__CRY-TF-001__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 6,
+      "boundary_uncapped": 0,
+      "signal_candidates": 230,
+      "accepted_entries": 197
+    },
+    "events": [
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "SOLUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "SOLUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      }
+    ]
+  },
+  "baseline__CRY-TF-001__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 130,
+      "accepted_entries": 114
+    },
+    "events": []
+  },
+  "baseline__CRY-TF-001__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 92,
+      "accepted_entries": 81
+    },
+    "events": []
+  },
+  "baseline__CRY-MR-002__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 827,
+      "accepted_entries": 352
+    },
+    "events": []
+  },
+  "baseline__CRY-MR-002__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 422,
+      "accepted_entries": 205
+    },
+    "events": []
+  },
+  "baseline__CRY-MR-002__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 347,
+      "accepted_entries": 172
+    },
+    "events": []
+  },
+  "baseline__CRY-BO-003__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 282,
+      "accepted_entries": 247
+    },
+    "events": []
+  },
+  "baseline__CRY-BO-003__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 132,
+      "accepted_entries": 105
+    },
+    "events": []
+  },
+  "baseline__CRY-BO-003__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 131,
+      "accepted_entries": 107
+    },
+    "events": []
+  },
+  "baseline__COMBINED__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 4,
+      "boundary_uncapped": 0,
+      "signal_candidates": 1339,
+      "accepted_entries": 674
+    },
+    "events": [
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      }
+    ]
+  },
+  "baseline__COMBINED__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 684,
+      "accepted_entries": 355
+    },
+    "events": []
+  },
+  "baseline__COMBINED__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 570,
+      "accepted_entries": 313
+    },
+    "events": []
+  },
+  "high_cost__CRY-TF-001__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 6,
+      "boundary_uncapped": 0,
+      "signal_candidates": 230,
+      "accepted_entries": 197
+    },
+    "events": [
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "SOLUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "SOLUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      }
+    ]
+  },
+  "high_cost__CRY-TF-001__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 130,
+      "accepted_entries": 114
+    },
+    "events": []
+  },
+  "high_cost__CRY-TF-001__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 92,
+      "accepted_entries": 81
+    },
+    "events": []
+  },
+  "high_cost__CRY-MR-002__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 827,
+      "accepted_entries": 324
+    },
+    "events": []
+  },
+  "high_cost__CRY-MR-002__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 422,
+      "accepted_entries": 193
+    },
+    "events": []
+  },
+  "high_cost__CRY-MR-002__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 347,
+      "accepted_entries": 160
+    },
+    "events": []
+  },
+  "high_cost__CRY-BO-003__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 282,
+      "accepted_entries": 247
+    },
+    "events": []
+  },
+  "high_cost__CRY-BO-003__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 132,
+      "accepted_entries": 105
+    },
+    "events": []
+  },
+  "high_cost__CRY-BO-003__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 131,
+      "accepted_entries": 107
+    },
+    "events": []
+  },
+  "high_cost__COMBINED__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 4,
+      "boundary_uncapped": 0,
+      "signal_candidates": 1339,
+      "accepted_entries": 651
+    },
+    "events": [
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      }
+    ]
+  },
+  "high_cost__COMBINED__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 684,
+      "accepted_entries": 348
+    },
+    "events": []
+  },
+  "high_cost__COMBINED__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 570,
+      "accepted_entries": 302
+    },
+    "events": []
+  },
+  "high_slippage__CRY-TF-001__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 6,
+      "boundary_uncapped": 0,
+      "signal_candidates": 230,
+      "accepted_entries": 197
+    },
+    "events": [
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "SOLUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "SOLUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      }
+    ]
+  },
+  "high_slippage__CRY-TF-001__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 130,
+      "accepted_entries": 115
+    },
+    "events": []
+  },
+  "high_slippage__CRY-TF-001__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 92,
+      "accepted_entries": 81
+    },
+    "events": []
+  },
+  "high_slippage__CRY-MR-002__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 827,
+      "accepted_entries": 285
+    },
+    "events": []
+  },
+  "high_slippage__CRY-MR-002__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 422,
+      "accepted_entries": 172
+    },
+    "events": []
+  },
+  "high_slippage__CRY-MR-002__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 347,
+      "accepted_entries": 132
+    },
+    "events": []
+  },
+  "high_slippage__CRY-BO-003__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 282,
+      "accepted_entries": 247
+    },
+    "events": []
+  },
+  "high_slippage__CRY-BO-003__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 132,
+      "accepted_entries": 105
+    },
+    "events": []
+  },
+  "high_slippage__CRY-BO-003__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 131,
+      "accepted_entries": 107
+    },
+    "events": []
+  },
+  "high_slippage__COMBINED__train": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 4,
+      "boundary_uncapped": 0,
+      "signal_candidates": 1339,
+      "accepted_entries": 619
+    },
+    "events": [
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      }
+    ]
+  },
+  "high_slippage__COMBINED__validation": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 684,
+      "accepted_entries": 333
+    },
+    "events": []
+  },
+  "high_slippage__COMBINED__test": {
+    "counters": {
+      "partial_entries": 0,
+      "partial_exits": 0,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 570,
+      "accepted_entries": 276
+    },
+    "events": []
+  },
+  "partial_fill__CRY-TF-001__train": {
+    "counters": {
+      "partial_entries": 42,
+      "partial_exits": 25,
+      "missing_execution_hours": 6,
+      "boundary_uncapped": 3,
+      "signal_candidates": 230,
+      "accepted_entries": 194
+    },
+    "events": [
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "SOLUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "SOLUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      }
+    ]
+  },
+  "partial_fill__CRY-TF-001__validation": {
+    "counters": {
+      "partial_entries": 14,
+      "partial_exits": 17,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 130,
+      "accepted_entries": 113
+    },
+    "events": []
+  },
+  "partial_fill__CRY-TF-001__test": {
+    "counters": {
+      "partial_entries": 44,
+      "partial_exits": 33,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 92,
+      "accepted_entries": 81
+    },
+    "events": []
+  },
+  "partial_fill__CRY-MR-002__train": {
+    "counters": {
+      "partial_entries": 125,
+      "partial_exits": 90,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 827,
+      "accepted_entries": 351
+    },
+    "events": []
+  },
+  "partial_fill__CRY-MR-002__validation": {
+    "counters": {
+      "partial_entries": 64,
+      "partial_exits": 44,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 422,
+      "accepted_entries": 205
+    },
+    "events": []
+  },
+  "partial_fill__CRY-MR-002__test": {
+    "counters": {
+      "partial_entries": 92,
+      "partial_exits": 78,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 347,
+      "accepted_entries": 172
+    },
+    "events": []
+  },
+  "partial_fill__CRY-BO-003__train": {
+    "counters": {
+      "partial_entries": 52,
+      "partial_exits": 96,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 282,
+      "accepted_entries": 247
+    },
+    "events": []
+  },
+  "partial_fill__CRY-BO-003__validation": {
+    "counters": {
+      "partial_entries": 15,
+      "partial_exits": 29,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 132,
+      "accepted_entries": 105
+    },
+    "events": []
+  },
+  "partial_fill__CRY-BO-003__test": {
+    "counters": {
+      "partial_entries": 32,
+      "partial_exits": 69,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 131,
+      "accepted_entries": 107
+    },
+    "events": []
+  },
+  "partial_fill__COMBINED__train": {
+    "counters": {
+      "partial_entries": 167,
+      "partial_exits": 161,
+      "missing_execution_hours": 4,
+      "boundary_uncapped": 3,
+      "signal_candidates": 1339,
+      "accepted_entries": 672
+    },
+    "events": [
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 12:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 40
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "BTCUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      },
+      {
+        "time": "2023-03-24 13:00:00+00:00",
+        "symbol": "ETHUSDT",
+        "kind": "minute_gap_while_invested",
+        "minute_count": 0
+      }
+    ]
+  },
+  "partial_fill__COMBINED__validation": {
+    "counters": {
+      "partial_entries": 81,
+      "partial_exits": 75,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 684,
+      "accepted_entries": 355
+    },
+    "events": []
+  },
+  "partial_fill__COMBINED__test": {
+    "counters": {
+      "partial_entries": 139,
+      "partial_exits": 158,
+      "missing_execution_hours": 0,
+      "boundary_uncapped": 0,
+      "signal_candidates": 570,
+      "accepted_entries": 312
+    },
+    "events": []
+  }
+}
