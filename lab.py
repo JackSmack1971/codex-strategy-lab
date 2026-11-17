@@ -191,7 +191,7 @@ def simulate(market,sids,start,end,fee=.001,adverse=.0005,partial=False,atr_mult
           'fees':pos.entry_fee+pos.exit_fees})
         realized+=pnl
         dur=4 if pos.sid==IDS[0] else 1
-        cooldown[pos.symbol]=t.floor(f'{dur}h')+pd.Timedelta(hours=2*dur)
+        cooldown[pos.symbol]=t.ceil(f'{dur}h')+pd.Timedelta(hours=dur)
         positions.pop(pos.symbol,None)
 
     for i,t in enumerate(ix):

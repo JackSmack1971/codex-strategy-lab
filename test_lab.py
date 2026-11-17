@@ -60,6 +60,14 @@ class EngineTests(unittest.TestCase):
         e,t,f,c=simulate(m,[IDS[1]],a,b)
         self.assertTrue(t.empty); self.assertTrue((e.equity==10000).all())
 
+    def test_one_full_bar_cooldown_after_boundary_exit(self):
+        m,a,b=self.market(kind='scheduled')
+        m.plans['BTCUSDT'][IDS[1]].loc[a+pd.Timedelta(hours=2),'signal']=True
+        e,t,f,c=simulate(m,[IDS[1]],a,b)
+        buys=f[f.side=='buy']
+        self.assertEqual(len(buys),2)
+        self.assertEqual(buys.iloc[1].time,a+pd.Timedelta(hours=2))
+
     def test_future_prices_do_not_change_prior_fills(self):
         m,a,b=self.market(kind='quiet'); e,t,f,c=simulate(m,[IDS[1]],a,b)
         m.h['BTCUSDT'].loc[a+pd.Timedelta(hours=3):,'close']=1000.
