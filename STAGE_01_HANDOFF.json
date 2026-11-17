@@ -1,0 +1,135 @@
+{
+  "handoff_type": "STAGE_01_HANDOFF",
+  "schema_version": "1.0.0",
+  "rules_version": "1.0.0",
+  "source": "User-approved preceding conversation handoff; normalized representation",
+  "venue": "Binance.com spot",
+  "universe": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "quote": "USDT",
+  "capital": 10000,
+  "shorts_enabled": false,
+  "timeframes": [
+    "1h",
+    "4h"
+  ],
+  "timezone": "UTC",
+  "warmup_4h_bars": 1000,
+  "risk": {
+    "per_trade": 0.01,
+    "total": 0.03,
+    "notional_per_asset": 0.33,
+    "max_positions": 3,
+    "one_position_per_asset": true,
+    "quantity": "floorToLotStep(min(B/d,.33*E/P,K/(P*(1+f)),.001*Qmin/P))",
+    "d": "P-S0+f*P+(f+s)*S0",
+    "B": "max(0,min(.01*E,.03*E-G))",
+    "reserve_until_exit": true
+  },
+  "liquidity": {
+    "last24h_quote_min": 20000000,
+    "prior30day_median_daily_quote_min": 20000000,
+    "every_last24_hour_quote_min": 100000,
+    "max_order_fraction_min_hour_quote": 0.001
+  },
+  "costs": {
+    "fee": 0.001,
+    "adverse": 0.0005
+  },
+  "strategies": [
+    {
+      "id": "CRY-TF-001",
+      "version": "1.0.0",
+      "timeframe": "4h",
+      "entry": [
+        "EMA50>EMA200",
+        "EMA200>EMA200.shift(6)",
+        "C>EMA200",
+        "C.shift(1)<=EMA20.shift(1)",
+        "C>EMA20",
+        "C>H.shift(1)"
+      ],
+      "stop_ATR": 2.5,
+      "trailing_ATR": 3,
+      "close_exit": "C<EMA50",
+      "max_bars": 60
+    },
+    {
+      "id": "CRY-MR-002",
+      "version": "1.0.0",
+      "timeframe": "1h",
+      "entry": [
+        "4h ER20<=.25",
+        "Z.shift(1)<-2",
+        "-2<=Z<-1",
+        "C>C.shift(1)"
+      ],
+      "Z": "(C-SMA20)/population_SD20",
+      "stop_ATR": 1.5,
+      "target": "frozen SMA20 at signal",
+      "entry_reward_risk_min": 1,
+      "close_exit": "4h ER20>.40",
+      "max_bars": 12
+    },
+    {
+      "id": "CRY-BO-003",
+      "version": "1.0.0",
+      "timeframe": "1h",
+      "entry": [
+        "4h C>EMA50",
+        "BW.shift(1)<=nearest_rank_p20(prior120_BW)",
+        "C>prior20_high",
+        "BW>BW.shift(1)",
+        "quote_volume>=1.5*median(prior20_quote_volume)"
+      ],
+      "BW": "4*population_SD20/SMA20",
+      "stop_ATR": 2,
+      "target_R": 3,
+      "trailing_activation_R": 1,
+      "trailing_ATR": 2,
+      "close_exit": "C<frozen prior20_high",
+      "max_bars": 24
+    }
+  ],
+  "execution": {
+    "signal": "completed bars",
+    "entry": "next strategy open",
+    "exit_close": "next strategy open",
+    "trailing": "effective next bar",
+    "stop_target_ambiguity": "stop first",
+    "baseline_partial_fills": false,
+    "cooldown": "one complete strategy bar after exit"
+  },
+  "testing": {
+    "windows": {
+      "train": [
+        "2021-11-17 00:00:00+00:00",
+        "2024-11-17 00:00:00+00:00"
+      ],
+      "validation": [
+        "2024-11-17 00:00:00+00:00",
+        "2025-11-17 00:00:00+00:00"
+      ],
+      "test": [
+        "2025-11-17 00:00:00+00:00",
+        "2026-11-17 00:00:00+00:00"
+      ]
+    },
+    "bootstrap_reps": 10000,
+    "bootstrap_block_days": 14,
+    "bootstrap_seed": 20261117,
+    "minimum_test_trades": 100,
+    "minimum_test_days": 300,
+    "adjusted_one_sided_confidence": 0.9833
+  },
+  "unresolved": [
+    "historical trading status",
+    "historical filters",
+    "historical fee/spread/depth",
+    "USDTUSD history",
+    "user venue eligibility"
+  ]
+}
