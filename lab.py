@@ -244,26 +244,30 @@ def simulate(market,sids,start,end,fee=.001,adverse=.0005,partial=False,atr_mult
             if len(ts)!=60:
                 counters['missing_execution_hours']+=1
                 events.append({'time':str(t),'symbol':sym,'kind':'minute_gap_while_invested','minute_count':len(ts)})
-                if len(ts): close(pos,arr[0,0],pd.Timestamp(ts[0],tz='UTC'),'data_gap',math.inf)
-                else: pos.pending=True
-                continue
+                if not len(ts): pos.pending=True; continue
+            gap_resume=np.flatnonzero(np.r_[ts[0]!=t.value,np.diff(ts)!=60*10**9])
             # Full-fill path skips minutes until the earliest possible trigger.
             if not partial and not pos.pending:
                 hits=np.flatnonzero((arr[:,2]<=pos.stop)|(arr[:,1]>pos.target))
+                if len(gap_resume): hits=np.unique(np.r_[hits,gap_resume])
                 if len(hits):
                     j=int(hits[0]); op,hi,lo,cl,qv=arr[j]; tm=pd.Timestamp(ts[j],tz='UTC')
-                    if lo<=pos.stop: close(pos,min(op,pos.stop),tm,'stop')
+                    if j in gap_resume: close(pos,op,tm,'data_gap')
+                    elif lo<=pos.stop: close(pos,min(op,pos.stop),tm,'stop')
                     else: close(pos,pos.target,tm,'target')
             else:
                 for j,(op,hi,lo,cl,qv) in enumerate(arr):
                     if sym not in positions: break
                     tm=pd.Timestamp(ts[j],tz='UTC'); cap=.01*(previous if j==0 else arr[j-1,4])
+                    if j in gap_resume:
+                        close(pos,op,tm,'data_gap'); break
                     # Opening partial exit already consumed this minute's capacity.
                     if j==0 and fills and fills[-1]['time']==t and fills[-1]['side']=='sell' and fills[-1]['symbol']==sym: continue
                     if pos.pending: close(pos,op,tm,'pending_market',cap)
                     elif lo<=pos.stop: close(pos,min(op,pos.stop),tm,'stop',cap)
                     elif hi>pos.target: close(pos,pos.target,tm,'target',cap)
             if sym not in positions: continue
+            if ts[-1]!=t.value+59*60*10**9: pos.pending=True
             pos.highest=max(pos.highest,float(np.max(arr[:,1])))
             dur=4 if pos.sid==IDS[0] else 1
             available=t+pd.Timedelta(hours=1)
@@ -349,6 +353,7 @@ def benchmark(market,start,end,kind,fee=.001,adverse=.0005):
     ix=pd.date_range(start,end,freq='1h',inclusive='left'); cash=10000.; qty={s:0. for s in SYMBOLS}; rows=[]
     b=market.h['BTCUSDT']; daily=b.close.resample('1D').last(); signal=(daily>daily.rolling(200).mean()); signal.index+=pd.Timedelta(days=1)
     turn=0.
+    valuation={s:market.h[s].close.ffill() for s in SYMBOLS}
     for i,t in enumerate(ix):
         old=turn
         if kind=='equal_weight' and i==0:
@@ -361,7 +366,7 @@ def benchmark(market,start,end,kind,fee=.001,adverse=.0005):
                 price=op*(1+adverse); q=cash/(price*(1+fee)); qty['BTCUSDT']=q; turn+=q*price; cash=0.
             elif not want and qty['BTCUSDT']>0:
                 val=qty['BTCUSDT']*op*(1-adverse); cash+=val*(1-fee); turn+=val; qty['BTCUSDT']=0.
-        gross=sum(qty[s]*market.h[s].loc[t,'close'] for s in SYMBOLS)
+        gross=sum(qty[s]*valuation[s].loc[t] for s in SYMBOLS)
         if i==len(ix)-1:
             for s in SYMBOLS:
                 val=qty[s]*market.h[s].loc[t,'close']*(1-adverse); cash+=val*(1-fee); turn+=val; qty[s]=0.

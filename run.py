@@ -40,7 +40,9 @@ def main():
     runmeta={'started_utc':datetime.now(timezone.utc).isoformat(),'methodology_version':VERSION,
       'git_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
       'source_sha256':hashes,'preregistration_sha256':prereg,'python':sys.version,'numpy':np.__version__,'pandas':pd.__version__,
-      'test_status':'CONSUMED_ON_FIRST_EXECUTION_NO_SUBSEQUENT_TUNING'}
+      'test_status':'CONSUMED; rerun after correctness fixes; no performance-driven parameter selection',
+      'implementation_corrections':['exact-boundary cooldown','causal handling of missing minute observations'],
+      'untouched_test_caveat':'Original dates frozen before execution. Preliminary test calculations occurred before correctness fixes; numerical outcomes were not used to select rules. Final test is not a pristine single-pass holdout.'}
     save_json(out/'run_metadata.json',runmeta)
     market=Market()
     scenarios={'baseline':(.001,.0005,False),'high_cost':(.002,.001,False),'high_slippage':(.001,.002,False),'partial_fill':(.001,.0005,True)}
