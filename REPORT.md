@@ -34,8 +34,8 @@ python download.py
 python verify_data.py
 python -m unittest -v test_lab
 python -W ignore::FutureWarning run.py --sensitivity
-python make_report.py
 python validate_results.py
+python make_report.py
 ```
 
 ## B. Final-test baseline metrics
