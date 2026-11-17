@@ -5,3 +5,9 @@ __pycache__/
 work_run.log
 validation_run.log
 results/pre_cooldown_fix/
+.venv/
+.cache/
+work/
+.env
+.env.*
+!.env.example

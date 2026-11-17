@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+source "$(dirname -- "${BASH_SOURCE[0]}")/common.sh"
+cd "$LAB_ROOT"
+command="${1:-help}"
+if [[ $# -gt 0 ]]; then shift; fi
+case "$command" in
+  setup) exec bash "$LAB_ROOT/.codex/setup.sh" "$@" ;;
+  help|-h|--help)
+    cat <<'HELP'
+Usage: scripts/lab COMMAND [arguments]
+  setup [--offline]       Install pinned dependencies and perform fast checks
+  doctor [--network]     Check runtime; optionally verify public HTTPS services
+  test                   Run synthetic engine and Cloud setup tests (no network)
+  prefetch hourly|full   Cache verified archives without changing tracked results
+  reproduce [--sensitivity]  Execute pipeline in an isolated HEAD worktree
+  python [arguments]     Run repository Python without shell activation
+  help                   Show this help
+HELP
+    exit 0 ;;
+esac
+lab_require_python
+case "$command" in
+  doctor) exec "$LAB_PYTHON" "$LAB_ROOT/scripts/doctor.py" "$@" ;;
+  test) exec "$LAB_PYTHON" -m unittest -v test_lab tests.test_cloud_setup "$@" ;;
+  prefetch) exec "$LAB_PYTHON" "$LAB_ROOT/scripts/prefetch.py" "$@" ;;
+  reproduce) exec bash "$LAB_ROOT/scripts/reproduce.sh" "$@" ;;
+  python) exec "$LAB_PYTHON" "$@" ;;
+  *) printf 'Unknown command: %s\n' "$command" >&2; exit 2 ;;
+esac

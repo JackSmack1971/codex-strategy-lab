@@ -10,7 +10,37 @@ execution costs and filters. Historical market status and order-book data remain
 unverified. The fixed surviving cohort and correctness reruns limit validation.
 No strategy receives an unconditional Pass.
 
+## Codex Cloud
+
+Use the [Cloud setup guide](docs/CODEX_CLOUD.md) to attach this repository and
+enable **all public internet access** for setup and agent tasks. Install script:
+
+```bash
+bash .codex/setup.sh
+```
+
+Paste [the start instructions](docs/CODEX_CLOUD_START.md) into the Cloud
+environment's Start skill field, then save/publish it. The legacy maintenance
+script is `bash .codex/maintenance.sh`. Repository files cannot enable the
+platform's internet-access setting.
+
+After installation:
+
+```bash
+scripts/lab doctor --network
+scripts/lab test
+scripts/lab reproduce
+```
+
+Setup uses Python 3.12, a local `.venv`, and fully pinned dependencies. It checks
+public HTTPS access and runs fast synthetic tests. Full reproduction is explicit
+and runs in an isolated worktree, preserving the committed research evidence.
+No API keys are required. See [AGENTS.md](AGENTS.md) for agent instructions.
+
 ## Reproduce
+
+For Cloud, prefer `scripts/lab reproduce` above. The original direct commands
+below run **in place** and overwrite the current checkout's research artifacts.
 
 Python 3.12; dependencies pinned in `requirements.txt`.
 
