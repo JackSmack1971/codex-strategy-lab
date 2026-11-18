@@ -304,4 +304,4 @@ def simulate(cands, syms, ws, we, f, s, capital=10_000.0, max_pos=3, per_trade=0
             qty=p["q"], entry_fill=cd["Pf"], exit_fill=cd["xfill"], S0=cd["S0"], O1=cd["O1"], d_unit=cd["d"], reserved_risk=p["risk"], pnl=p["pnl"],
             R=p["pnl"] / p["risk"], fees=p["fees"], buy_notional=p["buy_notional"], sell_notional=p["sell_notional"],
             bars=(None if cd["exit_b"] is None else cd["exit_b"] - cd["b0"] + 1), E_entry=p["E_entry"], forced=cd["kind"] == "forced"))
-    return dict(trades=trades, skips=skips, equity=eq, ws=ws, we=we)
+    return dict(trades=trades, skips=skips, equity=eq, posv=posv, ws=ws, we=we)
