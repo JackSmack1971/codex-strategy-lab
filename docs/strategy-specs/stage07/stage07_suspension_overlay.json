@@ -1,0 +1,81 @@
+{
+ "label": "DESCRIPTIVE, APPROXIMATE return-level overlay of Stage 03 T1/T2/T3 on pooled OOS series; thresholds not tuned",
+ "results": {
+  "EW": {
+   "events": {
+    "T1_8pct_dd_episodes": 7,
+    "T1_12pct_dd_episodes": 1,
+    "T1_15pct_dd_episodes": 0,
+    "T2_day_loss_3pct_days": 2,
+    "T3_7d_loss_5pct_episodes": 0
+   },
+   "plain": {
+    "sharpe": 0.800297408873827,
+    "max_dd": -0.1477639654616486,
+    "total_return": 0.29636990428793086
+   },
+   "with_overlay": {
+    "sharpe": 0.7125793437101064,
+    "max_dd": -0.12135003156003155,
+    "total_return": 0.2381066653698256
+   }
+  },
+  "IV": {
+   "events": {
+    "T1_8pct_dd_episodes": 6,
+    "T1_12pct_dd_episodes": 0,
+    "T1_15pct_dd_episodes": 0,
+    "T2_day_loss_3pct_days": 2,
+    "T3_7d_loss_5pct_episodes": 2
+   },
+   "plain": {
+    "sharpe": 0.9711950458328457,
+    "max_dd": -0.15101296968746092,
+    "total_return": 0.39751288138384133
+   },
+   "with_overlay": {
+    "sharpe": 0.9046792274403229,
+    "max_dd": -0.11937661390912857,
+    "total_return": 0.33670311063880765
+   }
+  },
+  "RB": {
+   "events": {
+    "T1_8pct_dd_episodes": 9,
+    "T1_12pct_dd_episodes": 1,
+    "T1_15pct_dd_episodes": 0,
+    "T2_day_loss_3pct_days": 2,
+    "T3_7d_loss_5pct_episodes": 2
+   },
+   "plain": {
+    "sharpe": 1.1143779130042124,
+    "max_dd": -0.15144882866122356,
+    "total_return": 0.4643041655991167
+   },
+   "with_overlay": {
+    "sharpe": 1.0118815930715956,
+    "max_dd": -0.12065543156719438,
+    "total_return": 0.38451082291662964
+   }
+  },
+  "CONS": {
+   "events": {
+    "T1_8pct_dd_episodes": 1,
+    "T1_12pct_dd_episodes": 0,
+    "T1_15pct_dd_episodes": 0,
+    "T2_day_loss_3pct_days": 0,
+    "T3_7d_loss_5pct_episodes": 0
+   },
+   "plain": {
+    "sharpe": 0.7857366150253149,
+    "max_dd": -0.1257655271718343,
+    "total_return": 0.18129264870236117
+   },
+   "with_overlay": {
+    "sharpe": 0.742875908128093,
+    "max_dd": -0.10327993182991124,
+    "total_return": 0.16187503227131628
+   }
+  }
+ }
+}

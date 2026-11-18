@@ -1,0 +1,321 @@
+{
+ "handoff_type": "STAGE_07_HANDOFF",
+ "schema_version": "1.0.0",
+ "status": "COMPLETE_NO_ALLOCATION",
+ "created": "2026-11-18",
+ "code_commit": "74ec8dd4c05feb3d18dd237a3280f23439e3be06",
+ "inputs": [
+  "STAGE_01..STAGE_06 handoffs",
+  "STAGE_07_ANALYSIS_PLAN.md"
+ ],
+ "decision": {
+  "allocation": "NO_ALLOCATION",
+  "capital_deployed_usd": 0.0,
+  "cash_usd": 10000.0,
+  "reason": "gates V1-V6 not met (see validation_gates)",
+  "research_only": true
+ },
+ "eligible_sleeves": {
+  "CRY-MOM-101": "Stage 03 ELIGIBLE_CONTINUED_RESEARCH_PAPER_FORWARD_ONLY; Stage 06 KEEP BASELINE",
+  "CRY-VEX-103": "Stage 03 CONDITIONAL_SHADOW_PAPER_ONLY; Stage 06 KEEP BASELINE; cost-fragile",
+  "CRY-REV-102": "excluded (REJECT)"
+ },
+ "constraints": {
+  "capital_usd": 10000,
+  "max_risk_per_trade": 0.01,
+  "max_open_risk": 0.03,
+  "spot_only": true,
+  "leverage": false,
+  "shorting": false,
+  "cash_allowed": true,
+  "assets": [
+   "BTC",
+   "ETH",
+   "SOL",
+   "XRP",
+   "ADA",
+   "LINK",
+   "AVAX",
+   "DOGE",
+   "LTC"
+  ],
+  "orders_or_credentials": false
+ },
+ "conditional_allocation_spec": {
+  "status": "CONDITIONAL_PAPER_FORWARD_ONLY",
+  "recommended_for_paper": "CONS",
+  "reason_for_choice": "risk-limit grounds only; no scheme is distinguishable from MOM alone (Holm p = 1.0)",
+  "schemes": {
+   "EW": {
+    "weights": {
+     "CRY-MOM-101": 0.5,
+     "CRY-VEX-103": 0.5
+    },
+    "cash_weight": 0.0,
+    "limits": {
+     "open_risk": 0.03,
+     "positions": 6,
+     "single_asset": 0.15,
+     "gross": 0.6,
+     "risk_per_trade": {
+      "CRY-MOM-101": 0.005,
+      "CRY-VEX-103": 0.005
+     }
+    },
+    "weight_rule": "fixed 1/2, 1/2"
+   },
+   "IV": {
+    "weights": {
+     "CRY-MOM-101": 0.6392626207158857,
+     "CRY-VEX-103": 0.36073737928411426
+    },
+    "cash_weight": 0.0,
+    "limits": {
+     "open_risk": 0.03,
+     "positions": 6,
+     "single_asset": 0.15,
+     "gross": 0.6,
+     "risk_per_trade": {
+      "CRY-MOM-101": 0.006392626207158857,
+      "CRY-VEX-103": 0.0036073737928411427
+     }
+    },
+    "weight_rule": "1 / daily vol of each sleeve (train)"
+   },
+   "RB": {
+    "weights": {
+     "CRY-MOM-101": 0.7330587965614348,
+     "CRY-VEX-103": 0.2669412034385652
+    },
+    "cash_weight": 0.0,
+    "limits": {
+     "open_risk": 0.03,
+     "positions": 6,
+     "single_asset": 0.15,
+     "gross": 0.6,
+     "risk_per_trade": {
+      "CRY-MOM-101": 0.007330587965614348,
+      "CRY-VEX-103": 0.0026694120343856522
+     }
+    },
+    "weight_rule": "risk contributions 2/3, 1/3 (train covariance)"
+   },
+   "CONS": {
+    "weights": {
+     "CRY-MOM-101": 0.5,
+     "CRY-VEX-103": 0.25
+    },
+    "cash_weight": 0.25,
+    "limits": {
+     "open_risk": 0.015,
+     "positions": 3,
+     "single_asset": 0.15,
+     "gross": 0.4,
+     "risk_per_trade": {
+      "CRY-MOM-101": 0.005,
+      "CRY-VEX-103": 0.0025
+     }
+    },
+    "weight_rule": "Stage 03 budgets, fixed"
+   }
+  },
+  "sizing_rules": "STAGE_07_PORTFOLIO_REPORT.md section B",
+  "rebalancing": "re-estimate at most every 6 months; capital transfers are not market trades",
+  "suspension": "Stage 03 T1-T10 inherited; dormant while Stage 04 gates closed"
+ },
+ "validation_gates": {
+  "EW": {
+   "V1_sleeves_validated": false,
+   "V1_detail": {
+    "CRY-MOM-101": -0.19622496793804475,
+    "CRY-VEX-103": -1.7083433167582982
+   },
+   "V2_forward_evidence": false,
+   "V3_venue_and_observed_costs": false,
+   "V4_prereg_frozen_adjudicated": false,
+   "V5_oos_sharpe_ci_lower_gt_0": false,
+   "V5_oos_maxdd_ok": true,
+   "V6_stage04_gates_open_now": false,
+   "V6_detail": {
+    "CRY-MOM-101": "NOT_SUPPORTED_GATE_CLOSED",
+    "CRY-REV-102": "NOT_SUPPORTED_GATE_CLOSED",
+    "CRY-VEX-103": "NOT_SUPPORTED_GATE_CLOSED_CTX_4H_SMA50"
+   },
+   "ALL_PASS": false
+  },
+  "IV": {
+   "V1_sleeves_validated": false,
+   "V1_detail": {
+    "CRY-MOM-101": -0.19622496793804475,
+    "CRY-VEX-103": -1.7083433167582982
+   },
+   "V2_forward_evidence": false,
+   "V3_venue_and_observed_costs": false,
+   "V4_prereg_frozen_adjudicated": false,
+   "V5_oos_sharpe_ci_lower_gt_0": false,
+   "V5_oos_maxdd_ok": false,
+   "V6_stage04_gates_open_now": false,
+   "V6_detail": {
+    "CRY-MOM-101": "NOT_SUPPORTED_GATE_CLOSED",
+    "CRY-REV-102": "NOT_SUPPORTED_GATE_CLOSED",
+    "CRY-VEX-103": "NOT_SUPPORTED_GATE_CLOSED_CTX_4H_SMA50"
+   },
+   "ALL_PASS": false
+  },
+  "RB": {
+   "V1_sleeves_validated": false,
+   "V1_detail": {
+    "CRY-MOM-101": -0.19622496793804475,
+    "CRY-VEX-103": -1.7083433167582982
+   },
+   "V2_forward_evidence": false,
+   "V3_venue_and_observed_costs": false,
+   "V4_prereg_frozen_adjudicated": false,
+   "V5_oos_sharpe_ci_lower_gt_0": false,
+   "V5_oos_maxdd_ok": false,
+   "V6_stage04_gates_open_now": false,
+   "V6_detail": {
+    "CRY-MOM-101": "NOT_SUPPORTED_GATE_CLOSED",
+    "CRY-REV-102": "NOT_SUPPORTED_GATE_CLOSED",
+    "CRY-VEX-103": "NOT_SUPPORTED_GATE_CLOSED_CTX_4H_SMA50"
+   },
+   "ALL_PASS": false
+  },
+  "CONS": {
+   "V1_sleeves_validated": false,
+   "V1_detail": {
+    "CRY-MOM-101": -0.19622496793804475,
+    "CRY-VEX-103": -1.7083433167582982
+   },
+   "V2_forward_evidence": false,
+   "V3_venue_and_observed_costs": false,
+   "V4_prereg_frozen_adjudicated": false,
+   "V5_oos_sharpe_ci_lower_gt_0": false,
+   "V5_oos_maxdd_ok": true,
+   "V6_stage04_gates_open_now": false,
+   "V6_detail": {
+    "CRY-MOM-101": "NOT_SUPPORTED_GATE_CLOSED",
+    "CRY-REV-102": "NOT_SUPPORTED_GATE_CLOSED",
+    "CRY-VEX-103": "NOT_SUPPORTED_GATE_CLOSED_CTX_4H_SMA50"
+   },
+   "ALL_PASS": false
+  }
+ },
+ "determination_rule": "NO ALLOCATION unless V1-V6 all pass (plan section 6)",
+ "key_measurements": {
+  "oos_days": 915,
+  "oos_sharpe": {
+   "EW": 0.800297408873827,
+   "IV": 0.9711950458328457,
+   "RB": 1.1143779130042124,
+   "CONS": 0.7857366150253149,
+   "MOM_ONLY": 1.0731848898637022,
+   "VEX_ONLY": 0.6387796912956475
+  },
+  "oos_sharpe_ci95": {
+   "EW": [
+    -0.5514366278266909,
+    2.004326786643245
+   ],
+   "IV": [
+    -0.4263133899481272,
+    2.1920762707226116
+   ],
+   "RB": [
+    -0.31253735227080987,
+    2.3467559916612686
+   ],
+   "CONS": [
+    -0.6256902712865816,
+    2.0281858319677433
+   ],
+   "MOM_ONLY": [
+    -0.4189996295220566,
+    2.2878169331144966
+   ],
+   "VEX_ONLY": [
+    -0.6652537527794465,
+    1.8404311047004225
+   ]
+  },
+  "oos_max_dd": {
+   "EW": -0.1477639654616486,
+   "IV": -0.15101296968746092,
+   "RB": -0.15144882866122356,
+   "CONS": -0.1257655271718343,
+   "MOM_ONLY": -0.17632300467504858,
+   "VEX_ONLY": -0.19728349028328274
+  },
+  "oos_es99": {
+   "EW": 0.022839957590128922,
+   "IV": 0.02383058336538447,
+   "RB": 0.023604547654052222,
+   "CONS": 0.014185803093841876,
+   "MOM_ONLY": 0.025369486107496408,
+   "VEX_ONLY": 0.033461887326163245
+  },
+  "vs_mom_only_holm_p": {
+   "EW": 1.0,
+   "IV": 1.0,
+   "RB": 1.0,
+   "CONS": 1.0
+  },
+  "cohort_effective_bets": {
+   "all": 1.9290606056337696,
+   "btc_worst_decile": 2.137149260607441,
+   "btc_dd_gt20": 1.5318904259519952
+  },
+  "cohort_mean_pairwise": {
+   "all": 0.6742102525239297,
+   "stress": 0.6291262620901069
+  },
+  "sleeve_corr": {
+   "daily": 0.25904521093424626,
+   "weekly": 0.4445066566571953,
+   "both_active": 0.46258057679001136
+  },
+  "cost_sharpe_3x": {
+   "EW": -0.007516356579957211,
+   "IV": 0.37069538553300124,
+   "RB": 0.5469371734423665,
+   "CONS": 0.21060684375231264,
+   "MOM_ONLY": 0.7510305537474476,
+   "VEX_ONLY": -0.5982207840651875
+  }
+ },
+ "ledger": {
+  "registered": "4 hypotheses hyp-cry-portfolio-s7-{ew,iv,rb,cons} (fam-crypto-stage07-v1, REGISTERED)",
+  "preregistration_frozen": false,
+  "adjudicate_py_run": false
+ },
+ "deviations": [
+  "Amendment 1: segregated sub-books replaced by a shared book after run 1 (limit violations); run-1 performance was visible",
+  "Run 3 added reporting fields only"
+ ],
+ "unresolved": [
+  "forward paper evaluation from 2026-11-18 (>= 6 months, >= 100 trades per sleeve) is the only clean test; it must precede any capital",
+  "whether VEX should have even a paper budget (Stage 06: loses on all adjacent assets; Sharpe <= 0 at 2x costs); an MOM-only paper alternative needs registration",
+  "execution venue, observed fees/spreads/depth/stop fills",
+  "survivorship-free second data source; exchange-failure scenarios",
+  "preregistration freeze after independent review, then adjudicate.py",
+  "calibration of Stage 04 gates and V1-V6 thresholds",
+  "portfolio admission-order sensitivity: shared-book results differ from segregated results by more than scheme differences",
+  "account-size scaling of liquidity and impact"
+ ],
+ "limitations": [
+  "no untouched temporal holdout; walk-forward span excludes 2022",
+  "assumed costs/fills; venue unspecified",
+  "few independent events; wide intervals",
+  "nine assets ~ two bets",
+  "gate and overlay thresholds uncalibrated"
+ ],
+ "evidence_files": [
+  "docs/strategy-specs/STAGE_07_PORTFOLIO_REPORT.md",
+  "docs/strategy-specs/STAGE_07_ANALYSIS_PLAN.md",
+  "docs/strategy-specs/stage07/stage07_results.json",
+  "docs/strategy-specs/stage07/stage07_run1_segregated_results.json",
+  "docs/strategy-specs/stage07/oos_daily_returns.csv",
+  "docs/strategy-specs/stage07/stage07_suspension_overlay.json",
+  "docs/strategy-specs/stage07/stage07_portfolio.png"
+ ]
+}

@@ -208,7 +208,7 @@ def exposure(trades_by_sleeve, w, ws, we, syms, eq=None):
     for sid, (trs, cap) in trades_by_sleeve.items():
         sc = w[sid] * A.CAP / cap if cap else 0.0       # scale to a sleeve of weight w on $10k total
         for t in trs:
-            a = max(t["entry_hour"], ws) - ws; b = min(t["exit_hour"] + (t["tf"] if t["kind"] in ("stop", "target") else 1), we) - ws
+            a = max(t["entry_hour"], ws) - ws; b = min(t["exit_hour"] + (t["tf"] if t["kind"] in ("stop", "target") else (1 if t["kind"] == "forced" else 0)), we) - ws   # Stage 03 exit_end rule: open/signal exits free the slot at the exit hour
             if b <= a: continue
             r = t["reserved_risk"] * sc; nt = t["qty"] * t["entry_fill"] * sc
             risk[a:b] += r; notl[a:b] += nt; npos[a:b] += 1; per.setdefault(t["symbol"], np.zeros(H))[a:b] += nt
