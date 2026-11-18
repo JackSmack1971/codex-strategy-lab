@@ -3,7 +3,7 @@
  "schema_version": "1.0.0",
  "status": "COMPLETE_NO_ALLOCATION",
  "created": "2026-11-18",
- "code_commit": "74ec8dd4c05feb3d18dd237a3280f23439e3be06",
+ "code_commit": "6bb456c2f8d61dce2f9e92ebf7d6dce6df0f1720",
  "inputs": [
   "STAGE_01..STAGE_06 handoffs",
   "STAGE_07_ANALYSIS_PLAN.md"

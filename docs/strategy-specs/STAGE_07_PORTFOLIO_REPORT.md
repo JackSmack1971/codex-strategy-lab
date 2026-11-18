@@ -2,13 +2,13 @@
 
 **Determination: NO ALLOCATION.** No capital is allocated: 100 % cash ($10,000 in cash, $0 at risk). The two eligible sleeves fail the predeclared validation gates (V1-V6, plan section 6). Four allocation schemes were still built and tested so that their consequences are on record; they are **conditional research specifications for paper/forward evaluation only**, not recommendations to trade. Research only: no orders, credentials or execution. Historical numbers are conditional on assumed costs (15 bp per side) and an unspecified venue; nothing here is a forecast.
 
-Plan: `STAGE_07_ANALYSIS_PLAN.md` (committed before any run; amendment 1 disclosed below). Code: `stage07/`, tests `tests/stage07`. Results: `stage07/stage07_results.json`. Commit at report time: `74ec8dd4`.
+Plan: `STAGE_07_ANALYSIS_PLAN.md` (committed before any run; amendment 1 disclosed below). Code: `stage07/`, tests `tests/stage07`. Results: `stage07/stage07_results.json`. Commit at report time: `6bb456c2`.
 
 ## 0. Evidence base, deviations and what this stage cannot show
 * **Eligible sleeves only.** CRY-MOM-101 (Stage 03: eligible, paper-forward only) and CRY-VEX-103 (conditional, shadow/paper only, micro budget). CRY-REV-102 is excluded (Stage 02 REJECT). Frozen Stage 06 specification = unmodified Stage 02 baselines (Stage 06: KEEP BASELINE for both). Nine liquidity-gated cohort assets, spot, long-only, no leverage.
 * **Aligned history is short.** Both sleeves overlap on 1,461 days (2021-11-17..2025-11-17); standalone trades in that window: MOM 141, VEX 984. The walk-forward out-of-sample span is 915 days (2023-05-17..2025-11-17, 5 anchored 6-month folds), **which excludes the 2022 bear market** (that year appears only in training and in the in-sample/stress tables). The 2025-11-17..2026-11-17 year is `CONSUMED_LEGACY`: reported descriptively, never a criterion.
 * **"Out-of-sample" is relative to the weights only.** The whole 2021-2025 history informed Stages 01-06, so the sleeve rules themselves are not out-of-sample; only the weight estimates are.
-* **Amendment 1 (disclosed).** Run 1 modelled schemes as segregated sub-books (plan section 2). It exposed limit violations (up to 7 positions, 1,175 hours of same-symbol overlap between sleeves, single-asset notional above 15 %), so run 2 uses one shared book with portfolio admission control (`stage07/shared.py`, asserted identical to `engine.simulate` under uniform parameters: 877 trades, max equity difference 0). The amendment was driven by the limit violations, but run-1 performance numbers were visible when it was written. Run 1 is preserved (`stage07_run1_segregated_results.json`). A third run only added reporting fields (exposure tolerances, segregated comparison); no design parameter changed.
+* **Amendment 1 (disclosed).** Run 1 modelled schemes as segregated sub-books (plan section 2). It exposed cross-sleeve limit violations (1,149 hours of same-symbol overlap between sleeves; single-asset notional up to 33% of equity against a 15 % cap; run 1 also showed 7 simultaneous positions, which a later fix of the exposure-timing rule showed to be a one-hour measurement artifact), so run 2 uses one shared book with portfolio admission control (`stage07/shared.py`, asserted identical to `engine.simulate` under uniform parameters: 877 trades, max equity difference 0). The amendment was driven by the limit violations, but run-1 performance numbers were visible when it was written. Run 1 is preserved (`stage07_run1_segregated_results.json`). Later runs only added or corrected reporting (exposure tolerances, a segregated-book comparison, an exposure-timing fix, 2022 invested-time fields); no design parameter, weight formula or gate changed.
 * **Counts.** 4 schemes (registered `fam-crypto-stage07-v1`), 2 sleeve-only and 3 passive benchmarks, 188 engine simulations, 5 folds, 10,000 bootstrap reps (14-day blocks, seed 20261118). No parameter was searched; weights come from three predeclared formulas. Holm correction over the 4 schemes.
 * **Not independent of Stage 06.** Stage 06 found that both baselines lose on adjacent assets (MOM Sharpe -0.20, VEX -1.71); that result is carried into gate V1.
 
@@ -37,6 +37,15 @@ Plan: `STAGE_07_ANALYSIS_PLAN.md` (committed before any run; amendment 1 disclos
 Walk-forward weight ranges (MOM share, 5 folds): IV 62.4%-70.0%, RB 71.7%-77.9%. Full-DEV in-sample weights shown above (sigma_MOM 0.63%/day, sigma_VEX 1.11%/day, rho 0.26).
 
 **A3. Paper-forward specification if forward testing is authorised: CONS.** The choice among schemes is **not evidence-driven**: no scheme differs from MOM alone (Holm-adjusted p = EW 1.00, IV 1.00, RB 1.00, CONS 1.00). CONS is selected on risk-limit grounds, not return: lowest 99 % ES (1.42%), shallowest OOS max drawdown (-12.6%), explicit Stage 03 caps, 25 % standing cash. Its OOS Sharpe (0.79) is below MOM alone (1.07). Whether VEX deserves even a paper budget is open (Stage 06: cost-fragile, loses on all adjacent assets); an MOM-only paper sleeve is an *unregistered* alternative and would need its own registration.
+
+## B. Position-sizing rules (research specification; shared book)
+1. Account: $10,000 USDT-quoted spot; no leverage, no shorts; cash is unallocated capital. Sleeve signals are the frozen Stage 02 baseline rules (rules_version 0.1.0); signals use completed bars only and fill at the next bar's open plus assumed adverse selection.
+2. **Per-trade planned risk** = scheme weight x 1 % of frozen equity (EW 0.50 %, IV 0.64 %/0.36 %, RB 0.73 %/0.27 %, CONS 0.50 %/0.25 %; MOM/VEX). Never above 1 %.
+3. **Budget** B = min(per-trade risk x E, open-risk cap x E - sum of reserved risk of open positions); skip if B <= 0. Open-risk cap 3 % (EW/IV/RB), 1.5 % (CONS). Reserved risk = quantity x initial stop distance.
+4. **Quantity** q = lot-floor of min(B / stop distance, per-position notional cap x E / fill, available cash, 1 % of the asset's median 168-hour quote volume / fill, gross-notional room). Per-position cap 33 % (EW/IV/RB) or 13.3 % MOM / 10 % VEX (CONS); single-asset cap 15 %; gross cap 60 % (EW/IV/RB) or 40 % (CONS). Skip if notional < $10.
+5. **Position limits:** one position per symbol across both sleeves; <= 6 positions (<= 3 for CONS); a one-bar re-entry cooldown per sleeve and symbol after any exit (Stage 02 engine rule); no entries in an asset failing the L1-L3 liquidity gates (simulated). The Stage 03 T8 condition (24-hour volume < 50 % of its 90-day median) is a proposed live rule that was **not** simulated.
+6. **Gates:** no entries unless the Stage 04 sleeve gate is open; no new entries under any T1-T10 trigger.
+7. Scaling to larger accounts changes participation and impact; sizes above the C5 account-size estimate need a new liquidity study.
 
 ## Portfolio results (shared book, baseline costs, walk-forward weights)
 Pooled OOS, 915 days, folds chained (each a fresh book). Trades OOS (EW): MOM 157, VEX 604.
@@ -79,9 +88,9 @@ Consumed legacy year 2025-11-17..2026-11-17 (**descriptive only; weights from DE
 | BTC worst-decile days | 147 | 0.63 | 67% | 2.1 of 9 |
 | BTC > 20 % below its 90-day high | 349 | 0.78 | 80% | 1.5 of 9 |
 
-Adding the four adjacent assets (BNB, DOT, ATOM, BCH) leaves it at 2.1 effective bets of 13 (mean pairwise 0.66). Rolling 30-day mean pairwise correlation: min 0.30, median 0.72, max 0.91; above the Stage 03 T9 threshold of 0.90 in 1.5% of weekly samples. On BTC's worst 5 % days 98% of asset-days are down. Lower-tail co-exceedance (both assets below their own 5th percentile, given one is) averages 0.62 versus 0.05 under independence. Picking different tokens does **not** diversify: correlation rises and bets fall in stress.
+Adding the four adjacent assets (BNB, DOT, ATOM, BCH) leaves it at 2.1 effective bets of 13 (mean pairwise 0.66). Rolling 30-day mean pairwise correlation: min 0.30, median 0.72, max 0.91; above the Stage 03 T9 threshold of 0.90 in 1.5% of weekly samples. On BTC's worst 5 % days 98% of asset-days are down. Lower-tail co-exceedance (both assets below their own 5th percentile, given one is) averages 0.62 versus 0.05 under independence. Picking different tokens does **not** diversify: in sustained BTC drawdowns the mean correlation is 0.78 and the effective number of bets 1.5; on single worst days the pairwise correlation is not higher (0.63; conditioning on BTC's own return compresses it) but nearly every asset still falls together.
 
-**C2. Strategy return correlation.** MOM vs VEX standalone daily returns: 0.26 (all days), 0.44 (weekly), 0.46 when both are active (243 days), 0.19 on BTC worst-decile days. Low *daily* correlation is partly an artifact of inactivity: MOM is flat 71% of days, VEX 56%, both 43%. Each sleeve correlates with BTC at 0.36 (MOM) and 0.28 (VEX). The sleeves hold the **same asset at the same time** on 112 days (1,175 hours) when run as independent books; the shared book forbids this (one position per symbol), which changes the trade set (see sensitivity).
+**C2. Strategy return correlation.** MOM vs VEX standalone daily returns: 0.26 (all days), 0.44 (weekly), 0.46 when both are active (243 days), 0.19 on BTC worst-decile days. Low *daily* correlation is partly an artifact of inactivity: MOM is flat 71% of days, VEX 56%, both 43%. Each sleeve correlates with BTC at 0.36 (MOM) and 0.28 (VEX). The sleeves hold the **same asset at the same time** on 112 days (1,149 hours) when run as independent books; the shared book forbids this (one position per symbol), which changes the trade set (see sensitivity).
 
 **C3. Regime diversification is weak.** Almost all profit of both sleeves comes from one state, BTC above its 200-day mean with low volatility:
 
@@ -116,7 +125,7 @@ Equal capital is not equal risk: under EW, VEX supplies 71% of the volatility (i
 | stressA (20+10.0 bp) | 0.29 | 0.56 | 0.75 | 0.43 | 0.91 | -0.20 |
 | stressB (10+20.0 bp) | 0.21 | 0.48 | 0.68 | 0.29 | 0.91 | -0.37 |
 
-(Pooled OOS Sharpe, weights fixed at their base-cost estimates.) Schemes with more VEX weight lose their Sharpe fastest as costs rise: EW falls to about zero at 3x costs, while MOM alone keeps 0.75. Costs are assumed, not observed.
+(Pooled OOS Sharpe, weights fixed at their base-cost estimates.) At 3x costs: EW -0.01, IV 0.37, RB 0.55, CONS 0.21, MOM-ONLY 0.75, VEX-ONLY -0.60. From 2x costs every scheme that holds VEX is below MOM alone, and VEX alone is non-positive. Costs are assumed, not observed.
 
 ## D. Stress scenarios
 **Historical (in-sample series; weights from DEV; HISTORICAL, not forecasts).**
@@ -130,34 +139,34 @@ Equal capital is not equal risk: under EW, VEX supplies 71% of the volatility (i
 | EW-BH-9 (passive) | - | - | - | -49.8% | -19.7% | -73.0% |
 | BTC-BH | - | - | - | -46.5% | -13.1% | -64.1% |
 
-The sleeves were mostly flat through the 2022 collapses (trend gates closed), which is why losses were small *historically*. That protection came from not being invested, not from diversification, and it is one regime sequence.
+Calendar 2022 cost the schemes 12% (EW), 14% (RB) and 9% (CONS) with maximum drawdowns of 11%-16%, against 64% for BTC and 73% for the passive nine-asset basket. The sleeves were invested in only 27% of 2022 hours (mean gross notional 6%), so the smaller loss reflects closed trend gates, not diversification across assets. Losses inside the LUNA and FTX windows were small, but two events cannot separate luck from a systematic gate effect.
 
 **Hypothetical shocks on the realised exposure timeline (arithmetic, HYPOTHETICAL, not measurements).**
 
 | scheme | peak planned open risk (all stops hit as planned) | all open stops fill at -1.5R | at -2R | 20 % gap through every open position (peak) | each sleeve at expectancy -0.2R/trade (per year, uncompounded, MOM / VEX) |
 |---|---|---|---|---|---|
-| EW | 3.04% | 4.56% | 6.08% | 14.8% | -4.7% / -16.0% |
-| IV | 3.13% | 4.69% | 6.26% | 14.2% | -5.5% / -14.1% |
-| RB | 3.11% | 4.66% | 6.22% | 12.7% | -5.9% / -11.7% |
-| CONS | 1.73% | 2.59% | 3.45% | 8.0% | -3.4% / -7.9% |
+| EW | 3.04% | 4.56% | 6.08% | 12.1% | -4.7% / -16.0% |
+| IV | 3.08% | 4.61% | 6.15% | 12.1% | -5.5% / -14.1% |
+| RB | 3.08% | 4.61% | 6.15% | 12.1% | -5.9% / -11.7% |
+| CONS | 1.52% | 2.28% | 3.04% | 6.7% | -3.4% / -7.9% |
 
-Because the cohort is one factor (C1), the correlated-gap case is the relevant one: a 20 % simultaneous gap through all open positions would cost 14.8% (EW) or 8.0% (CONS), about 4.9x the planned open risk. Stage 03 found stop-through behaviour cannot be observed from OHLC bars; it remains unquantified. Stress-cost rows are in section C5.
+Because the cohort is one factor (C1), the correlated-gap case is the relevant one: a 20 % simultaneous gap through all open positions would cost 12.1% (EW) or 6.7% (CONS), about 4.0x the planned open risk. Stage 03 found stop-through behaviour cannot be observed from OHLC bars; it remains unquantified. Stress-cost rows are in section C5.
 
-**Path dependence (estimation fragility).** The same weights give materially different OOS results depending on whether the sleeves run as independent sub-books or in one shared book: EW Sharpe 0.96 segregated vs 0.80 shared, IV Sharpe 1.09 segregated vs 0.97 shared, RB Sharpe 1.12 segregated vs 1.11 shared, CONS Sharpe 1.00 segregated vs 0.79 shared. In the last fold the shared book is negative for every scheme (EW -0.48, IV -0.29, RB -0.05, CONS -0.06) while the segregated approximation is positive (EW 0.69, IV 0.62, RB 0.56, CONS 0.48), because admission order and the one-position-per-symbol rule change which signals are taken. A portfolio Sharpe difference of this size is within the noise of that choice.
+**Path dependence (estimation fragility).** The same weights give materially different OOS results depending on whether the sleeves run as independent sub-books or in one shared book: EW Sharpe 0.96 segregated vs 0.80 shared, IV Sharpe 1.09 segregated vs 0.97 shared, RB Sharpe 1.12 segregated vs 1.11 shared, CONS Sharpe 1.00 segregated vs 0.79 shared. In the last fold the shared book is negative for every scheme (EW -0.48, IV -0.29, RB -0.05, CONS -0.06) while the segregated approximation is positive (EW 0.69, IV 0.62, RB 0.56, CONS 0.48), because the shared book's admission order, the one-position-per-symbol rule and the larger combined position allowance change which signals are taken (in that fold MOM took 45 trades in the shared EW book versus 31 standalone, and the extra trades lost). A portfolio Sharpe difference of this size is within the noise of that choice.
 
 ## E. Risk budget utilization (shared book, in-sample timeline, hourly)
 
 | scheme | open-risk cap | mean open risk (% of cap) | peak open risk | peak positions (limit) | peak single-asset notional (limit) | peak gross (limit) | share of hours invested | hours over limit by >5 % (risk / asset / gross) |
 |---|---|---|---|---|---|---|---|---|
-| EW | 3.0% | 0.46% (15%) | 3.04% | 7 (6) | 15.3% (15%) | 73.9% (60%) | 41% | 0 / 0 / 3 |
-| IV | 3.0% | 0.50% (17%) | 3.13% | 7 (6) | 15.4% (15%) | 71.0% (60%) | 41% | 0 / 0 / 4 |
-| RB | 3.0% | 0.52% (17%) | 3.11% | 7 (6) | 15.4% (15%) | 63.6% (60%) | 41% | 0 / 0 / 1 |
-| CONS | 1.5% | 0.32% (21%) | 1.73% | 4 (3) | 13.4% (15%) | 39.8% (40%) | 40% | 1 / 0 / 0 |
+| EW | 3.0% | 0.45% (15%) | 3.04% | 6 (6) | 15.3% (15%) | 60.7% (60%) | 40% | 0 / 0 / 0 |
+| IV | 3.0% | 0.50% (17%) | 3.08% | 6 (6) | 15.4% (15%) | 60.7% (60%) | 40% | 0 / 0 / 0 |
+| RB | 3.0% | 0.52% (17%) | 3.08% | 6 (6) | 15.4% (15%) | 60.7% (60%) | 40% | 0 / 0 / 0 |
+| CONS | 1.5% | 0.32% (21%) | 1.52% | 3 (3) | 13.4% (15%) | 33.4% (40%) | 40% | 0 / 0 / 0 |
 
-Limits are enforced **at entry** on frozen equity; afterwards equity moves, so the measured ratios drift (e.g. open risk 3.0-3.1 % against a 3 % cap after a drawdown). Position counts above the limit for 1-4 hours are a bar-end exit-timing artifact of the measurement (a stop frees its slot at bar end), not extra entries. Average utilisation of the open-risk budget is low (15%-21%), because the sleeves are invested 41% of hours. Maximum planned risk per trade stays <= 0.73% (limit 1 %). **Segregated books breach the same limits** (run-1 exhibit, corrected normalisation): EW peak 7 positions, 1,175 h same-symbol overlap, peak single-asset 33%; IV peak 7 positions, 1,175 h same-symbol overlap, peak single-asset 33%.
+Limits are enforced **at entry** on frozen equity; afterwards equity moves, so the measured ratios drift (e.g. open risk 3.0-3.1 % against a 3 % cap after a drawdown). Position counts never exceed the limit (peak 6 of 6; CONS 3 of 3). Average utilisation of the open-risk budget is low (15%-21%), because the sleeves are invested 40% of hours. Maximum planned risk per trade stays <= 0.73% (limit 1 %). **Segregated books cannot enforce the cross-sleeve rules** (run-1 design, corrected normalisation): EW 1,149 h of same-symbol overlap and peak single-asset notional 33% (cap 15 %); IV 1,149 h of same-symbol overlap and peak single-asset notional 33% (cap 15 %).
 
 ## F. Rebalancing and suspension rules (proposed, not validated)
-**F1. Rebalancing.** Sleeve weights are inputs to *risk per trade*, not capital transfers between accounts; they are re-estimated at most **every 6 months** (the walk-forward cadence) from an expanding window of standalone sleeve returns, and only if both sleeves have >= 100 trades in the window. Between re-estimations they are frozen. Return-level model of capital rebalancing (in-sample, RB weights): Sharpe 0.63 daily, 0.64 monthly, 0.61 semi-annual, 0.60 never; capital transferred per year 82% (daily) vs 7% (semi-annual) of equity. The frequency changes Sharpe by < 0.04, so the low-turnover choice (semi-annual) is used. Rebalancing capital moves cash between sleeve budgets and is not market turnover. **Market turnover** is driven by the sleeves: MOM 35 trades/yr (13x capital traded per year), VEX 246 trades/yr (144x); scheme-level traded notional per year: EW 78x, IV 60x, RB 48x, CONS 42x of equity.
+**F1. Rebalancing.** Sleeve weights are inputs to *risk per trade*, not capital transfers between accounts; they are re-estimated at most **every 6 months** (the walk-forward cadence) from an expanding window of standalone sleeve returns. Between re-estimations they are frozen. Return-level model of capital rebalancing (in-sample, RB weights): Sharpe 0.63 daily, 0.64 monthly, 0.61 semi-annual, 0.60 never; capital transferred per year 82% (daily) vs 7% (semi-annual) of equity. The frequency changes Sharpe by < 0.04, so the low-turnover choice (semi-annual) is used. Rebalancing capital moves cash between sleeve budgets and is not market turnover. **Market turnover** is driven by the sleeves: MOM 35 trades/yr (13x capital traded per year), VEX 246 trades/yr (144x); scheme-level traded notional per year: EW 78x, IV 60x, RB 48x, CONS 42x of equity.
 
 **F2. Suspension rules** (Stage 03 T1-T10 inherited unchanged; no new thresholds). Portfolio-level application of the drawdown/loss rules to the pooled OOS series (APPROXIMATE return-level overlay, thresholds not tuned):
 
@@ -175,15 +184,6 @@ Rules in force for any paper/forward run: (1) **dormant while Stage 04 gates are
 * **Assumed correlation and volatility error.** Annualised volatility of the weights if the true sleeve correlation is 0 or 0.9 and VEX volatility is 30 % lower/higher than estimated: EW 10%-19%, RB 9%-14%, CONS 7%-13% (range by assumption). Risk-budgeted and conservative weights are less exposed to correlation error than EW.
 * **Expected-return error.** Halving each sleeve's mean return halves every Sharpe (RB 1.12 -> 0.56); with a 100 % haircut the Sharpe is 0 by construction. With Sharpe 95 % intervals of width ~2.7, the data cannot distinguish a positive edge from none, and cannot rank the schemes.
 * **Multiple testing.** Four schemes against MOM-only: Holm-adjusted p = EW 1.00, IV 1.00, RB 1.00, CONS 1.00; paired dSharpe 95 % intervals EW [-1.1, +0.6], IV [-0.8, +0.7], RB [-0.6, +0.7], CONS [-0.9, +0.4]. The best-looking scheme (RB) is also the one most dependent on in-sample weight tilt towards the better-evidenced sleeve.
-
-## B. Position-sizing rules (research specification; shared book)
-1. Account: $10,000 USDT-quoted spot; no leverage, no shorts; cash is unallocated capital. Sleeve signals are the frozen Stage 02 baseline rules (rules_version 0.1.0); signals use completed bars only and fill at the next bar's open plus assumed adverse selection.
-2. **Per-trade planned risk** = scheme weight x 1 % of frozen equity (EW 0.50 %, IV 0.64 %/0.36 %, RB 0.73 %/0.27 %, CONS 0.50 %/0.25 %; MOM/VEX). Never above 1 %.
-3. **Budget** B = min(per-trade risk x E, open-risk cap x E - sum of reserved risk of open positions); skip if B <= 0. Open-risk cap 3 % (EW/IV/RB), 1.5 % (CONS). Reserved risk = quantity x initial stop distance.
-4. **Quantity** q = lot-floor of min(B / stop distance, per-position notional cap x E / fill, available cash, 1 % of the asset's median 168-hour quote volume / fill, gross-notional room). Per-position cap 33 % (EW/IV/RB) or 13.3 % MOM / 10 % VEX (CONS); single-asset cap 15 %; gross cap 60 % (EW/IV/RB) or 40 % (CONS). Skip if notional < $10.
-5. **Position limits:** one position per symbol across both sleeves; <= 6 positions (<= 3 for CONS); cooldown after a stop-out as in Stage 02; no entries in an asset failing the L1-L3 liquidity gates or with 24-hour volume < 50 % of its 90-day median (T8).
-6. **Gates:** no entries unless the Stage 04 sleeve gate is open; no new entries under any T1-T10 trigger.
-7. Scaling to larger accounts changes participation and impact; sizes above the C5 account-size estimate need a new liquidity study.
 
 ## Limitations and unresolved concerns
 * No untouched temporal holdout exists; the sleeve rules were designed on the same history used here. Stage 06's adjacent-asset holdout found both baselines negative; this stage does not repair that.

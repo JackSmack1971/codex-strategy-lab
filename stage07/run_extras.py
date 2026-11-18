@@ -56,7 +56,7 @@ def main():
     ax[1].bar(range(4), vals, color="#0072B2", width=0.55)
     for i, (v, e) in enumerate(zip(vals, eb)): ax[1].text(i, v + 0.015, f"{v:.2f}\n({e:.1f} bets)", ha="center", fontsize=8)
     ax[1].set_xticks(range(4)); ax[1].set_xticklabels(labs, fontsize=8); ax[1].set_ylim(0, 1.0); ax[1].set_ylabel("mean pairwise daily correlation")
-    ax[1].set_title("Nine-asset cohort: correlation rises in stress", fontsize=10); ax[1].spines[["top", "right"]].set_visible(False)
+    ax[1].set_title("Nine-asset cohort: mean pairwise correlation by market state", fontsize=10); ax[1].spines[["top", "right"]].set_visible(False)
     fig.tight_layout(); fig.savefig(OUT / "stage07_portfolio.png", dpi=150); print("ok"); print(json.dumps(clean(susp["CONS"]), indent=None)[:400])
 
 

@@ -26,10 +26,10 @@ P(f"* **Aligned history is short.** Both sleeves overlap on {R['counts']['dev_da
   f"The walk-forward out-of-sample span is {R['counts']['oos_days']} days (2023-05-17..2025-11-17, 5 anchored 6-month folds), **which excludes the 2022 bear market** (that year appears only in training and in the in-sample/stress tables). "
   "The 2025-11-17..2026-11-17 year is `CONSUMED_LEGACY`: reported descriptively, never a criterion.")
 P("* **\"Out-of-sample\" is relative to the weights only.** The whole 2021-2025 history informed Stages 01-06, so the sleeve rules themselves are not out-of-sample; only the weight estimates are.")
-P(f"* **Amendment 1 (disclosed).** Run 1 modelled schemes as segregated sub-books (plan section 2). It exposed limit violations (up to 7 positions, {R['sleeve_correlation']['same_symbol_overlap_hours']:,} hours of same-symbol overlap between sleeves, single-asset notional above 15 %), so run 2 uses one shared book with portfolio admission control "
+P(f"* **Amendment 1 (disclosed).** Run 1 modelled schemes as segregated sub-books (plan section 2). It exposed cross-sleeve limit violations ({R['sleeve_correlation']['same_symbol_overlap_hours']:,} hours of same-symbol overlap between sleeves; single-asset notional up to {pc(R['segregated_exhibit_run1_corrected_normalisation']['EW']['peak_single_asset'],0)} of equity against a 15 % cap; run 1 also showed 7 simultaneous positions, which a later fix of the exposure-timing rule showed to be a one-hour measurement artifact), so run 2 uses one shared book with portfolio admission control "
   "(`stage07/shared.py`, asserted identical to `engine.simulate` under uniform parameters: "
   f"{R['shared_simulator_equivalence']['trades']} trades, max equity difference {R['shared_simulator_equivalence']['max_abs_equity_diff']:.0f}). The amendment was driven by the limit violations, but run-1 performance numbers were visible when it was written. Run 1 is preserved (`stage07_run1_segregated_results.json`). "
-  "A third run only added reporting fields (exposure tolerances, segregated comparison); no design parameter changed.")
+  "Later runs only added or corrected reporting (exposure tolerances, a segregated-book comparison, an exposure-timing fix, 2022 invested-time fields); no design parameter, weight formula or gate changed.")
 P(f"* **Counts.** 4 schemes (registered `fam-crypto-stage07-v1`), 2 sleeve-only and 3 passive benchmarks, {R['counts']['simulations']} engine simulations, 5 folds, {R['counts']['bootstrap_reps']:,} bootstrap reps (14-day blocks, seed 20261118). "
   "No parameter was searched; weights come from three predeclared formulas. Holm correction over the 4 schemes.")
 P("* **Not independent of Stage 06.** Stage 06 found that both baselines lose on adjacent assets (MOM Sharpe -0.20, VEX -1.71); that result is carried into gate V1.")
@@ -61,6 +61,15 @@ P("")
 P("**A3. Paper-forward specification if forward testing is authorised: CONS.** The choice among schemes is **not evidence-driven**: no scheme differs from MOM alone (Holm-adjusted p = " + ", ".join(f"{k} {R['oos']['vs_mom_only'][k]['holm_p']:.2f}" for k in SC) + "). "
   f"CONS is selected on risk-limit grounds, not return: lowest 99 % ES ({pc(o['CONS']['es99'],2)}), shallowest OOS max drawdown ({pc(o['CONS']['max_dd'])}), explicit Stage 03 caps, 25 % standing cash. Its OOS Sharpe ({f2(ci['CONS']['sharpe'])}) is below MOM alone ({f2(ci['MOM_ONLY']['sharpe'])}). "
   "Whether VEX deserves even a paper budget is open (Stage 06: cost-fragile, loses on all adjacent assets); an MOM-only paper sleeve is an *unregistered* alternative and would need its own registration.")
+P("")
+P("## B. Position-sizing rules (research specification; shared book)")
+P("1. Account: $10,000 USDT-quoted spot; no leverage, no shorts; cash is unallocated capital. Sleeve signals are the frozen Stage 02 baseline rules (rules_version 0.1.0); signals use completed bars only and fill at the next bar's open plus assumed adverse selection.")
+P("2. **Per-trade planned risk** = scheme weight x 1 % of frozen equity (EW 0.50 %, IV 0.64 %/0.36 %, RB 0.73 %/0.27 %, CONS 0.50 %/0.25 %; MOM/VEX). Never above 1 %.")
+P("3. **Budget** B = min(per-trade risk x E, open-risk cap x E - sum of reserved risk of open positions); skip if B <= 0. Open-risk cap 3 % (EW/IV/RB), 1.5 % (CONS). Reserved risk = quantity x initial stop distance.")
+P("4. **Quantity** q = lot-floor of min(B / stop distance, per-position notional cap x E / fill, available cash, 1 % of the asset's median 168-hour quote volume / fill, gross-notional room). Per-position cap 33 % (EW/IV/RB) or 13.3 % MOM / 10 % VEX (CONS); single-asset cap 15 %; gross cap 60 % (EW/IV/RB) or 40 % (CONS). Skip if notional < $10.")
+P("5. **Position limits:** one position per symbol across both sleeves; <= 6 positions (<= 3 for CONS); a one-bar re-entry cooldown per sleeve and symbol after any exit (Stage 02 engine rule); no entries in an asset failing the L1-L3 liquidity gates (simulated). The Stage 03 T8 condition (24-hour volume < 50 % of its 90-day median) is a proposed live rule that was **not** simulated.")
+P("6. **Gates:** no entries unless the Stage 04 sleeve gate is open; no new entries under any T1-T10 trigger.")
+P("7. Scaling to larger accounts changes participation and impact; sizes above the C5 account-size estimate need a new liquidity study.")
 P("")
 P("## Portfolio results (shared book, baseline costs, walk-forward weights)")
 P(f"Pooled OOS, {R['counts']['oos_days']} days, folds chained (each a fresh book). Trades OOS (EW): MOM {R['oos']['per_scheme_oos_trades']['EW'][M]}, VEX {R['oos']['per_scheme_oos_trades']['EW'][V]}.")
@@ -96,7 +105,7 @@ for lab_, k, n in (("all days", "full9", R["counts"]["dev_days"]), ("calm (excl.
 P("")
 P(f"Adding the four adjacent assets (BNB, DOT, ATOM, BCH) leaves it at {cor['full13']['eff_bets']:.1f} effective bets of 13 (mean pairwise {cor['full13']['mean_pairwise']:.2f}). Rolling 30-day mean pairwise correlation: min {cor['rolling30_mean_pairwise']['min']:.2f}, median {cor['rolling30_mean_pairwise']['median']:.2f}, max {cor['rolling30_mean_pairwise']['max']:.2f}; "
   f"above the Stage 03 T9 threshold of 0.90 in {pc(cor['rolling30_mean_pairwise']['frac_gt_0p9'])} of weekly samples. On BTC's worst 5 % days {pc(cor['share_assets_down_on_btc_worst5'],0)} of asset-days are down. "
-  f"Lower-tail co-exceedance (both assets below their own 5th percentile, given one is) averages {cor['tail_coexceed_5pct']:.2f} versus 0.05 under independence. Picking different tokens does **not** diversify: correlation rises and bets fall in stress.")
+  f"Lower-tail co-exceedance (both assets below their own 5th percentile, given one is) averages {cor['tail_coexceed_5pct']:.2f} versus 0.05 under independence. Picking different tokens does **not** diversify: in sustained BTC drawdowns the mean correlation is {cor['btc_dd_gt20']['mean_pairwise']:.2f} and the effective number of bets {cor['btc_dd_gt20']['eff_bets']:.1f}; on single worst days the pairwise correlation is not higher ({cor['btc_worst_decile']['mean_pairwise']:.2f}; conditioning on BTC's own return compresses it) but nearly every asset still falls together.")
 P("")
 P("**C2. Strategy return correlation.** MOM vs VEX standalone daily returns: "
   f"{sc_['daily']:.2f} (all days), {sc_['weekly']:.2f} (weekly), {sc_['corr_both_active']:.2f} when both are active ({sc_['days_both_active']} days), {sc_['btc_worst_decile_days']:.2f} on BTC worst-decile days. "
@@ -125,7 +134,7 @@ P("| cost level (per side fee + adverse) | " + " | ".join(SC + ["MOM-only", "VEX
 for c, v in R["cost_sensitivity"].items():
     P(f"| {c} ({v['cost'][0]*1e4:.0f}+{v['cost'][1]*1e4:.1f} bp) | " + " | ".join(f2(v[k]["sharpe"]) for k in SC + ["MOM_ONLY", "VEX_ONLY"]) + " |")
 P("")
-P("(Pooled OOS Sharpe, weights fixed at their base-cost estimates.) Schemes with more VEX weight lose their Sharpe fastest as costs rise: EW falls to about zero at 3x costs, while MOM alone keeps " + f2(R['cost_sensitivity']['3x']['MOM_ONLY']['sharpe']) + ". Costs are assumed, not observed.")
+P("(Pooled OOS Sharpe, weights fixed at their base-cost estimates.) At 3x costs: " + ", ".join(f"{k.replace('_','-')} {f2(R['cost_sensitivity']['3x'][k]['sharpe'])}" for k in SC + ["MOM_ONLY", "VEX_ONLY"]) + ". From 2x costs every scheme that holds VEX is below MOM alone, and VEX alone is non-positive. Costs are assumed, not observed.")
 P("")
 P("## D. Stress scenarios")
 P("**Historical (in-sample series; weights from DEV; HISTORICAL, not forecasts).**")
@@ -137,7 +146,8 @@ for s in SC:
 P(f"| EW-BH-9 (passive) | - | - | - | {pc(H['EW_BH_9']['luna']['total'])} | {pc(H['EW_BH_9']['ftx']['total'])} | {pc(H['EW_BH_9']['bear_2022']['total'])} |")
 P(f"| BTC-BH | - | - | - | {pc(H['BTC_BH']['luna']['total'])} | {pc(H['BTC_BH']['ftx']['total'])} | {pc(H['BTC_BH']['bear_2022']['total'])} |")
 P("")
-P("The sleeves were mostly flat through the 2022 collapses (trend gates closed), which is why losses were small *historically*. That protection came from not being invested, not from diversification, and it is one regime sequence.")
+P(f"Calendar 2022 cost the schemes {pc(-H['EW']['bear_2022_full']['total'],0)} (EW), {pc(-H['RB']['bear_2022_full']['total'],0)} (RB) and {pc(-H['CONS']['bear_2022_full']['total'],0)} (CONS) with maximum drawdowns of {pc(-H['CONS']['bear_2022_full']['max_dd'],0)}-{pc(-H['EW']['bear_2022_full']['max_dd'],0)}, against {pc(-H['BTC_BH']['bear_2022']['total'],0)} for BTC and {pc(-H['EW_BH_9']['bear_2022']['total'],0)} for the passive nine-asset basket. "
+  f"The sleeves were invested in only {pc(E['EW']['frac_hours_invested_2022'],0)} of 2022 hours (mean gross notional {pc(E['EW']['mean_gross_2022'],0)}), so the smaller loss reflects closed trend gates, not diversification across assets. Losses inside the LUNA and FTX windows were small, but two events cannot separate luck from a systematic gate effect.")
 P("")
 P("**Hypothetical shocks on the realised exposure timeline (arithmetic, HYPOTHETICAL, not measurements).**")
 P("")
@@ -152,7 +162,7 @@ P("")
 P("**Path dependence (estimation fragility).** The same weights give materially different OOS results depending on whether the sleeves run as independent sub-books or in one shared book: "
   + ", ".join(f"{k} Sharpe {f2(R['oos']['segregated_subbook_approx'][k]['sharpe'])} segregated vs {f2(ci[k]['sharpe'])} shared" for k in SC)
   + ". In the last fold the shared book is negative for every scheme (" + ", ".join(f"{k} {f2(R['folds'][-1]['oos_sharpe'][k])}" for k in SC) + ") while the segregated approximation is positive (" + ", ".join(f"{k} {f2(R['folds'][-1]['segregated_oos_sharpe'][k])}" for k in SC)
-  + "), because admission order and the one-position-per-symbol rule change which signals are taken. A portfolio Sharpe difference of this size is within the noise of that choice.")
+  + "), because the shared book's admission order, the one-position-per-symbol rule and the larger combined position allowance change which signals are taken (in that fold MOM took 45 trades in the shared EW book versus 31 standalone, and the extra trades lost). A portfolio Sharpe difference of this size is within the noise of that choice.")
 P("")
 P("## E. Risk budget utilization (shared book, in-sample timeline, hourly)")
 P("")
@@ -161,12 +171,12 @@ for s in SC:
     e = E[s]; l = e["limits"]
     P(f"| {s} | {pc(l['open_risk'])} | {pc(e['mean_open_risk'],2)} ({pc(e['mean_util'],0)}) | {pc(e['peak_open_risk'],2)} | {e['peak_positions']} ({l['positions']}) | {pc(e['peak_single_asset'])} ({pc(l['single_asset'],0)}) | {pc(e['peak_gross'])} ({pc(l['gross'],0)}) | {pc(e['frac_hours_any_position'],0)} | {e['hours_open_risk_gt_1p05x']} / {e['hours_single_asset_gt_1p05x']} / {e['hours_gross_gt_1p05x']} |")
 P("")
-P("Limits are enforced **at entry** on frozen equity; afterwards equity moves, so the measured ratios drift (e.g. open risk 3.0-3.1 % against a 3 % cap after a drawdown). Position counts above the limit for 1-4 hours are a bar-end exit-timing artifact of the measurement (a stop frees its slot at bar end), not extra entries. "
+P("Limits are enforced **at entry** on frozen equity; afterwards equity moves, so the measured ratios drift (e.g. open risk 3.0-3.1 % against a 3 % cap after a drawdown). " + f"Position counts never exceed the limit (peak {E['EW']['peak_positions']} of {E['EW']['limits']['positions']}; CONS {E['CONS']['peak_positions']} of {E['CONS']['limits']['positions']}). "
   f"Average utilisation of the open-risk budget is low ({pc(E['EW']['mean_util'],0)}-{pc(E['CONS']['mean_util'],0)}), because the sleeves are invested {pc(E['EW']['frac_hours_any_position'],0)} of hours. Maximum planned risk per trade stays <= {pc(max(E[s]['max_trade_risk_frac_reserved'] for s in SC),2)} (limit 1 %). "
-  "**Segregated books breach the same limits** (run-1 exhibit, corrected normalisation): " + "; ".join(f"{s} peak {R['segregated_exhibit_run1_corrected_normalisation'][s]['peak_positions']} positions, {R['segregated_exhibit_run1_corrected_normalisation'][s]['hours_same_symbol_overlap']:,} h same-symbol overlap, peak single-asset {pc(R['segregated_exhibit_run1_corrected_normalisation'][s]['peak_single_asset'],0)}" for s in SC[:2]) + ".")
+  "**Segregated books cannot enforce the cross-sleeve rules** (run-1 design, corrected normalisation): " + "; ".join(f"{s} {R['segregated_exhibit_run1_corrected_normalisation'][s]['hours_same_symbol_overlap']:,} h of same-symbol overlap and peak single-asset notional {pc(R['segregated_exhibit_run1_corrected_normalisation'][s]['peak_single_asset'],0)} (cap 15 %)" for s in SC[:2]) + ".")
 P("")
 P("## F. Rebalancing and suspension rules (proposed, not validated)")
-P("**F1. Rebalancing.** Sleeve weights are inputs to *risk per trade*, not capital transfers between accounts; they are re-estimated at most **every 6 months** (the walk-forward cadence) from an expanding window of standalone sleeve returns, and only if both sleeves have >= 100 trades in the window. Between re-estimations they are frozen. "
+P("**F1. Rebalancing.** Sleeve weights are inputs to *risk per trade*, not capital transfers between accounts; they are re-estimated at most **every 6 months** (the walk-forward cadence) from an expanding window of standalone sleeve returns. Between re-estimations they are frozen. "
   f"Return-level model of capital rebalancing (in-sample, RB weights): Sharpe {f2(R['turnover_rebalancing']['schemes']['RB']['daily']['sharpe'])} daily, {f2(R['turnover_rebalancing']['schemes']['RB']['monthly30d']['sharpe'])} monthly, {f2(R['turnover_rebalancing']['schemes']['RB']['semiannual182d']['sharpe'])} semi-annual, {f2(R['turnover_rebalancing']['schemes']['RB']['never']['sharpe'])} never; "
   f"capital transferred per year {pc(R['turnover_rebalancing']['schemes']['RB']['daily']['capital_transfer_per_year'],0)} (daily) vs {pc(R['turnover_rebalancing']['schemes']['RB']['semiannual182d']['capital_transfer_per_year'],0)} (semi-annual) of equity. The frequency changes Sharpe by < 0.04, so the low-turnover choice (semi-annual) is used. "
   f"Rebalancing capital moves cash between sleeve budgets and is not market turnover. **Market turnover** is driven by the sleeves: MOM {R['turnover_rebalancing']['sleeves'][M]['trades_per_year']:.0f} trades/yr ({R['turnover_rebalancing']['sleeves'][M]['traded_notional_per_year_over_capital']:.0f}x capital traded per year), VEX {R['turnover_rebalancing']['sleeves'][V]['trades_per_year']:.0f} trades/yr ({R['turnover_rebalancing']['sleeves'][V]['traded_notional_per_year_over_capital']:.0f}x); "
@@ -191,15 +201,6 @@ P("* **Assumed correlation and volatility error.** Annualised volatility of the 
 hh = R["estimation_sensitivity"]["sleeve_mean_haircut_oos_sharpe_approx_daily_rebalanced"]
 P(f"* **Expected-return error.** Halving each sleeve's mean return halves every Sharpe (RB {f2(hh['0.0']['RB'])} -> {f2(hh['0.5']['RB'])}); with a 100 % haircut the Sharpe is 0 by construction. With Sharpe 95 % intervals of width ~{ci['RB']['ci95'][1]-ci['RB']['ci95'][0]:.1f}, the data cannot distinguish a positive edge from none, and cannot rank the schemes.")
 P("* **Multiple testing.** Four schemes against MOM-only: Holm-adjusted p = " + ", ".join(f"{k} {R['oos']['vs_mom_only'][k]['holm_p']:.2f}" for k in SC) + "; paired dSharpe 95 % intervals " + ", ".join(f"{k} [{R['oos']['vs_mom_only'][k]['dSharpe_ci95'][0]:+.1f}, {R['oos']['vs_mom_only'][k]['dSharpe_ci95'][1]:+.1f}]" for k in SC) + ". The best-looking scheme (RB) is also the one most dependent on in-sample weight tilt towards the better-evidenced sleeve.")
-P("")
-P("## B. Position-sizing rules (research specification; shared book)")
-P("1. Account: $10,000 USDT-quoted spot; no leverage, no shorts; cash is unallocated capital. Sleeve signals are the frozen Stage 02 baseline rules (rules_version 0.1.0); signals use completed bars only and fill at the next bar's open plus assumed adverse selection.")
-P("2. **Per-trade planned risk** = scheme weight x 1 % of frozen equity (EW 0.50 %, IV 0.64 %/0.36 %, RB 0.73 %/0.27 %, CONS 0.50 %/0.25 %; MOM/VEX). Never above 1 %.")
-P("3. **Budget** B = min(per-trade risk x E, open-risk cap x E - sum of reserved risk of open positions); skip if B <= 0. Open-risk cap 3 % (EW/IV/RB), 1.5 % (CONS). Reserved risk = quantity x initial stop distance.")
-P("4. **Quantity** q = lot-floor of min(B / stop distance, per-position notional cap x E / fill, available cash, 1 % of the asset's median 168-hour quote volume / fill, gross-notional room). Per-position cap 33 % (EW/IV/RB) or 13.3 % MOM / 10 % VEX (CONS); single-asset cap 15 %; gross cap 60 % (EW/IV/RB) or 40 % (CONS). Skip if notional < $10.")
-P("5. **Position limits:** one position per symbol across both sleeves; <= 6 positions (<= 3 for CONS); cooldown after a stop-out as in Stage 02; no entries in an asset failing the L1-L3 liquidity gates or with 24-hour volume < 50 % of its 90-day median (T8).")
-P("6. **Gates:** no entries unless the Stage 04 sleeve gate is open; no new entries under any T1-T10 trigger.")
-P("7. Scaling to larger accounts changes participation and impact; sizes above the C5 account-size estimate need a new liquidity study.")
 P("")
 P("## Limitations and unresolved concerns")
 for x in ["No untouched temporal holdout exists; the sleeve rules were designed on the same history used here. Stage 06's adjacent-asset holdout found both baselines negative; this stage does not repair that.",

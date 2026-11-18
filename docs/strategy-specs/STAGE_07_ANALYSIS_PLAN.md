@@ -78,3 +78,5 @@ Primary design from run 2: **one shared book per scheme** with portfolio admissi
 per-trade risk = w_i x 1 % of equity; EW/IV/RB: open-risk cap 3 %, <= 6 positions, single-asset notional <= 15 %, gross <= 60 %, per-position notional <= 33 %; CONS (Stage 03 budgets): per-trade 0.5 % / 0.25 %,
 open-risk cap 1.5 %, <= 3 positions, per-position notional 13.3 % (MOM) / 10 % (VEX), single-asset 15 %, gross 40 %. One position per symbol across sleeves is already an engine rule.
 Weights, folds, windows, costs, statistics, gates V1-V6 and the default NO ALLOCATION are unchanged. Exposure ratios use contemporaneous equity.
+
+Correction to amendment 1 (recorded with run 3): the "up to 7 simultaneous positions" figure in run 1 was a one-hour measurement artifact (open-price exits were counted one hour too long in the exposure timeline; fixed in `stage07/core.py`, the engine and simulation results are unaffected). The violations that stand are the same-symbol overlap between sleeves (~1,150-1,175 hours) and single-asset notional of about 33 % of equity against the 15 % single-asset cap.
