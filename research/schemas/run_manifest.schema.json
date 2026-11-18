@@ -1,0 +1,173 @@
+{
+  "$schema": "research-schema-subset/1",
+  "title": "Run manifest",
+  "x-schema-version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "recorded_at",
+    "git_head_oid",
+    "source_dirty_state",
+    "source_digests",
+    "prereg_sha256",
+    "dataset_manifest_digests",
+    "experiment_configuration_digest",
+    "python_version",
+    "dependency_lock_sha256",
+    "runner_command_redacted",
+    "execution_surface",
+    "codex_version_if_observed",
+    "effective_permissions_if_observed",
+    "network_policy_if_observed",
+    "start_utc",
+    "artifact_hashes",
+    "tests_executed",
+    "tests_failed",
+    "status",
+    "data_access_enforcement"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "run_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "recorded_at": {
+      "$ref": "common.schema.json#/$defs/utc_timestamp"
+    },
+    "git_head_oid": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        {
+          "$ref": "common.schema.json#/$defs/unknown"
+        }
+      ]
+    },
+    "source_dirty_state": {
+      "enum": [
+        "CLEAN",
+        "DIRTY",
+        "UNKNOWN"
+      ]
+    },
+    "source_digests": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "common.schema.json#/$defs/sha256"
+      }
+    },
+    "prereg_sha256": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    },
+    "dataset_manifest_digests": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/sha256"
+      }
+    },
+    "experiment_configuration_digest": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    },
+    "python_version": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "dependency_lock_sha256": {
+      "anyOf": [
+        {
+          "$ref": "common.schema.json#/$defs/sha256"
+        },
+        {
+          "$ref": "common.schema.json#/$defs/unknown"
+        }
+      ]
+    },
+    "runner_command_redacted": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "execution_surface": {
+      "enum": [
+        "CLI",
+        "CLOUD",
+        "IDE",
+        "APP_SERVER",
+        "LOCAL_SCRIPT",
+        "UNKNOWN"
+      ]
+    },
+    "codex_version_if_observed": {
+      "anyOf": [
+        {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        {
+          "$ref": "common.schema.json#/$defs/unknown"
+        }
+      ]
+    },
+    "effective_permissions_if_observed": {
+      "anyOf": [
+        {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        {
+          "$ref": "common.schema.json#/$defs/unknown"
+        }
+      ]
+    },
+    "network_policy_if_observed": {
+      "anyOf": [
+        {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        {
+          "$ref": "common.schema.json#/$defs/unknown"
+        }
+      ]
+    },
+    "start_utc": {
+      "$ref": "common.schema.json#/$defs/utc_timestamp"
+    },
+    "artifact_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "common.schema.json#/$defs/sha256"
+      }
+    },
+    "tests_executed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tests_failed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "status": {
+      "enum": [
+        "STARTED",
+        "COMPLETED",
+        "FAILED",
+        "ABORTED",
+        "INTERRUPTED"
+      ]
+    },
+    "parent_run_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "end_utc": {
+      "$ref": "common.schema.json#/$defs/utc_timestamp"
+    },
+    "data_access_enforcement": {
+      "enum": [
+        "IN_MEMORY_BROKERED",
+        "FILE_BACKED_UNENFORCED",
+        "IN_PROCESS_UNENFORCED"
+      ]
+    }
+  }
+}

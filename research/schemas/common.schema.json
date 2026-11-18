@@ -1,0 +1,25 @@
+{
+  "$schema": "research-schema-subset/1",
+  "title": "Shared definitions",
+  "$defs": {
+    "utc_timestamp": {"type": "string", "x-format": "utc-timestamp"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,127}$"},
+    "text": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "text_list": {"type": "array", "items": {"$ref": "#/$defs/text"}},
+    "id_list": {"type": "array", "items": {"$ref": "#/$defs/identifier"}},
+    "unknown": {"const": "UNKNOWN"},
+    "holdout_class": {"enum": ["UNTOUCHED", "EXPLORATORY_OR_REUSED", "CONSUMED_LEGACY"]},
+    "gate_value": {"enum": ["PASS", "FAIL", "UNKNOWN", "NOT_APPLICABLE"]},
+    "disposition": {"enum": ["PROMISING_UNVALIDATED", "INVESTIGATE", "REJECT", "BLOCKED", "QUALIFIED"]},
+    "workflow_state": {"enum": ["DRAFT", "REGISTERED", "DATA_PENDING", "DATA_QUALIFIED", "REVIEW_PENDING", "REVIEW_RECORDED", "PREREG_FROZEN", "EXPERIMENT_PENDING", "EXPERIMENT_COMPLETE", "ADJUDICATED", "REPORTED", "BLOCKED", "FAILED"]},
+    "time_range": {
+      "type": "object", "additionalProperties": false, "required": ["start_utc", "end_utc"],
+      "properties": {"start_utc": {"$ref": "#/$defs/utc_timestamp"}, "end_utc": {"$ref": "#/$defs/utc_timestamp"}}
+    },
+    "source_ref": {
+      "type": "object", "additionalProperties": false, "required": ["ref", "kind"],
+      "properties": {"ref": {"$ref": "#/$defs/text"}, "kind": {"enum": ["FILE", "URL", "DOCUMENT", "ARTIFACT"]}, "sha256": {"$ref": "#/$defs/sha256"}}
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "$schema": "research-schema-subset/1",
+  "title": "Observation",
+  "x-schema-version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observation_id",
+    "source_id",
+    "provider_version",
+    "retrieval_id",
+    "venue",
+    "instrument_id",
+    "instrument_type",
+    "unit",
+    "clock",
+    "event_at_utc",
+    "published_at_utc",
+    "available_at_utc",
+    "ingested_at_utc",
+    "revision_id",
+    "value",
+    "raw_sha256",
+    "precision",
+    "quality_flags"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "observation_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "source_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "provider_version": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "retrieval_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "venue": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "instrument_id": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "instrument_type": {
+      "enum": [
+        "SPOT",
+        "PERPETUAL",
+        "FUTURE",
+        "OPTION",
+        "OTHER"
+      ]
+    },
+    "unit": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "clock": {
+      "enum": [
+        "EXCHANGE",
+        "PROVIDER",
+        "LOCAL_RECEIPT",
+        "UNKNOWN"
+      ]
+    },
+    "event_at_utc": {
+      "$ref": "common.schema.json#/$defs/utc_timestamp"
+    },
+    "published_at_utc": {
+      "anyOf": [
+        {
+          "$ref": "common.schema.json#/$defs/utc_timestamp"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "absent_reason"
+          ],
+          "properties": {
+            "absent_reason": {
+              "$ref": "common.schema.json#/$defs/text"
+            }
+          }
+        }
+      ]
+    },
+    "available_at_utc": {
+      "anyOf": [
+        {
+          "$ref": "common.schema.json#/$defs/utc_timestamp"
+        },
+        {
+          "$ref": "common.schema.json#/$defs/unknown"
+        }
+      ]
+    },
+    "ingested_at_utc": {
+      "$ref": "common.schema.json#/$defs/utc_timestamp"
+    },
+    "revision_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "value": {
+      "type": [
+        "number",
+        "string",
+        "boolean"
+      ]
+    },
+    "raw_sha256": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    },
+    "precision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18
+    },
+    "quality_flags": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "GAP",
+          "DUPLICATE",
+          "REVISED",
+          "STALE",
+          "ESTIMATED",
+          "CLOCK_UNCERTAIN"
+        ]
+      }
+    },
+    "transform_sha256": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    }
+  }
+}

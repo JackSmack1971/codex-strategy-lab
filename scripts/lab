@@ -14,6 +14,7 @@ Usage: scripts/lab COMMAND [arguments]
   test                   Run synthetic engine and Cloud setup tests (no network)
   prefetch hourly|full   Cache verified archives without changing tracked results
   reproduce [--sensitivity]  Execute pipeline in an isolated HEAD worktree
+  research COMMAND ...    Research workbench: ledger and contracts (stdlib only, no network)
   python [arguments]     Run repository Python without shell activation
   help                   Show this help
 HELP
@@ -24,6 +25,7 @@ case "$command" in
   doctor) exec "$LAB_PYTHON" "$LAB_ROOT/scripts/doctor.py" "$@" ;;
   test) exec "$LAB_PYTHON" -m unittest -v test_lab tests.test_cloud_setup "$@" ;;
   prefetch) exec "$LAB_PYTHON" "$LAB_ROOT/scripts/prefetch.py" "$@" ;;
+  research) exec "$LAB_PYTHON" "$LAB_ROOT/scripts/research.py" "$@" ;;
   reproduce) exec bash "$LAB_ROOT/scripts/reproduce.sh" "$@" ;;
   python) exec "$LAB_PYTHON" "$@" ;;
   *) printf 'Unknown command: %s\n' "$command" >&2; exit 2 ;;

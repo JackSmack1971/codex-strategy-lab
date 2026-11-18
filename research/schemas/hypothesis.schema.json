@@ -1,0 +1,159 @@
+{
+  "$schema": "research-schema-subset/1",
+  "title": "Hypothesis",
+  "x-schema-version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "hypothesis_id",
+    "hypothesis_version",
+    "family_id",
+    "status",
+    "mechanism",
+    "economic_actor",
+    "market_friction",
+    "venue",
+    "instrument_id",
+    "instrument_type",
+    "horizon",
+    "expected_direction",
+    "null_hypothesis",
+    "primary_estimand",
+    "baseline",
+    "falsifiers",
+    "necessary_regimes",
+    "failure_regimes",
+    "dependencies",
+    "preregistration_id",
+    "created_at_utc",
+    "created_by",
+    "source_refs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "hypothesis_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "hypothesis_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "family_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "status": {
+      "enum": [
+        "PROPOSED",
+        "SUPERSEDED",
+        "WITHDRAWN"
+      ]
+    },
+    "mechanism": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "economic_actor": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "market_friction": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "venue": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "instrument_id": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "instrument_type": {
+      "enum": [
+        "SPOT",
+        "PERPETUAL",
+        "FUTURE",
+        "OPTION",
+        "OTHER"
+      ]
+    },
+    "horizon": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "expected_direction": {
+      "enum": [
+        "LONG",
+        "SHORT",
+        "EITHER",
+        "NONE"
+      ]
+    },
+    "null_hypothesis": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "primary_estimand": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "baseline": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "falsifiers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "question",
+          "discriminating_test",
+          "threshold_source",
+          "outcome"
+        ],
+        "properties": {
+          "question": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "discriminating_test": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "threshold_source": {
+            "$ref": "common.schema.json#/$defs/text"
+          },
+          "outcome": {
+            "enum": [
+              "PENDING",
+              "SURVIVED",
+              "FAILED",
+              "UNKNOWN"
+            ]
+          }
+        }
+      }
+    },
+    "necessary_regimes": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "failure_regimes": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "dependencies": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "preregistration_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "created_at_utc": {
+      "$ref": "common.schema.json#/$defs/utc_timestamp"
+    },
+    "created_by": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/source_ref"
+      }
+    },
+    "parent_hypothesis_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    }
+  }
+}

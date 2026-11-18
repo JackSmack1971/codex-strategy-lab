@@ -1,0 +1,130 @@
+{
+  "$schema": "research-schema-subset/1",
+  "title": "Adversarial objection",
+  "x-schema-version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "objection_id",
+    "hypothesis_id",
+    "hypothesis_version",
+    "review_type",
+    "claim",
+    "assumptions",
+    "test_specification",
+    "artifact_dependencies",
+    "severity",
+    "materiality",
+    "adjudication_status",
+    "reviewer_agent_id",
+    "reviewer_context_digest",
+    "submitted_at_utc"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "objection_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "hypothesis_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "hypothesis_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "review_type": {
+      "enum": [
+        "causal",
+        "statistical",
+        "execution",
+        "regime"
+      ]
+    },
+    "claim": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "assumptions": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "test_specification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "params"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "LEAKAGE_AUDIT",
+            "COST_STRESS",
+            "LABEL_OVERLAP",
+            "MANUAL_POLICY"
+          ]
+        },
+        "params": {
+          "type": "object"
+        }
+      }
+    },
+    "artifact_dependencies": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "severity": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "materiality": {
+      "enum": [
+        "MATERIAL",
+        "NON_MATERIAL"
+      ]
+    },
+    "adjudication_status": {
+      "enum": [
+        "PENDING",
+        "UPHELD",
+        "REFUTED",
+        "UNRESOLVED_POLICY"
+      ]
+    },
+    "reviewer_agent_id": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "reviewer_context_digest": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    },
+    "submitted_at_utc": {
+      "$ref": "common.schema.json#/$defs/utc_timestamp"
+    },
+    "test_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "executed_at_utc",
+        "result_sha256",
+        "outcome"
+      ],
+      "properties": {
+        "executed_at_utc": {
+          "$ref": "common.schema.json#/$defs/utc_timestamp"
+        },
+        "result_sha256": {
+          "$ref": "common.schema.json#/$defs/sha256"
+        },
+        "outcome": {
+          "enum": [
+            "CLAIM_HOLDS",
+            "CLAIM_FAILS"
+          ]
+        }
+      }
+    }
+  }
+}
