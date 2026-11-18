@@ -1,0 +1,441 @@
+{
+ "handoff_type": "STAGE_03_HANDOFF",
+ "schema_version": "1.0.0",
+ "status": "RESEARCH_ASSESSMENT_NOT_LEDGER_ADJUDICATED",
+ "created": "2026-11-18",
+ "inputs": {
+  "stage01": "docs/strategy-specs/STAGE_01_HANDOFF.v2.json",
+  "stage02": "docs/strategy-specs/STAGE_02_HANDOFF.json",
+  "rules_version": "0.1.0-draft (unchanged)"
+ },
+ "provenance": {
+  "head_commit_at_run": "584195947467a5639d85bb08413ab521d9ffe96f",
+  "stage02_stage03_source_dirty": false,
+  "reconciliation_to_stage02_trades": true,
+  "costs": {
+   "fee": 0.001,
+   "adverse": 0.0005,
+   "status": "ASSUMED_NOT_OBSERVED"
+  },
+  "windows": {
+   "train": [
+    "2021-11-17 00:00:00+00:00",
+    "2024-11-17 00:00:00+00:00"
+   ],
+   "validation": [
+    "2024-11-17 00:00:00+00:00",
+    "2025-11-17 00:00:00+00:00"
+   ],
+   "final": [
+    "2025-11-17 00:00:00+00:00",
+    "2026-11-17 00:00:00+00:00"
+   ]
+  },
+  "window_status": {
+   "train": "development",
+   "validation": "evaluation (not untouched)",
+   "final": "CONSUMED_LEGACY descriptive only"
+  },
+  "bootstrap": {
+   "block_days": 14,
+   "reps": 2000,
+   "seed": 20261118
+  }
+ },
+ "labels": {
+  "H": "historical backtest measurement (assumed costs)",
+  "S": "simulated/hypothetical rule",
+  "U": "unquantified"
+ },
+ "ledger": {
+  "registered": [
+   "hyp-cry-mom-101@1",
+   "hyp-cry-rev-102@1",
+   "hyp-cry-vex-103@1"
+  ],
+  "preregistration_frozen": false,
+  "adjudicate_py_run": false
+ },
+ "risk_budgets": {
+  "CRY-MOM-101": {
+   "risk_per_trade": 0.005,
+   "open_risk_cap": 0.015,
+   "notional_cap_per_position": 0.133,
+   "max_positions": 3,
+   "mode": "paper_forward_only"
+  },
+  "CRY-VEX-103": {
+   "risk_per_trade": 0.0025,
+   "open_risk_cap": 0.0075,
+   "notional_cap_per_position": 0.1,
+   "max_positions": 3,
+   "mode": "shadow_or_paper_micro_budget_pending_execution_evidence"
+  },
+  "CRY-REV-102": {
+   "risk_per_trade": 0.0,
+   "open_risk_cap": 0.0,
+   "notional_cap_per_position": 0.0,
+   "max_positions": 0,
+   "mode": "shadow_signal_logging_only"
+  }
+ },
+ "portfolio_caps": {
+  "total_open_risk": 0.015,
+  "gross_notional": 0.4,
+  "single_asset": 0.15,
+  "max_positions": 3,
+  "one_position_per_symbol": true,
+  "leverage": false,
+  "shorting": false,
+  "correlation_rule": "no new entries while rolling-30d mean pairwise cohort correlation > 0.90 (untested)",
+  "status": "PROPOSED_NOT_VALIDATED"
+ },
+ "stop_trading_conditions": [
+  {
+   "id": "T1",
+   "condition": "T1 Drawdown, sleeve or portfolio (daily mark-to-market, from high-water mark)",
+   "action": "\u2265 8%: halve risk; \u2265 12%: no new entries pending review; \u2265 15%: halt and independent review before restart"
+  },
+  {
+   "id": "T2",
+   "condition": "T2 Single-day loss",
+   "action": "\u2265 3% of equity: no new entries until the next UTC day"
+  },
+  {
+   "id": "T3",
+   "condition": "T3 Rolling 7-day loss",
+   "action": "\u2265 5%: halve risk until recovered above \u22122%"
+  },
+  {
+   "id": "T4",
+   "condition": "T4 Loss clusters",
+   "action": "alert at 8 consecutive losses; pause and review at cumulative \u221210R since the last equity high (R at the sleeve's own risk unit); a loss streak alone is **not** a halt"
+  },
+  {
+   "id": "T5",
+   "condition": "T5 Execution quality",
+   "action": "pause new entries if the mean realised cost per side over the last 20 fills exceeds 2\u00d7 assumed (0.30%), if any stop fills worse than \u22122R, or if 3 stops fill worse than \u22121.5R in 30 days"
+  },
+  {
+   "id": "T6",
+   "condition": "T6 Data and feed",
+   "action": "any missing 1H bar: existing warm-up reset applies; stale feed > 2 bars or a failed checksum: no new entries; feed outage with open positions: manage manually, halt if > 24h"
+  },
+  {
+   "id": "T7",
+   "condition": "T7 Venue and asset status",
+   "action": "venue/API unavailable with open positions, withdrawal suspension, delisting notice, or USDT/USD deviation > 1%: halt entries and escalate"
+  },
+  {
+   "id": "T8",
+   "condition": "T8 Liquidity",
+   "action": "an asset fails L1\u2013L3 or its 24h quote volume < 50% of its 90-day median: no entries in that asset; participation never above 1% of median hourly volume"
+  },
+  {
+   "id": "T9",
+   "condition": "T9 Concentration",
+   "action": "30-day mean pairwise correlation > 0.90, or \u2265 2 sleeves long the same asset: cap at 2 concurrent positions"
+  },
+  {
+   "id": "T10",
+   "condition": "T10 Forward-evidence stop",
+   "action": "after \u2265 100 forward/paper trades per sleeve, if the point estimate of expectancy is \u2264 \u22120.2R or the 99.17% bootstrap bound is still \u2264 0 and drawdown has tripped T1 twice: archive the sleeve"
+  }
+ ],
+ "eligibility": {
+  "CRY-MOM-101": {
+   "stage02": "INVESTIGATE",
+   "stage03": "ELIGIBLE_CONTINUED_RESEARCH_PAPER_FORWARD_ONLY"
+  },
+  "CRY-VEX-103": {
+   "stage02": "INVESTIGATE",
+   "stage03": "CONDITIONAL_SHADOW_PAPER_ONLY_PENDING_EXECUTION_EVIDENCE"
+  },
+  "CRY-REV-102": {
+   "stage02": "REJECT",
+   "stage03": "NOT_ELIGIBLE_SHADOW_ONLY"
+  }
+ },
+ "key_measurements": {
+  "baseline_max_dd_daily_by_window": {
+   "CRY-MOM-101": {
+    "train": -0.17632356735915689,
+    "validation": -0.09225080506890038,
+    "final": -0.08861133898283091
+   },
+   "CRY-REV-102": {
+    "train": -0.05180721164992663,
+    "validation": -0.029799989367463642,
+    "final": -0.04305162864157519
+   },
+   "CRY-VEX-103": {
+    "train": -0.26838716076165736,
+    "validation": -0.15974846894802208,
+    "final": -0.12602002923590383
+   },
+   "COMBINED": {
+    "train": -0.3093075588656382,
+    "validation": -0.11829316377009391,
+    "final": -0.13597985582209893
+   }
+  },
+  "var_es_pooled_1d_historical": {
+   "CRY-MOM-101": {
+    "0.95": {
+     "var": 0.006854498237133566,
+     "es": 0.01419800575495867,
+     "tail_obs": 92,
+     "adequacy": "ok for 1-day horizon"
+    },
+    "0.99": {
+     "var": 0.019936944083841862,
+     "es": 0.024800446551269978,
+     "tail_obs": 19,
+     "adequacy": "limited (<30 tail observations)"
+    }
+   },
+   "CRY-REV-102": {
+    "0.95": {
+     "var": -0.0,
+     "es": 0.00016574017533530294,
+     "tail_obs": 92,
+     "adequacy": "ok for 1-day horizon"
+    },
+    "0.99": {
+     "var": 0.00527350338170272,
+     "es": 0.01243504168232442,
+     "tail_obs": 19,
+     "adequacy": "limited (<30 tail observations)"
+    }
+   },
+   "CRY-VEX-103": {
+    "0.95": {
+     "var": 0.012239861651324284,
+     "es": 0.01863521286530827,
+     "tail_obs": 92,
+     "adequacy": "ok for 1-day horizon"
+    },
+    "0.99": {
+     "var": 0.022190962388569102,
+     "es": 0.030399561784808925,
+     "tail_obs": 19,
+     "adequacy": "limited (<30 tail observations)"
+    }
+   },
+   "COMBINED": {
+    "0.95": {
+     "var": 0.014387922288299186,
+     "es": 0.02144883371839052,
+     "tail_obs": 92,
+     "adequacy": "ok for 1-day horizon"
+    },
+    "0.99": {
+     "var": 0.026108637200141126,
+     "es": 0.0330472942844409,
+     "tail_obs": 19,
+     "adequacy": "limited (<30 tail observations)"
+    }
+   }
+  },
+  "loss_streaks": {
+   "CRY-MOM-101": {
+    "n_trades": 177,
+    "loss_share": 0.632768361581921,
+    "max_run": 18,
+    "runs_ge10": 3,
+    "worst_run_R": -13.472597316926771
+   },
+   "CRY-REV-102": {
+    "n_trades": 73,
+    "loss_share": 0.4931506849315068,
+    "max_run": 5,
+    "runs_ge10": 0,
+    "worst_run_R": -3.999999999999993
+   },
+   "CRY-VEX-103": {
+    "n_trades": 1156,
+    "loss_share": 0.6998269896193772,
+    "max_run": 22,
+    "runs_ge10": 16,
+    "worst_run_R": -13.605795560546392
+   },
+   "COMBINED": {
+    "n_trades": 1112,
+    "loss_share": 0.6861510791366906,
+    "max_run": 23,
+    "runs_ge10": 13,
+    "worst_run_R": -10.968753611316542
+   }
+  },
+  "gap20_shock_max_loss_fraction_equity": {
+   "CRY-MOM-101": 0.1539400030311169,
+   "CRY-REV-102": 0.18100724095100096,
+   "CRY-VEX-103": 0.2030543550151244,
+   "COMBINED": 0.20235147963367225
+  },
+  "stop_fill_tolerance_bps_per_stop_exit_pooled": {
+   "CRY-MOM-101": 93.20292062642439,
+   "CRY-REV-102": 0.0,
+   "CRY-VEX-103": 9.134260738546148,
+   "COMBINED": 3.3247207731152857
+  },
+  "freeze_max_loss_fraction_equity": {
+   "24": {
+    "CRY-MOM-101": 0.10940180356101571,
+    "CRY-REV-102": 0.05688210381628263,
+    "CRY-VEX-103": 0.20243238160862562,
+    "COMBINED": 0.20243238058670557
+   },
+   "72": {
+    "CRY-MOM-101": 0.10940180356101571,
+    "CRY-REV-102": 0.07119356850512236,
+    "CRY-VEX-103": 0.25956339030560266,
+    "COMBINED": 0.30277112092085495
+   },
+   "168": {
+    "CRY-MOM-101": 0.10940180356101571,
+    "CRY-REV-102": 0.10311029886177442,
+    "CRY-VEX-103": 0.42115142631851876,
+    "COMBINED": 0.42115182405902335
+   }
+  },
+  "scenario_reruns_pooled_ratio": {
+   "baseline": {
+    "CRY-MOM-101": 0.14237512634959482,
+    "CRY-REV-102": -0.0722331451681322,
+    "CRY-VEX-103": 0.027096631609324635,
+    "COMBINED": 0.007581791197421695
+   },
+   "S2_volatility_x2_HYPOTHETICAL": {
+    "CRY-MOM-101": 0.557708478976039,
+    "CRY-REV-102": -0.003010110628356903,
+    "CRY-VEX-103": 0.14831294093462336,
+    "COMBINED": 0.14341517778986324
+   },
+   "S3_costs_x3_HYPOTHETICAL": {
+    "CRY-MOM-101": 0.0384195464967366,
+    "CRY-REV-102": -0.16032533932447926,
+    "CRY-VEX-103": -0.16093435709403198,
+    "COMBINED": -0.14646475654856453
+   },
+   "S4a_volume_x0.1_HYPOTHETICAL": {
+    "CRY-MOM-101": 0.13710241378941446,
+    "CRY-REV-102": -0.12673359315601804,
+    "CRY-VEX-103": -0.010579486605337819,
+    "COMBINED": 0.0033787853246652288
+   },
+   "S4b_volume_x0.1_and_slippage_x4_HYPOTHETICAL": {
+    "CRY-MOM-101": 0.07606405992367883,
+    "CRY-REV-102": -0.18139813318721362,
+    "CRY-VEX-103": -0.19413418033064314,
+    "COMBINED": -0.13849677711073002
+   }
+  },
+  "policy_replay": {
+   "sleeves": {
+    "CRY-MOM-101": {
+     "n_trades": 177,
+     "net_pnl_usd": 1392.0267697036245,
+     "ratio": 0.15452908611804728,
+     "max_dd_by_window": {
+      "train": -0.09261397167930907,
+      "validation": -0.04727941435441074,
+      "final": -0.042962221380869026
+     },
+     "es95_1d": 0.007131761554171904,
+     "worst_1d": -0.018447872725189773,
+     "worst_7d": -0.033100539591539024,
+     "gap20_shock_max": 0.07129895633724298,
+     "gap20_shock_p99": 0.06772197587305404,
+     "freeze72h_max": 0.058968101839047375,
+     "max_gross_pct_equity": 0.3543692747761079,
+     "max_open_risk_pct": 0.015178902489946515
+    },
+    "CRY-VEX-103": {
+     "n_trades": 1156,
+     "net_pnl_usd": 791.6050049157661,
+     "ratio": 0.03290997586003525,
+     "max_dd_by_window": {
+      "train": -0.08099332303163975,
+      "validation": -0.0477017641796873,
+      "final": -0.03907336642924297
+     },
+     "es95_1d": 0.005276284637221799,
+     "worst_1d": -0.012332918514097457,
+     "worst_7d": -0.027918169686145466,
+     "gap20_shock_max": 0.06606836634301196,
+     "gap20_shock_p99": 0.06307535656507472,
+     "freeze72h_max": 0.07865754527451126,
+     "max_gross_pct_equity": 0.3283722549299897,
+     "max_open_risk_pct": 0.007545629917333219
+    }
+   },
+   "portfolio": {
+    "PORTFOLIO_MOM_VEX": {
+     "n_trades": 1052,
+     "net_pnl_usd": 1132.7764935690789,
+     "ratio": 0.03167346220475507,
+     "max_dd_by_window": {
+      "train": -0.14930937446762405,
+      "validation": -0.057166918967228364,
+      "final": -0.05526923068858136
+     },
+     "es95_1d": 0.009574109042672602,
+     "worst_1d": -0.019675293732816956,
+     "worst_7d": -0.042583932525003254,
+     "gap20_shock_max": 0.08796461941522792,
+     "gap20_shock_p99": 0.08322642644294148,
+     "freeze72h_max": 0.12622531451002442,
+     "max_gross_pct_equity": 0.437200766876415,
+     "max_open_risk_pct": 0.015192639534875242
+    }
+   },
+   "note": "Proposed limits replayed once on the Stage 02 development/evaluation/consumed windows. Descriptive only: not optimised, not validated, not an out-of-sample test."
+  }
+ },
+ "modifications": {
+  "risk_reduction": [
+   "M1 risk 0.5%/1.5%",
+   "M2 notional cap 13.3% per position (<=40% gross)",
+   "M3 drawdown throttle x0.5 at -10%, halt -20% (replay approximation)"
+  ],
+  "efficiency": [
+   "E1 lower execution cost (untested; needs venue data)",
+   "E2 inverse-volatility sleeve weights, MOM+VEX (exploratory; no demonstrated gain per unit risk)"
+  ],
+  "status": "EXPLORATORY_NOT_REGISTERED_NOT_PREREGISTERED_NO_PERFORMANCE_CLAIM"
+ },
+ "evidence_files": {
+  "docs/strategy-specs/stage03/risk_results.json": {
+   "sha256": "081fc60ae5c4307f089217c6d78191d78057189df51ca0d56c2aebfe1b389da5"
+  },
+  "docs/strategy-specs/stage03/risk_drawdown_shock.png": {
+   "sha256": "1e52a5e825902da3775128566ac0bff126f65577393ed2e26633c5c8f2c36fc8"
+  },
+  "docs/strategy-specs/STAGE_03_RISK_REPORT.md": {
+   "sha256": "6b5a73ee50b2cb21cbf31ec3a0a9cd5fdf4c5855a60d02ed6686cc8959920477"
+  },
+  "docs/strategy-specs/STAGE_02_HANDOFF.json": {
+   "sha256": "5785874060aabf7f1a4b05963197c468d68e7e4f575fb331219e8529ae22d974"
+  },
+  "docs/strategy-specs/stage02/trades_baseline.csv": {
+   "sha256": "df899047651514b17f10417eadbff18e3a001b3daf4b89323455d494d711657a"
+  }
+ },
+ "limitations": [
+  "Assumed costs, lots, spreads; execution venue UNSPECIFIED",
+  "OHLC bars cannot reveal stop slippage or impact: all gap/stop-failure figures are bounds or hypotheticals",
+  "Survivor-selected nine-asset cohort; single data source; final year CONSUMED_LEGACY",
+  "Tail estimates inadequate (99% VaR/ES 19 tail days; trade samples small); no tail probabilities asserted",
+  "Variants and thresholds are single-configuration, unvalidated policy choices"
+ ],
+ "unresolved": [
+  "execution venue and eligibility",
+  "observed fee tier, spread, depth, stop-order behaviour and slippage",
+  "independent second data source and delisted assets",
+  "ledger preregistration freeze and adjudicate.py run (needs independent review)",
+  "forward paper evaluation (>=6 months, >=100 trades) or adjacent-asset holdout",
+  "calibration of proposed thresholds on forward data",
+  "account-size scaling of liquidity and impact"
+ ]
+}
