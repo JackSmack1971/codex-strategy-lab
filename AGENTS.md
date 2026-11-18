@@ -56,3 +56,16 @@ ignored `data/` and an ignored cache manifest. It does not touch tracked evidenc
 the isolated run path is printed and retained. Review its source hashes, audit
 and metrics before making new performance claims. Raw downloads, `.venv/`, cache
 and `work/` must remain untracked. Do not commit secrets or environment dumps.
+
+## Research workbench (additive; grants no permissions)
+
+- `research/` holds typed contracts, a hash-chained trial ledger, point-in-time checks, isolated
+  candidate runs and deterministic adjudication. Design and limits: `docs/control-plane/architecture.md`.
+  Use it through `scripts/lab research ...`; ledger and run output live in ignored `work/`.
+- Register every attempted candidate; preregister (freeze) before any test-split access. The
+  2025-11-17 to 2026-11-17 Stage 02 test window is `CONSUMED_LEGACY` and is never an untouched holdout.
+- Dispositions come only from `research/validation/adjudicate.py`; an UNKNOWN mandatory gate never
+  qualifies, and prose or agent agreement never changes a decision.
+- No orders, exchange accounts or credentials, ever. Do not construct `lab.Market` against the real
+  tree (it writes `results/data_audit.json`); use `research/data/legacy_ohlcv.py` for read-only access.
+- Check with `scripts/lab python -m unittest discover -s tests/research -t .` (offline, synthetic).

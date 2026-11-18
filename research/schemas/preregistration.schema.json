@@ -1,0 +1,309 @@
+{
+  "$schema": "research-schema-subset/1",
+  "title": "Preregistration",
+  "x-schema-version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "preregistration_id",
+    "amendment",
+    "family_id",
+    "hypothesis_id",
+    "hypothesis_version",
+    "mechanism",
+    "universe_construction",
+    "venue_eligibility",
+    "data_asof_rule",
+    "information_schedule",
+    "splits",
+    "embargo_purge",
+    "baselines",
+    "cost_capacity_assumptions",
+    "estimand",
+    "uncertainty_method",
+    "multiplicity",
+    "min_sample_size",
+    "robustness_criteria",
+    "planned_ablations",
+    "stopping_rule",
+    "research_budget",
+    "disclosure_rules",
+    "gate_rules",
+    "frozen_at_utc",
+    "datasets",
+    "economics",
+    "purge"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "preregistration_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "amendment": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "family_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "hypothesis_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "hypothesis_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mechanism": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "universe_construction": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "venue_eligibility": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "data_asof_rule": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "information_schedule": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "splits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "train",
+        "validation",
+        "holdout_class"
+      ],
+      "properties": {
+        "train": {
+          "$ref": "common.schema.json#/$defs/time_range"
+        },
+        "validation": {
+          "$ref": "common.schema.json#/$defs/time_range"
+        },
+        "test": {
+          "$ref": "common.schema.json#/$defs/time_range"
+        },
+        "holdout_class": {
+          "$ref": "common.schema.json#/$defs/holdout_class"
+        }
+      }
+    },
+    "embargo_purge": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "baselines": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "cost_capacity_assumptions": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "estimand": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "uncertainty_method": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "multiplicity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family_id",
+        "method",
+        "planned_trials",
+        "alpha"
+      ],
+      "properties": {
+        "family_id": {
+          "$ref": "common.schema.json#/$defs/identifier"
+        },
+        "method": {
+          "$ref": "common.schema.json#/$defs/text"
+        },
+        "planned_trials": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "alpha": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "min_sample_size": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "robustness_criteria": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "planned_ablations": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "stopping_rule": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "research_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_trials"
+      ],
+      "properties": {
+        "max_trials": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "disclosure_rules": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "gate_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_version",
+        "gates"
+      ],
+      "properties": {
+        "rule_version": {
+          "$ref": "common.schema.json#/$defs/identifier"
+        },
+        "gates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "gate_id",
+              "mandatory",
+              "metric",
+              "comparator",
+              "threshold",
+              "threshold_source"
+            ],
+            "properties": {
+              "gate_id": {
+                "$ref": "common.schema.json#/$defs/identifier"
+              },
+              "mandatory": {
+                "type": "boolean"
+              },
+              "metric": {
+                "$ref": "common.schema.json#/$defs/text"
+              },
+              "comparator": {
+                "enum": [
+                  ">",
+                  ">=",
+                  "<",
+                  "<=",
+                  "==",
+                  "!="
+                ]
+              },
+              "threshold": {
+                "type": "number"
+              },
+              "threshold_source": {
+                "$ref": "common.schema.json#/$defs/text"
+              }
+            }
+          }
+        }
+      }
+    },
+    "frozen_at_utc": {
+      "$ref": "common.schema.json#/$defs/utc_timestamp"
+    },
+    "amends_sha256": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    },
+    "amendment_reason": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "datasets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dataset_id",
+          "snapshot_id",
+          "manifest_sha256",
+          "instrument_id"
+        ],
+        "properties": {
+          "dataset_id": {
+            "$ref": "common.schema.json#/$defs/identifier"
+          },
+          "snapshot_id": {
+            "$ref": "common.schema.json#/$defs/identifier"
+          },
+          "manifest_sha256": {
+            "$ref": "common.schema.json#/$defs/sha256"
+          },
+          "instrument_id": {
+            "$ref": "common.schema.json#/$defs/identifier"
+          }
+        }
+      }
+    },
+    "economics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cost_per_trade",
+        "stress_multipliers",
+        "evaluation_split"
+      ],
+      "properties": {
+        "cost_per_trade": {
+          "type": "number",
+          "minimum": 0
+        },
+        "stress_multipliers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "evaluation_split": {
+          "enum": [
+            "validation",
+            "test"
+          ]
+        }
+      }
+    },
+    "purge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label_horizon_s",
+        "embargo_s"
+      ],
+      "properties": {
+        "label_horizon_s": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "embargo_s": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

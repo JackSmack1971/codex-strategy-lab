@@ -1,0 +1,117 @@
+{
+  "$schema": "research-schema-subset/1",
+  "title": "Adjudication",
+  "x-schema-version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "hypothesis_id",
+    "hypothesis_version",
+    "run_id",
+    "gate_results",
+    "family_multiplicity_ref",
+    "economic_estimate",
+    "uncertainty_method",
+    "data_limitations",
+    "execution_limitations",
+    "holdout_integrity",
+    "decision",
+    "decision_rule_digest",
+    "adjudication_code_digest",
+    "created_at_utc",
+    "evidence_bindings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "hypothesis_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "hypothesis_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "run_id": {
+      "$ref": "common.schema.json#/$defs/identifier"
+    },
+    "gate_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gate_id",
+          "mandatory",
+          "value",
+          "proof_refs"
+        ],
+        "properties": {
+          "gate_id": {
+            "$ref": "common.schema.json#/$defs/identifier"
+          },
+          "mandatory": {
+            "type": "boolean"
+          },
+          "value": {
+            "$ref": "common.schema.json#/$defs/gate_value"
+          },
+          "proof_refs": {
+            "$ref": "common.schema.json#/$defs/text_list"
+          }
+        }
+      }
+    },
+    "family_multiplicity_ref": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "economic_estimate": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "$ref": "common.schema.json#/$defs/unknown"
+        }
+      ]
+    },
+    "uncertainty_method": {
+      "$ref": "common.schema.json#/$defs/text"
+    },
+    "data_limitations": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "execution_limitations": {
+      "$ref": "common.schema.json#/$defs/text_list"
+    },
+    "holdout_integrity": {
+      "$ref": "common.schema.json#/$defs/holdout_class"
+    },
+    "decision": {
+      "$ref": "common.schema.json#/$defs/disposition"
+    },
+    "decision_rule_digest": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    },
+    "adjudication_code_digest": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    },
+    "created_at_utc": {
+      "$ref": "common.schema.json#/$defs/utc_timestamp"
+    },
+    "evidence_bindings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "integer",
+          "boolean",
+          "object",
+          "array"
+        ]
+      }
+    }
+  }
+}

@@ -25,6 +25,8 @@ jobs:
         run: bash .codex/setup.sh
       - name: Run engine and setup tests without network
         run: scripts/lab test
+      - name: Run research workbench tests without network
+        run: scripts/lab python -m unittest discover -s tests/research -t .
       - name: Verify warm offline maintenance
         run: bash .codex/maintenance.sh --offline
       - name: Verify start-time HTTPS routes

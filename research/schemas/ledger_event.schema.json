@@ -1,0 +1,44 @@
+{
+  "$schema": "research-schema-subset/1",
+  "title": "Ledger event",
+  "x-schema-version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "seq", "prev_hash", "event_type", "idempotency_key", "actor", "timestamp_utc", "subject", "payload", "artifact_refs", "reason", "event_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "seq": {"type": "integer", "minimum": 1},
+    "prev_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "event_type": {"enum": ["HYPOTHESIS_REGISTERED", "STATE_TRANSITION", "PREREG_FROZEN", "TRIAL_RECORDED", "RUN_RECORDED", "ADJUDICATION_RECORDED", "RECONCILIATION"]},
+    "idempotency_key": {"$ref": "common.schema.json#/$defs/identifier"},
+    "actor": {
+      "type": "object", "additionalProperties": false, "required": ["category", "id"],
+      "properties": {
+        "category": {"enum": ["HUMAN", "CODEX", "CLAUDE_CODE", "SCRIPT", "REVIEWER_AGENT"]},
+        "id": {"$ref": "common.schema.json#/$defs/text"}
+      }
+    },
+    "timestamp_utc": {"$ref": "common.schema.json#/$defs/utc_timestamp"},
+    "subject": {
+      "type": "object", "additionalProperties": false, "required": [],
+      "properties": {
+        "hypothesis_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "hypothesis_version": {"type": "integer", "minimum": 1},
+        "family_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "trial_id": {"$ref": "common.schema.json#/$defs/identifier"},
+        "run_id": {"$ref": "common.schema.json#/$defs/identifier"}
+      }
+    },
+    "payload": {"type": "object"},
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["ref", "sha256"],
+        "properties": {"ref": {"$ref": "common.schema.json#/$defs/text"}, "sha256": {"$ref": "common.schema.json#/$defs/sha256"}}
+      }
+    },
+    "resulting_state": {"$ref": "common.schema.json#/$defs/workflow_state"},
+    "reason": {"$ref": "common.schema.json#/$defs/text"},
+    "event_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}
