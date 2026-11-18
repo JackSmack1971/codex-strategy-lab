@@ -1,6 +1,6 @@
 # Stage 05 — Regime-aware multi-factor signal model (CRY-MFS-201, v0.1.0-draft)
 
-**Status:** `RESEARCH_SPEC_NOT_VALIDATED` · research only (no orders, credentials or execution) · prepared 2026-11-18 · code `1104cf45d4` (dirty at run: False) · frozen-model sha256 `0c6ebcd7dc7f1040…`
+**Status:** `RESEARCH_SPEC_NOT_VALIDATED` · research only (no orders, credentials or execution) · prepared 2026-11-18 · code `031bcf36bc` (dirty at run: False) · frozen-model sha256 `0c6ebcd7dc7f1040…`
 **Inputs:** Stage 01–04 handoffs (`STAGE_01_HANDOFF.v2.json` … `STAGE_04_HANDOFF.json`). **Ledger:** `hyp-cry-mfs-201@1` REGISTERED before any factor statistic was computed; preregistration NOT frozen; `adjudicate.py` NOT run.
 
 ## Headline

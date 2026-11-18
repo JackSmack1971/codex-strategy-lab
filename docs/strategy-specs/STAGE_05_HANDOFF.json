@@ -32,7 +32,7 @@
   "reason": "freeze needs independent recorded review"
  },
  "provenance": {
-  "code_commit_at_run": "1104cf45d4a7af815215eba744fe5228c2d8e5ff",
+  "code_commit_at_run": "031bcf36bcef1c05ec36db8ef0d6ebb376bd01b1",
   "dirty_at_run": false,
   "panel_snapshot": "20261118T153823Z",
   "coinmetrics_files_sha256": {
@@ -45,7 +45,7 @@
    "cm_ltc.json": "3900dda7f63403c1af4523bebfa0401ec858cd1736795757540451c3fc0d6681",
    "cm_xrp.json": "6fa26858756e43f997fdd4e94ce62fed1bf5ff63c95f2f8c3f07b50f6394947b"
   },
-  "results_sha256": "f8278affa09d21f44e7d6a598e93e65dbd39af5d5e826f594dcc6eada31d208d",
+  "results_sha256": "e466e1d6d79d1a7c70a31780e141f7725d27a8607fa8f8ba26a5b21c599ce62d",
   "frozen_model_sha256": "0c6ebcd7dc7f1040030b232a18760928f54b0deaacaaa98b571a91952a8634fb",
   "seed": 20261118
  },
