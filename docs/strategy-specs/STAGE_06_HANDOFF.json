@@ -1,0 +1,542 @@
+{
+ "handoff_type": "STAGE_06_HANDOFF",
+ "schema_version": "1.0.0",
+ "status": "RESEARCH_ONLY_NO_EXECUTION",
+ "created": "2026-11-18",
+ "code_commit": "ce43d5e372759e9f913ea19d61023e1f3b215ed2",
+ "inputs": [
+  "STAGE_01_HANDOFF.v2.json",
+  "STAGE_02_HANDOFF.json",
+  "STAGE_03_HANDOFF.json",
+  "STAGE_04_HANDOFF.json",
+  "STAGE_05_HANDOFF.json"
+ ],
+ "decision": {
+  "overall": "KEEP BASELINE",
+  "accepted_candidates": [],
+  "per_strategy": {
+   "CRY-MOM-101": "KEEP BASELINE",
+   "CRY-VEX-103": "KEEP BASELINE",
+   "CRY-REV-102": "NOT_EVALUATED (rejected/ineligible)"
+  }
+ },
+ "frozen_model_specifications": {
+  "rules_version": "0.1.0 (unchanged)",
+  "baselines": {
+   "CRY-MOM-101": {
+    "tf": 4,
+    "lookback": 180,
+    "thr": 1.25,
+    "ext": 1.3,
+    "stop_k": 3.0,
+    "trail_k": 3.5,
+    "time_bars": 180,
+    "placebo": false,
+    "warm": 1000
+   },
+   "CRY-VEX-103": {
+    "tf": 1,
+    "donch": 48,
+    "tr_k": 1.8,
+    "vol_k": 2.0,
+    "ibs_min": 0.75,
+    "stop_k": 2.0,
+    "trail_k": 2.5,
+    "time_bars": 48,
+    "fail_bars": 6,
+    "warm": 1000
+   }
+  },
+  "costs": {
+   "fee": 0.001,
+   "adverse": 0.0005,
+   "status": "ASSUMED_NOT_OBSERVED"
+  },
+  "risk": "Stage 01 sizing for evaluation; Stage 03 risk budgets (half size, paper-forward only for MOM, shadow-only for VEX) remain the operating policy",
+  "eligibility": {
+   "MOM": "ELIGIBLE_CONTINUED_RESEARCH_PAPER_FORWARD_ONLY",
+   "VEX": "CONDITIONAL_SHADOW_PAPER_ONLY (adverse new evidence)",
+   "REV": "NOT_ELIGIBLE_SHADOW_ONLY"
+  },
+  "unverified_hypotheses_for_forward_test": [
+   {
+    "id": "MOM-FACTOR-OVERLAY-EQ3",
+    "change": "entry allowed only if Stage 05 EQ3 composite at last completed day >= 0 (baseline applies when undefined)",
+    "status": "UNVERIFIED_HYPOTHESIS"
+   },
+   {
+    "id": "MOM-COMBO",
+    "change": {
+     "members": [
+      "CRY-MOM-101|ENTRY_CONFIRM",
+      "CRY-MOM-101|STOP",
+      "CRY-MOM-101|FACTOR_OVERLAY"
+     ],
+     "P_overrides": {
+      "stop_k": 2.5,
+      "trail_k": 4.0
+     },
+     "x": {
+      "confirm": 3,
+      "factor": [
+       "EQ3",
+       0.0
+      ]
+     },
+     "oos_dSharpe": 0.8377421046163807,
+     "boot": {
+      "mean_diff": 0.00043580442137332564,
+      "p_one_sided": 0.004399560043995601,
+      "ci95_mean_diff": [
+       7.632744796580614e-05,
+       0.0009245488599048812
+      ],
+      "dSharpe_ci95": [
+       0.15433335936096979,
+       1.582137178946223
+      ],
+      "dSharpe_lower90": 0.37120457096072007,
+      "n_days": 915
+     }
+    },
+    "status": "UNVERIFIED_HYPOTHESIS"
+   }
+  ],
+  "rejected": [
+   "CRY-MOM-101|PARAM",
+   "CRY-MOM-101|ENTRY_CONFIRM",
+   "CRY-MOM-101|VOL_FILTER",
+   "CRY-MOM-101|TREND_FILTER",
+   "CRY-MOM-101|LIQ_FILTER",
+   "CRY-MOM-101|STOP",
+   "CRY-MOM-101|EXIT_CONFIRM",
+   "CRY-MOM-101|REGIME_ACTIVATION",
+   "CRY-VEX-103|PARAM",
+   "CRY-VEX-103|ENTRY_CONFIRM",
+   "CRY-VEX-103|VOL_FILTER",
+   "CRY-VEX-103|TREND_FILTER",
+   "CRY-VEX-103|LIQ_FILTER",
+   "CRY-VEX-103|STOP",
+   "CRY-VEX-103|EXIT_CONFIRM",
+   "CRY-VEX-103|FACTOR_OVERLAY",
+   "CRY-VEX-103|REGIME_ACTIVATION"
+  ]
+ },
+ "counts": {
+  "configurations": 71,
+  "mom": 34,
+  "vex": 37,
+  "families": 18,
+  "selection_decisions": 90,
+  "simulations_run": 898,
+  "windows_per_config": 11
+ },
+ "determinations": {
+  "CRY-MOM-101|PARAM": {
+   "determination": "REJECT",
+   "reason": "fails: dSharpe<+0.15; worst-fold DD worse >1pp; turnover>1.25x; unstable/never selected (<3/5 folds); neighbours/full-DEV not positive"
+  },
+  "CRY-MOM-101|ENTRY_CONFIRM": {
+   "determination": "REJECT",
+   "reason": "passed G1-G7 but adjacent-asset holdout inconsistent (dSharpe -0.015, maxDD -0.117 vs -0.128)"
+  },
+  "CRY-MOM-101|VOL_FILTER": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "CRY-MOM-101|TREND_FILTER": {
+   "determination": "REJECT",
+   "reason": "fails: neighbours/full-DEV not positive"
+  },
+  "CRY-MOM-101|LIQ_FILTER": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "CRY-MOM-101|STOP": {
+   "determination": "REJECT",
+   "reason": "passed G1-G7 but adjacent-asset holdout inconsistent (dSharpe -0.215, maxDD -0.206 vs -0.128)"
+  },
+  "CRY-MOM-101|EXIT_CONFIRM": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "CRY-MOM-101|FACTOR_OVERLAY": {
+   "determination": "UNVERIFIED_HYPOTHESIS",
+   "reason": "passed G1-G7; Holm p=1.00; not testable on holdout (needs cross-section >=5 assets)"
+  },
+  "CRY-MOM-101|REGIME_ACTIVATION": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "CRY-VEX-103|PARAM": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "CRY-VEX-103|ENTRY_CONFIRM": {
+   "determination": "REJECT",
+   "reason": "fails: dSharpe<+0.15; unstable/never selected (<3/5 folds); neighbours/full-DEV not positive"
+  },
+  "CRY-VEX-103|VOL_FILTER": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "CRY-VEX-103|TREND_FILTER": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "CRY-VEX-103|LIQ_FILTER": {
+   "determination": "REJECT",
+   "reason": "fails: dSharpe<+0.15; not cost-robust"
+  },
+  "CRY-VEX-103|STOP": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "CRY-VEX-103|EXIT_CONFIRM": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "CRY-VEX-103|FACTOR_OVERLAY": {
+   "determination": "REJECT",
+   "reason": "fails: unstable/never selected (<3/5 folds)"
+  },
+  "CRY-VEX-103|REGIME_ACTIVATION": {
+   "determination": "REJECT",
+   "reason": "baseline retained in all 5 folds (no train-supported improvement)"
+  },
+  "MOM|COMBO": {
+   "determination": "UNVERIFIED_HYPOTHESIS",
+   "reason": "post-selection union; untestable on holdout"
+  }
+ },
+ "splits": {
+  "dev": [
+   "2021-11-17",
+   "2025-11-17"
+  ],
+  "folds": [
+   {
+    "k": 0,
+    "train": [
+     "2021-11-17 00:00:00+00:00",
+     "2023-05-17 00:00:00+00:00"
+    ],
+    "test": [
+     "2023-05-17 00:00:00+00:00",
+     "2023-11-17 00:00:00+00:00"
+    ]
+   },
+   {
+    "k": 1,
+    "train": [
+     "2021-11-17 00:00:00+00:00",
+     "2023-11-17 00:00:00+00:00"
+    ],
+    "test": [
+     "2023-11-17 00:00:00+00:00",
+     "2024-05-17 00:00:00+00:00"
+    ]
+   },
+   {
+    "k": 2,
+    "train": [
+     "2021-11-17 00:00:00+00:00",
+     "2024-05-17 00:00:00+00:00"
+    ],
+    "test": [
+     "2024-05-17 00:00:00+00:00",
+     "2024-11-17 00:00:00+00:00"
+    ]
+   },
+   {
+    "k": 3,
+    "train": [
+     "2021-11-17 00:00:00+00:00",
+     "2024-11-17 00:00:00+00:00"
+    ],
+    "test": [
+     "2024-11-17 00:00:00+00:00",
+     "2025-05-17 00:00:00+00:00"
+    ]
+   },
+   {
+    "k": 4,
+    "train": [
+     "2021-11-17 00:00:00+00:00",
+     "2025-05-17 00:00:00+00:00"
+    ],
+    "test": [
+     "2025-05-17 00:00:00+00:00",
+     "2025-11-17 00:00:00+00:00"
+    ]
+   }
+  ],
+  "consumed_window": "CONSUMED_LEGACY descriptive only",
+  "holdout": {
+   "assets": [
+    "BNB",
+    "DOT",
+    "ATOM",
+    "BCH"
+   ],
+   "status": "SINGLE_SHOT done",
+   "caveat": "same calendar period and BTC beta as development cohort; cross-sectional (asset) holdout only; 4 assets; small trade counts"
+  }
+ },
+ "thresholds": {
+  "G1_dSharpe": 0.15,
+  "trades_frac": 0.75,
+  "turnover_mult": 1.25,
+  "dd_tol_fold": 0.01,
+  "selection_dd_tol": 0.02,
+  "delta_ordered": 0.1,
+  "delta_categorical": 0.2,
+  "holm_alpha": 0.05,
+  "bootstrap": {
+   "block_days": 14,
+   "reps": 10000,
+   "seed": 20261118
+  }
+ },
+ "key_measurements": {
+  "selection_bias": {
+   "CRY-MOM-101": {
+    "reality_check": {
+     "max_obs_mean": 0.0002570204897729822,
+     "argmax": 5,
+     "p": 0.11998800119988001,
+     "K": 33,
+     "T": 1461,
+     "argmax_cfg": "CRY-MOM-101|PARAM|lookback=210,thr=1.0"
+    },
+    "pbo": {
+     "pbo": 0.4714285714285714,
+     "median_oos_rel_rank": 0.5285714285714285,
+     "n_combinations": 70,
+     "K": 34,
+     "T": 1456
+    },
+    "naive_insample_best": [
+     {
+      "fold": 0,
+      "cfg": "CRY-MOM-101|PARAM|lookback=150,thr=1.0",
+      "ins_dS": 1.0371088418507532,
+      "oos_dS": -0.007256276972964937
+     },
+     {
+      "fold": 1,
+      "cfg": "CRY-MOM-101|STOP|stop_k=2.5,trail_k=4.0",
+      "ins_dS": 0.8378237817803129,
+      "oos_dS": -0.19523119025851843
+     },
+     {
+      "fold": 2,
+      "cfg": "CRY-MOM-101|STOP|stop_k=2.5,trail_k=4.0",
+      "ins_dS": 0.5573899848169456,
+      "oos_dS": 0.5234712785855533
+     },
+     {
+      "fold": 3,
+      "cfg": "CRY-MOM-101|REGIME_ACTIVATION|regime=STRUCT_TRENDING",
+      "ins_dS": 0.6790599795225694,
+      "oos_dS": 0.24323363122889674
+     },
+     {
+      "fold": 4,
+      "cfg": "CRY-MOM-101|REGIME_ACTIVATION|regime=STRUCT_TRENDING",
+      "ins_dS": 0.6479945369168177,
+      "oos_dS": -1.4487049653836783
+     }
+    ],
+    "n_configs": 34
+   },
+   "CRY-VEX-103": {
+    "reality_check": {
+     "max_obs_mean": 0.00013696905146180796,
+     "argmax": 29,
+     "p": 0.8342165783421658,
+     "K": 36,
+     "T": 1461,
+     "argmax_cfg": "CRY-VEX-103|FACTOR_OVERLAY|factor=('EQ3', 0.0)"
+    },
+    "pbo": {
+     "pbo": 0.45714285714285713,
+     "median_oos_rel_rank": 0.5526315789473685,
+     "n_combinations": 70,
+     "K": 37,
+     "T": 1456
+    },
+    "naive_insample_best": [
+     {
+      "fold": 0,
+      "cfg": "CRY-VEX-103|LIQ_FILTER|vol_k=2.5,weekend=True",
+      "ins_dS": 0.913087866342732,
+      "oos_dS": -0.2702214000297133
+     },
+     {
+      "fold": 1,
+      "cfg": "CRY-VEX-103|VOL_FILTER|comp=0.8",
+      "ins_dS": 1.0274428727941833,
+      "oos_dS": 0.0813802174161477
+     },
+     {
+      "fold": 2,
+      "cfg": "CRY-VEX-103|VOL_FILTER|comp=0.8",
+      "ins_dS": 0.8336638326070072,
+      "oos_dS": -0.7068973264829318
+     },
+     {
+      "fold": 3,
+      "cfg": "CRY-VEX-103|VOL_FILTER|comp=0.8",
+      "ins_dS": 0.4844996238080552,
+      "oos_dS": -0.17794885760693546
+     },
+     {
+      "fold": 4,
+      "cfg": "CRY-VEX-103|VOL_FILTER|comp=0.8",
+      "ins_dS": 0.3468604472226986,
+      "oos_dS": 0.45541147469591003
+     }
+    ],
+    "n_configs": 37
+   }
+  },
+  "holdout_verdicts": {
+   "CRY-MOM-101|ENTRY_CONFIRM|confirm=3": {
+    "dSharpe": -0.014856565842061659,
+    "dSharpe_ok": false,
+    "trades": 60,
+    "base_trades": 71,
+    "trades_ok": true,
+    "max_dd": -0.11727978433752884,
+    "base_max_dd": -0.12774891863810856,
+    "dd_ok": true,
+    "stressA_dSharpe": -0.010838979365301482,
+    "stressB_dSharpe": -0.010838979365295764,
+    "paired_boot": {
+     "mean_diff": 1.6549563847503073e-06,
+     "p_one_sided": 0.4644535546445355,
+     "ci95_mean_diff": [
+      -8.420501062450386e-05,
+      7.934471368038835e-05
+     ],
+     "dSharpe_ci95": [
+      -0.44748146730355776,
+      0.4469765655562565
+     ],
+     "dSharpe_lower90": -0.2911623359369342,
+     "n_days": 1461
+    },
+    "holdout": "INCONSISTENT"
+   },
+   "CRY-MOM-101|STOP|stop_k=2.5,trail_k=4.0": {
+    "dSharpe": -0.2153273382701413,
+    "dSharpe_ok": false,
+    "trades": 74,
+    "base_trades": 71,
+    "trades_ok": true,
+    "max_dd": -0.20590792383214507,
+    "base_max_dd": -0.12774891863810856,
+    "dd_ok": false,
+    "stressA_dSharpe": -0.21215457604980453,
+    "stressB_dSharpe": -0.2121545760497966,
+    "paired_boot": {
+     "mean_diff": -5.649366849459058e-05,
+     "p_one_sided": 0.9699030096990301,
+     "ci95_mean_diff": [
+      -0.00012268004696575503,
+      3.089469860689729e-06
+     ],
+     "dSharpe_ci95": [
+      -0.47576630792637226,
+      0.06745089386339499
+     ],
+     "dSharpe_lower90": -0.3823478065765514,
+     "n_days": 1461
+    },
+    "holdout": "INCONSISTENT"
+   },
+   "CRY-MOM-101|FACTOR_OVERLAY|factor=('EQ3', 0.0)": {
+    "holdout": "NOT_TESTABLE",
+    "reason": "'factor score unavailable for BNB: overlay not testable on this asset'"
+   },
+   "CRY-MOM-101|COMBO": {
+    "holdout": "NOT_TESTABLE",
+    "reason": "'factor score unavailable for BNB: overlay not testable on this asset'"
+   }
+  },
+  "baseline_holdout": {
+   "CRY-MOM-101|BASELINE": {
+    "n": 71,
+    "sharpe": -0.19622496793804475,
+    "max_dd": -0.12774891863810856
+   },
+   "CRY-VEX-103|BASELINE": {
+    "n": 325,
+    "sharpe": -1.7083433167582982,
+    "max_dd": -0.46493435861936094
+   }
+  },
+  "vex_cost_fragility": {
+   "0x": {
+    "sharpe": 1.7768350319472799,
+    "total_return": 1.6157715404346096,
+    "mdd": -0.13246842140399906,
+    "n": 688
+   },
+   "0.5x": {
+    "sharpe": 1.2103584074924276,
+    "total_return": 0.8783877311154686,
+    "mdd": -0.1626907338439343,
+    "n": 688
+   },
+   "1x": {
+    "sharpe": 0.6387796912956478,
+    "total_return": 0.3495497194769599,
+    "mdd": -0.19728349028328163,
+    "n": 671
+   },
+   "2x": {
+    "sharpe": -0.20289048352489408,
+    "total_return": -0.14987743304479073,
+    "mdd": -0.34096253660804055,
+    "n": 495
+   },
+   "3x": {
+    "sharpe": -0.5982207840651873,
+    "total_return": -0.2145311389029092,
+    "mdd": -0.23430554356255906,
+    "n": 243
+   },
+   "stressA": {
+    "sharpe": -0.20289048352489408,
+    "total_return": -0.14987743304479073,
+    "mdd": -0.34096253660804055
+   },
+   "stressB": {
+    "sharpe": -0.37029440396934493,
+    "total_return": -0.22835877843810004,
+    "mdd": -0.35813729863184773
+   }
+  }
+ },
+ "ledger": {
+  "registered": "18 hypotheses fam-crypto-stage06-v1 (REGISTERED)",
+  "preregistration_frozen": false,
+  "adjudicate_py_run": false
+ },
+ "frozen_candidates_sha256": "85cc5f873d24dd188fccd6a978467f5c33a41c50f3dc0e2aea21c72f5478a7b1",
+ "unresolved": [
+  "no untouched temporal holdout: forward paper evaluation from 2026-11-18 (>=6 months, >=100 trades) is the only clean test",
+  "baselines fail the adjacent-asset holdout; decide whether VEX should remain even shadow-only before forward test",
+  "execution venue, observed fees/spreads/depth",
+  "survivorship-free second data source",
+  "preregistration freeze after independent review; adjudicate.py",
+  "calibrate Stage 04 regime thresholds before any regime activation",
+  "a forward test of the factor overlay needs >=5-asset cross-section at signal time",
+  "gate thresholds uncalibrated"
+ ],
+ "limitations": [
+  "see STAGE_06_VALIDATION_REPORT.md"
+ ]
+}
