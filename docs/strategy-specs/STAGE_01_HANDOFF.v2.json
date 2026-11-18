@@ -1,0 +1,255 @@
+{
+  "handoff_type": "STAGE_01_HANDOFF",
+  "schema_version": "2.0.0",
+  "rules_version": "0.1.0-draft",
+  "status": "DRAFT_UNFROZEN",
+  "created": "2026-11-18",
+  "supersedes": null,
+  "coexists_with": "STAGE_01_HANDOFF.json (legacy 1.0.0, historical evidence, unchanged)",
+  "performance_claims": "NONE. No backtest executed. No ranking implied.",
+  "venue": {
+    "execution_venue": "UNSPECIFIED",
+    "data_profiles": {
+      "P1": "Binance spot public archive (data.binance.vision), USDT quote, 1H klines",
+      "P2": "Coinbase Exchange public REST, USD quote (incomplete 2021 coverage for several alts)"
+    },
+    "primary_backtest_profile": "P1"
+  },
+  "universe": {
+    "core": ["BTC", "ETH"],
+    "alternatives": ["SOL", "XRP", "ADA", "LINK", "AVAX", "DOGE", "LTC"],
+    "survivorship_free": false,
+    "per_bar_eligibility": ["L1", "L2", "L3"]
+  },
+  "capital": 10000,
+  "market_type": "spot",
+  "shorts_enabled": false,
+  "timeframes": ["1h", "4h"],
+  "timezone": "UTC",
+  "warmup_bars": 1000,
+  "conventions": {
+    "x[k]": "value k completed bars before the current completed bar; x[0] current",
+    "signal": "completed bar close",
+    "entry": "market at next bar open (O1)",
+    "stop_live_from": "entry bar",
+    "trail_effective": "next bar only",
+    "target_fill": "bar high strictly above target; fill target*(1-s)",
+    "stop_target_ambiguity": "stop first",
+    "stop_fill": "min(stop, bar_open)*(1-s)",
+    "cooldown": "entry signal evaluable only from close of bar k+1 after exit fill in bar k",
+    "gap_guard": "skip if abs(O1 - C[0]) > 0.5*ATR_ref",
+    "cost_feasibility_gate": "skip if 2*(f+s)*P_f > 0.35*(P_f - S0)",
+    "indicators": {
+      "SMA_n": "mean of last n values incl. current",
+      "TR": "max(H-L,|H-C[1]|,|L-C[1]|)",
+      "ATR_n": "Wilder; seed = mean of first n TR",
+      "RSI_n": "Wilder; seed = simple mean of first n changes; avg_loss=0 -> 100; both 0 -> 50",
+      "std": "sample, ddof=1",
+      "median": "mean of two middle values for even n",
+      "IBS": "(C-L)/(H-L); false if H==L",
+      "HC": "highest close since entry incl. entry-bar close once complete"
+    }
+  },
+  "risk": {
+    "per_trade": 0.01,
+    "total_open": 0.03,
+    "notional_cap_per_position": 0.33,
+    "max_positions": 3,
+    "one_position_per_symbol": true,
+    "participation_cap": "q*P_f <= 0.01*median(quote_volume of last 168 completed 1H bars)",
+    "unit_risk_d": "(P_f - S_x) + f*(P_f + S_x); P_f=O1*(1+s); S_x=S0*(1-s)",
+    "risk_budget_B": "max(0, min(0.01*E, 0.03*E - G))",
+    "quantity": "floor_to_lot_step(min(B/d, 0.33*E/P_f, cash/(P_f*(1+f)), 0.01*Qmed168/P_f))",
+    "reserve_until_exit": true,
+    "allocation_order": "exits and stops first; entries sorted by strategy_id then symbol; E frozen before sequential allocation"
+  },
+  "liquidity": {
+    "L1": "median of last 30 completed UTC daily quote volumes >= 20000000",
+    "L2": "sum of last 24 completed 1H quote volumes >= 10000000",
+    "L3": "no zero-volume 1H bar in last 24",
+    "status": "ASSUMED_THRESHOLDS_NOT_VALIDATED"
+  },
+  "costs": {
+    "baseline": {"fee": 0.0010, "adverse": 0.0005, "status": "ASSUMED_NOT_OBSERVED"},
+    "stress": [
+      {"fee": 0.0020, "adverse": 0.0010},
+      {"fee": 0.0010, "adverse": 0.0020}
+    ]
+  },
+  "strategies": [
+    {
+      "id": "CRY-MOM-101",
+      "version": "0.1.0",
+      "family": "trend_momentum",
+      "timeframe": "4h",
+      "atr_ref": "ATR20[0]",
+      "hypothesis_status": "RESEARCH_HYPOTHESIS_UNVERIFIED",
+      "hypothesis": "Risk-adjusted multi-week returns in large crypto assets are positively autocorrelated.",
+      "indicators": {
+        "r": "ln(C/C[1])",
+        "sig180": "std(r[0..179])",
+        "M": "ln(C[0]/C[180]) / (sig180*sqrt(180))",
+        "SMA300": "SMA_300(C)",
+        "ATR20": "ATR_20"
+      },
+      "long": {
+        "enabled": true,
+        "entry_all": [
+          "M[0] >= 1.25",
+          "C[0] > SMA300[0]",
+          "SMA300[0] > SMA300[30]",
+          "C[0]/SMA300[0] <= 1.30",
+          "BTC_4h: C[0] > SMA300[0]"
+        ],
+        "initial_stop": "O1 - 3.0*ATR20[0]",
+        "take_profit": null,
+        "trail": "stop[t+1] = max(stop[t], HC[t] - 3.5*ATR20[t])",
+        "signal_exit": ["M[0] < 0", "C[0] < SMA300[0]"],
+        "time_exit_bars": 180
+      },
+      "short": {
+        "enabled": false,
+        "mirror": ["M[0] <= -1.25", "C[0] < SMA300[0]", "SMA300[0] < SMA300[30]", "BTC_4h: C[0] < SMA300[0]"],
+        "requires": ["margin_or_perp_venue", "funding_borrow_data", "new_rules_version"]
+      },
+      "regime_hypothesis": {"suited": "persistent directional", "unsuited": "chop, V-reversals"},
+      "failure_mechanisms": ["whipsaw in chop", "late entry", "gap-through stops", "cohort correlation understates joint risk", "turnover cost", "lookback decay", "survivorship"],
+      "falsification": ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "MOM-F9: placebo entries at M<=0 with identical exits must not have ratio below real rule's"],
+      "neighbours": {"lookback": [90, 270], "M_threshold": [1.0, 1.5]}
+    },
+    {
+      "id": "CRY-REV-102",
+      "version": "0.1.0",
+      "family": "mean_reversion",
+      "timeframe": "4h",
+      "atr_ref": "ATR14[0]",
+      "hypothesis_status": "RESEARCH_HYPOTHESIS_UNVERIFIED",
+      "hypothesis": "Forced-selling overshoots inside a long-term uptrend partially reverse within days.",
+      "indicators": {
+        "RSI3": "RSI_3(C)",
+        "ATR14": "ATR_14",
+        "SMA20": "SMA_20(C)",
+        "SMA300": "SMA_300(C)",
+        "IBS": "(C-L)/(H-L)"
+      },
+      "long": {
+        "enabled": true,
+        "entry_all": [
+          "RSI3[0] <= 8",
+          "C[0] > SMA300[0]",
+          "C[3] - C[0] >= 2.0*ATR14[0]",
+          "IBS[0] >= 0.20",
+          "T = SMA20[0] frozen; T > O1",
+          "(T - O1)/(O1 - S0) >= 1.0"
+        ],
+        "initial_stop": "O1 - 2.0*ATR14[0]",
+        "take_profit": "limit sell at T",
+        "trail": "armed when a completed bar closes >= O1 + 1.0*ATR14[entry]; then stop[t+1] = max(stop[t], O1, HC[t] - 1.5*ATR14[t])",
+        "signal_exit": ["RSI3[0] >= 65"],
+        "time_exit_bars": 12
+      },
+      "short": {
+        "enabled": false,
+        "mirror": ["RSI3[0] >= 92", "C[0] < SMA300[0]", "C[0] - C[3] >= 2.0*ATR14[0]", "IBS[0] <= 0.80"],
+        "requires": ["margin_or_perp_venue", "funding_borrow_data", "new_rules_version"]
+      },
+      "regime_hypothesis": {"suited": "uptrend dips, wide range, ample liquidity", "unsuited": "cascade/contagion crashes, structural breaks"},
+      "failure_mechanisms": ["repeated entries inside one cascade", "negative skew / stop-through tail", "weak trend filter at transitions", "unfilled target touches", "cost drag on small SMA20 gaps", "venue outage"],
+      "falsification": ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "REV-F9: same rule without C>SMA300 must not match or beat filtered rule", "REV-F10: sum of 5 worst losses > total gross profit => reject"],
+      "neighbours": {"RSI3_threshold": [5, 12], "drop_atr": [1.5, 2.5]}
+    },
+    {
+      "id": "CRY-VEX-103",
+      "version": "0.1.0",
+      "family": "breakout_vol_expansion",
+      "timeframe": "1h",
+      "context_timeframe": "4h",
+      "atr_ref": "ATR24[1]",
+      "hypothesis_status": "RESEARCH_HYPOTHESIS_UNVERIFIED",
+      "hypothesis": "Volume-confirmed range-expansion breakouts mark informed or forced flow that continues for hours.",
+      "indicators": {
+        "ATR24": "ATR_24",
+        "DH48": "max(H[1..48])",
+        "Qmed168": "median(Q[1..168])",
+        "TR": "true range",
+        "IBS": "(C-L)/(H-L)",
+        "ctx4h": "most recent 4H bar with close time <= 1H close time: C4 > SMA_50(C4)"
+      },
+      "long": {
+        "enabled": true,
+        "entry_all": [
+          "C[0] > DH48",
+          "TR[0] >= 1.8*ATR24[1]",
+          "Q[0] >= 2.0*Qmed168",
+          "IBS[0] >= 0.75",
+          "ctx4h"
+        ],
+        "initial_stop": "O1 - 2.0*ATR24[1]",
+        "take_profit": null,
+        "trail": "stop[t+1] = max(stop[t], HC[t] - 2.5*ATR24[t])",
+        "signal_exit": ["bars 1..6 after entry (bar 1 = entry bar): C[0] < DH48_at_signal"],
+        "time_exit_bars": 48
+      },
+      "short": {
+        "enabled": false,
+        "mirror": ["C[0] < min(L[1..48])", "TR[0] >= 1.8*ATR24[1]", "Q[0] >= 2.0*Qmed168", "IBS[0] <= 0.25", "ctx4h bearish"],
+        "requires": ["margin_or_perp_venue", "funding_borrow_data", "new_rules_version"]
+      },
+      "regime_hypothesis": {"suited": "quiet-to-active vol transition in liquid sessions", "unsuited": "thin/weekend liquidity, fully retraced news spikes"},
+      "failure_mechanisms": ["false breakouts / stop-runs", "entry near thrust high", "cost-feasibility gate may skip many signals (unknown)", "gap-through stops", "1H turnover", "venue volume anomalies"],
+      "falsification": ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "VEX-F9: same rule without volume condition must not match or beat volume-confirmed rule"],
+      "neighbours": {"TR_mult": [1.5, 2.2], "volume_mult": [1.5, 2.5], "donchian": [36, 72]}
+    }
+  ],
+  "falsification_common": {
+    "F1": "baseline aggregate net P&L / aggregate reserved risk <= 0 in validation => reject",
+    "F2": "ratio <= 0 under either cost stress => cost-fragile",
+    "F3": "one-sided 99.17% block-bootstrap lower bound of ratio <= 0 => cannot pass",
+    "F4": "ratio below 95th percentile of 1000 random-entry nulls (same exits/count/symbols) => no entry edge",
+    "F5": "half or more of single-parameter neighbours have ratio <= 0 => fragile",
+    "F6": "dropping best ceil(5%) trades by R makes ratio <= 0 => outlier-dependent",
+    "F7": "fewer than 100 closed pooled trades => INCONCLUSIVE",
+    "F8": "positive ratio in fewer than 2 of 3 equal subperiods of train+validation => unstable",
+    "authority": "dispositions only from research/validation/adjudicate.py; UNKNOWN mandatory gate never qualifies"
+  },
+  "testing": {
+    "windows": {
+      "train": ["2021-11-17T00:00:00Z", "2024-11-17T00:00:00Z"],
+      "validation": ["2024-11-17T00:00:00Z", "2025-11-17T00:00:00Z"],
+      "final_contaminated": ["2025-11-17T00:00:00Z", "2026-11-17T00:00:00Z"]
+    },
+    "final_window_status": "CONSUMED_LEGACY: descriptive only, not an untouched holdout",
+    "confirmation_options": [
+      "forward paper evaluation from 2026-11-18, >=6 months and >=100 trades else INCONCLUSIVE",
+      "adjacent-asset holdout outside cohort (e.g. BNB, DOT, ATOM, BCH), cross-sectional not temporal"
+    ],
+    "optimization": "none permitted in 0.1.0",
+    "multiplicity": {"family_size": 6, "one_sided_confidence": 0.9917},
+    "bootstrap": {"type": "circular block", "block_days": 14, "reps": 10000, "seed": 20261118, "estimand": "sum(P&L)/sum(reserved_risk)"},
+    "benchmarks": ["equal-weight buy-and-hold cohort", "BTC SMA200 daily long/cash"],
+    "regime_attribution": "BTC prior daily close vs SMA200 x prior 30d annualised vol vs 60%; attribution only, never an entry filter",
+    "registration_required": "register 3 trials in ledger and preregister before any test-split access (not yet done)"
+  },
+  "data_requirements": {
+    "series": "1H OHLCV + quote volume, UTC, 9 symbols, 2021-11-17..2026-11-17 plus 1000-bar pre-window",
+    "derived": "4H aggregation from 1H, bar valid only if all four 1H bars exist",
+    "audit": "legacy audit rules; invalid data blocks run; missing bars reset warm-up; no forward fill",
+    "verified_2026_11_18": [
+      "Binance.com API HTTP 451 from this container",
+      "data.binance.vision 1H spot zips exist (HTTP 200) for 10 symbols at 2021-05, 2021-11, 2026-10 (existence only)",
+      "Coinbase 2021-01-01..2021-10-01 daily candle counts: ETH/LINK/LTC 274, ADA 198, DOGE 121, SOL 107, XRP 19, AVAX 2",
+      "Coinbase 24h USD volume snapshot: BTC~617M ETH~207M SOL~82M XRP~85M ADA~9.3M LINK~7.1M AVAX~4.4M DOGE~5.6M LTC~5.5M"
+    ]
+  },
+  "unresolved": [
+    "execution venue and user eligibility",
+    "historical trading status and filters (lot, tick, min notional)",
+    "historical fee tier, spread and depth",
+    "USDT/USD history",
+    "funding/borrow/margin data for any short variant",
+    "delisted-asset data (survivorship)",
+    "gap, continuity and checksum audit of 1H archive not yet run",
+    "ledger registration and preregistration freeze not yet done",
+    "expected trade counts, ATR scale and gate hit-rates unknown until first run"
+  ]
+}
