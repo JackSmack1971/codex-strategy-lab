@@ -1,5 +1,5 @@
 {
- "head": "7f056649ff0bb82a51cd93e63a2fbe39004698d3",
+ "head": "743fcdbfbc3c832e15a425a6b06eb752e2f008bf",
  "reproduction": {
   "CRY-MOM-101/train": {
    "n": 94,
@@ -41,6 +41,11 @@
    "trades_full": 984,
    "trades_half": 984
   }
+ },
+ "shared_simulator_equivalence": {
+  "trades": 877,
+  "identical": true,
+  "max_abs_equity_diff": 0.0
  },
  "asset_correlation": {
   "full9": {
@@ -188,24 +193,72 @@
     }
    },
    "oos_sharpe": {
-    "EW": 1.6478852600899967,
-    "IV": 2.237603165113354,
-    "RB": 2.404466482681692,
-    "CONS": 2.056779066762366
+    "EW": 1.5022154602307478,
+    "IV": 2.032870739299932,
+    "RB": 2.1763496640046602,
+    "CONS": 2.2043217339103887
    },
    "sleeve_oos_sharpe": {
     "CRY-MOM-101": 2.6729589517760757,
     "CRY-VEX-103": 0.10543478888472126
    },
    "oos_trades": {
+    "EW": {
+     "CRY-MOM-101": 21,
+     "CRY-VEX-103": 90
+    },
+    "IV": {
+     "CRY-MOM-101": 21,
+     "CRY-VEX-103": 89
+    },
+    "RB": {
+     "CRY-MOM-101": 21,
+     "CRY-VEX-103": 90
+    },
+    "CONS": {
+     "CRY-MOM-101": 14,
+     "CRY-VEX-103": 63
+    }
+   },
+   "standalone_trades": {
     "CRY-MOM-101": 13,
     "CRY-VEX-103": 108
    },
    "fold_maxdd": {
-    "EW": -0.0372638662001874,
-    "IV": -0.028752144272945368,
-    "RB": -0.027714355233089072,
-    "CONS": -0.026156441017379906
+    "EW": -0.03522536228144657,
+    "IV": -0.036264666296162096,
+    "RB": -0.03632186941272719,
+    "CONS": -0.028940084894265694
+   },
+   "skips": {
+    "EW": {
+     "symbol_occupied": 491,
+     "gross_cap": 3,
+     "cooldown": 8,
+     "below_min_notional": 1,
+     "max_positions": 14
+    },
+    "IV": {
+     "symbol_occupied": 490,
+     "gross_cap": 3,
+     "cooldown": 8,
+     "below_min_notional": 2,
+     "max_positions": 14,
+     "risk_budget_zero": 1
+    },
+    "RB": {
+     "symbol_occupied": 490,
+     "gross_cap": 3,
+     "cooldown": 8,
+     "below_min_notional": 3,
+     "max_positions": 12,
+     "risk_budget_zero": 1
+    },
+    "CONS": {
+     "symbol_occupied": 407,
+     "max_positions": 138,
+     "cooldown": 6
+    }
    }
   },
   {
@@ -239,24 +292,72 @@
     }
    },
    "oos_sharpe": {
-    "EW": 0.503156258754856,
-    "IV": 0.6325638785659113,
-    "RB": 0.7048484313888489,
-    "CONS": 0.5917254240868735
+    "EW": 0.827015159627568,
+    "IV": 0.793099859905794,
+    "RB": 0.8960137199340261,
+    "CONS": 0.8402611520612563
    },
    "sleeve_oos_sharpe": {
     "CRY-MOM-101": 0.8454317968038514,
     "CRY-VEX-103": 0.1438230838795516
    },
    "oos_trades": {
+    "EW": {
+     "CRY-MOM-101": 40,
+     "CRY-VEX-103": 128
+    },
+    "IV": {
+     "CRY-MOM-101": 39,
+     "CRY-VEX-103": 129
+    },
+    "RB": {
+     "CRY-MOM-101": 39,
+     "CRY-VEX-103": 132
+    },
+    "CONS": {
+     "CRY-MOM-101": 28,
+     "CRY-VEX-103": 95
+    }
+   },
+   "standalone_trades": {
     "CRY-MOM-101": 30,
     "CRY-VEX-103": 152
    },
    "fold_maxdd": {
-    "EW": -0.07988629790281199,
-    "IV": -0.07719448327053924,
-    "RB": -0.0755521619868279,
-    "CONS": -0.06312203887493295
+    "EW": -0.07010352762070482,
+    "IV": -0.07117944726937697,
+    "RB": -0.07521866564934054,
+    "CONS": -0.057860880337154974
+   },
+   "skips": {
+    "EW": {
+     "symbol_occupied": 796,
+     "cooldown": 9,
+     "below_min_notional": 4,
+     "max_positions": 32,
+     "gross_cap": 1
+    },
+    "IV": {
+     "symbol_occupied": 792,
+     "risk_budget_zero": 3,
+     "cooldown": 9,
+     "below_min_notional": 5,
+     "max_positions": 32,
+     "qty_zero": 1
+    },
+    "RB": {
+     "symbol_occupied": 792,
+     "risk_budget_zero": 3,
+     "cooldown": 9,
+     "below_min_notional": 2,
+     "max_positions": 32,
+     "qty_zero": 1
+    },
+    "CONS": {
+     "max_positions": 222,
+     "symbol_occupied": 657,
+     "cooldown": 8
+    }
    }
   },
   {
@@ -290,24 +391,70 @@
     }
    },
    "oos_sharpe": {
-    "EW": 1.1564304580047733,
-    "IV": 1.0318344054798474,
-    "RB": 0.9075035647972697,
-    "CONS": 0.9664322022620336
+    "EW": 0.7914027583093071,
+    "IV": 0.9612756410985706,
+    "RB": 1.1007374592490782,
+    "CONS": -0.10305066424833485
    },
    "sleeve_oos_sharpe": {
     "CRY-MOM-101": 0.37812410557826726,
     "CRY-VEX-103": 1.3823909789447766
    },
    "oos_trades": {
+    "EW": {
+     "CRY-MOM-101": 24,
+     "CRY-VEX-103": 150
+    },
+    "IV": {
+     "CRY-MOM-101": 24,
+     "CRY-VEX-103": 152
+    },
+    "RB": {
+     "CRY-MOM-101": 24,
+     "CRY-VEX-103": 156
+    },
+    "CONS": {
+     "CRY-MOM-101": 21,
+     "CRY-VEX-103": 124
+    }
+   },
+   "standalone_trades": {
     "CRY-MOM-101": 22,
     "CRY-VEX-103": 151
    },
    "fold_maxdd": {
-    "EW": -0.14610541551425715,
-    "IV": -0.13271624727339637,
-    "RB": -0.12233269421133641,
-    "CONS": -0.10135232191451848
+    "EW": -0.1334132614529735,
+    "IV": -0.1395929854475383,
+    "RB": -0.13188070365634497,
+    "CONS": -0.09772783792087714
+   },
+   "skips": {
+    "EW": {
+     "symbol_occupied": 382,
+     "below_min_notional": 13,
+     "gross_cap": 6,
+     "cooldown": 3,
+     "max_positions": 11
+    },
+    "IV": {
+     "symbol_occupied": 386,
+     "below_min_notional": 9,
+     "gross_cap": 4,
+     "cooldown": 3,
+     "max_positions": 11
+    },
+    "RB": {
+     "symbol_occupied": 387,
+     "below_min_notional": 5,
+     "gross_cap": 3,
+     "cooldown": 3,
+     "max_positions": 11
+    },
+    "CONS": {
+     "symbol_occupied": 292,
+     "max_positions": 149,
+     "cooldown": 3
+    }
    }
   },
   {
@@ -341,24 +488,70 @@
     }
    },
    "oos_sharpe": {
-    "EW": 0.8598915071457393,
-    "IV": 0.9298783804806854,
-    "RB": 0.9790060183712224,
-    "CONS": 0.8857134343670152
+    "EW": 1.2925236648647374,
+    "IV": 1.2890937141345309,
+    "RB": 1.3768987171589815,
+    "CONS": 0.9717387580371208
    },
    "sleeve_oos_sharpe": {
     "CRY-MOM-101": 0.9562950080954559,
     "CRY-VEX-103": 0.691324035590245
    },
    "oos_trades": {
+    "EW": {
+     "CRY-MOM-101": 27,
+     "CRY-VEX-103": 112
+    },
+    "IV": {
+     "CRY-MOM-101": 27,
+     "CRY-VEX-103": 115
+    },
+    "RB": {
+     "CRY-MOM-101": 27,
+     "CRY-VEX-103": 118
+    },
+    "CONS": {
+     "CRY-MOM-101": 19,
+     "CRY-VEX-103": 86
+    }
+   },
+   "standalone_trades": {
     "CRY-MOM-101": 20,
     "CRY-VEX-103": 124
    },
    "fold_maxdd": {
-    "EW": -0.05687625345015046,
-    "IV": -0.0450074680542536,
-    "RB": -0.04405132244128884,
-    "CONS": -0.03445000941642251
+    "EW": -0.056873360754393976,
+    "IV": -0.06020182294611354,
+    "RB": -0.05240842197459861,
+    "CONS": -0.03375612124119054
+   },
+   "skips": {
+    "EW": {
+     "symbol_occupied": 587,
+     "max_positions": 16,
+     "cooldown": 8,
+     "below_min_notional": 3,
+     "gross_cap": 14
+    },
+    "IV": {
+     "symbol_occupied": 582,
+     "max_positions": 12,
+     "cooldown": 8,
+     "below_min_notional": 4,
+     "gross_cap": 19
+    },
+    "RB": {
+     "symbol_occupied": 583,
+     "max_positions": 12,
+     "cooldown": 8,
+     "below_min_notional": 2,
+     "gross_cap": 17
+    },
+    "CONS": {
+     "symbol_occupied": 476,
+     "max_positions": 178,
+     "cooldown": 8
+    }
    }
   },
   {
@@ -392,24 +585,74 @@
     }
    },
    "oos_sharpe": {
-    "EW": 0.6924692650109762,
-    "IV": 0.6241014819044872,
-    "RB": 0.5585294034545464,
-    "CONS": 0.48323740024632983
+    "EW": -0.476984658371182,
+    "IV": -0.2884246571731597,
+    "RB": -0.05209561645111981,
+    "CONS": -0.05710541830443951
    },
    "sleeve_oos_sharpe": {
     "CRY-MOM-101": 0.3435107258997153,
     "CRY-VEX-103": 0.7109957985089818
    },
    "oos_trades": {
+    "EW": {
+     "CRY-MOM-101": 45,
+     "CRY-VEX-103": 124
+    },
+    "IV": {
+     "CRY-MOM-101": 45,
+     "CRY-VEX-103": 125
+    },
+    "RB": {
+     "CRY-MOM-101": 45,
+     "CRY-VEX-103": 127
+    },
+    "CONS": {
+     "CRY-MOM-101": 32,
+     "CRY-VEX-103": 100
+    }
+   },
+   "standalone_trades": {
     "CRY-MOM-101": 31,
     "CRY-VEX-103": 136
    },
    "fold_maxdd": {
-    "EW": -0.06175153108406417,
-    "IV": -0.06912740584340205,
-    "RB": -0.07395083990784646,
-    "CONS": -0.05398694264583481
+    "EW": -0.08485629905436964,
+    "IV": -0.08870516499173986,
+    "RB": -0.09054290388849584,
+    "CONS": -0.045412212155608866
+   },
+   "skips": {
+    "EW": {
+     "symbol_occupied": 730,
+     "cooldown": 19,
+     "below_min_notional": 14,
+     "gross_cap": 14,
+     "max_positions": 86
+    },
+    "IV": {
+     "symbol_occupied": 728,
+     "risk_budget_zero": 2,
+     "cooldown": 20,
+     "below_min_notional": 20,
+     "gross_cap": 13,
+     "max_positions": 78,
+     "qty_zero": 1
+    },
+    "RB": {
+     "symbol_occupied": 731,
+     "risk_budget_zero": 2,
+     "cooldown": 20,
+     "below_min_notional": 16,
+     "gross_cap": 12,
+     "max_positions": 78,
+     "qty_zero": 1
+    },
+    "CONS": {
+     "max_positions": 340,
+     "symbol_occupied": 545,
+     "cooldown": 15
+    }
    }
   }
  ],
@@ -418,115 +661,115 @@
   "results": {
    "EW": {
     "days": 915,
-    "total_return": 0.3917506764170766,
-    "cagr": 0.14095280047674152,
-    "ann_vol": 0.1483135505770682,
-    "sharpe": 0.9622796410282716,
-    "sortino": 1.9390284437246026,
-    "max_dd": -0.172278013290054,
-    "longest_underwater_days": 251,
-    "var95": 0.008115002336696745,
-    "es95": 0.01336553293087826,
+    "total_return": 0.29636990428793086,
+    "cagr": 0.1090940490227783,
+    "ann_vol": 0.1418315067272034,
+    "sharpe": 0.800297408873827,
+    "sortino": 1.4601891562168214,
+    "max_dd": -0.1477639654616486,
+    "longest_underwater_days": 254,
+    "var95": 0.00829094033587657,
+    "es95": 0.01460705040682734,
     "es95_ci": [
-     0.011353862072083578,
-     0.01547290272825604
+     0.011937345341687616,
+     0.017117321215238096
     ],
     "tail_obs95": 46,
-    "var99": 0.016546121331485975,
-    "es99": 0.02054402637093792,
+    "var99": 0.017269846024407186,
+    "es99": 0.022839957590128922,
     "es99_ci": [
-     0.016908398514126646,
-     0.024965075418669557
+     0.01843082990088017,
+     0.02721813931653858
     ],
     "tail_obs99": 10,
-    "gauss_es99": 0.02029927605108221,
-    "es7d_95": 0.029064816566409583,
-    "worst_7d": -0.052415743739010257,
-    "worst_day": -0.03538211703470895
+    "gauss_es99": 0.019475039144584993,
+    "es7d_95": 0.030493011228456685,
+    "worst_7d": -0.05653851229328333,
+    "worst_day": -0.03136248741421388
    },
    "IV": {
     "days": 915,
-    "total_return": 0.41923587887874136,
-    "cagr": 0.149888294030752,
-    "ann_vol": 0.13704757388873906,
-    "sharpe": 1.0868783562243833,
-    "sortino": 2.134835791573974,
-    "max_dd": -0.17337254372687072,
-    "longest_underwater_days": 256,
-    "var95": 0.008040134492133342,
-    "es95": 0.013029780128252321,
+    "total_return": 0.39751288138384133,
+    "cagr": 0.14283483314058887,
+    "ann_vol": 0.14876148841870426,
+    "sharpe": 0.9711950458328457,
+    "sortino": 1.7826361550397314,
+    "max_dd": -0.15101296968746092,
+    "longest_underwater_days": 251,
+    "var95": 0.0082590977628668,
+    "es95": 0.015238290591447828,
     "es95_ci": [
-     0.010770220708813649,
-     0.015254504848280752
+     0.012216925520110026,
+     0.018084070839423
     ],
     "tail_obs95": 46,
-    "var99": 0.01604926289235124,
-    "es99": 0.020223072771511297,
+    "var99": 0.019257095866032966,
+    "es99": 0.02383058336538447,
     "es99_ci": [
-     0.016253504798922177,
-     0.02461344112889203
+     0.01956415989986875,
+     0.028257337912989344
     ],
     "tail_obs99": 10,
-    "gauss_es99": 0.01871054874771049,
-    "es7d_95": 0.027420785240869428,
-    "worst_7d": -0.04794102589773719,
-    "worst_day": -0.03510168469729191
+    "gauss_es99": 0.02035695048314872,
+    "es7d_95": 0.03144348655674271,
+    "worst_7d": -0.05941050761669597,
+    "worst_day": -0.03428805875307672
    },
    "RB": {
     "days": 915,
-    "total_return": 0.4191683955906953,
-    "cagr": 0.1498664830455616,
-    "ann_vol": 0.13253837374952737,
-    "sharpe": 1.1192302684319346,
-    "sortino": 2.148816364643258,
-    "max_dd": -0.174109222803985,
-    "longest_underwater_days": 261,
-    "var95": 0.008128273503687706,
-    "es95": 0.01307719559795086,
+    "total_return": 0.4643041655991167,
+    "cagr": 0.16431770443698035,
+    "ann_vol": 0.14600627946811565,
+    "sharpe": 1.1143779130042124,
+    "sortino": 2.0601054280771542,
+    "max_dd": -0.15144882866122356,
+    "longest_underwater_days": 256,
+    "var95": 0.008236768805582185,
+    "es95": 0.014919858505236593,
     "es95_ci": [
-     0.01060758186702197,
-     0.015380015774737358
+     0.011810746589393696,
+     0.01785115207792972
     ],
     "tail_obs95": 46,
-    "var99": 0.016658715255715686,
-    "es99": 0.02110848431070219,
+    "var99": 0.019395377813616926,
+    "es99": 0.023604547654052222,
     "es99_ci": [
-     0.01657022067413627,
-     0.025569942035860542
+     0.019301720576916398,
+     0.028021981130425623
     ],
     "tail_obs99": 10,
-    "gauss_es99": 0.018083178374838162,
-    "es7d_95": 0.027683276100227347,
-    "worst_7d": -0.04764390811961816,
-    "worst_day": -0.034930588221754766
+    "gauss_es99": 0.019922644145624484,
+    "es7d_95": 0.03066433457402315,
+    "worst_7d": -0.06052125689280452,
+    "worst_day": -0.034952298086122324
    },
    "CONS": {
     "days": 915,
-    "total_return": 0.2825775168751954,
-    "cagr": 0.1043718417516486,
-    "ann_vol": 0.10421005186203823,
-    "sharpe": 1.0043472435227077,
-    "sortino": 1.950864987830855,
-    "max_dd": -0.13401414861270378,
-    "longest_underwater_days": 261,
-    "var95": 0.006183407883115853,
-    "es95": 0.009919972690540702,
+    "total_return": 0.18129264870236117,
+    "cagr": 0.06871996172690253,
+    "ann_vol": 0.08967023869555676,
+    "sharpe": 0.7857366150253149,
+    "sortino": 1.4348138643577573,
+    "max_dd": -0.1257655271718343,
+    "longest_underwater_days": 431,
+    "var95": 0.005664540022994677,
+    "es95": 0.009032056534156216,
     "es95_ci": [
-     0.008159527206618299,
-     0.011602919777924317
+     0.007633939626716644,
+     0.010397834234310217
     ],
     "tail_obs95": 46,
-    "var99": 0.0121903518233291,
-    "es99": 0.01545478147843946,
+    "var99": 0.010949678092384497,
+    "es99": 0.014185803093841876,
     "es99_ci": [
-     0.012385008467414816,
-     0.01919103268984369
+     0.011649727065929741,
+     0.0165787819039363
     ],
     "tail_obs99": 10,
-    "gauss_es99": 0.014250938419909435,
-    "es7d_95": 0.021307649564100174,
-    "worst_7d": -0.035948503365876405,
-    "worst_day": -0.02772062691265753
+    "gauss_es99": 0.012316295620851831,
+    "es7d_95": 0.019461034694842436,
+    "worst_7d": -0.03530462649100963,
+    "worst_day": -0.019210744237249333
    },
    "MOM_ONLY": {
     "days": 915,
@@ -649,36 +892,36 @@
   },
   "sharpe_ci": {
    "EW": {
-    "sharpe": 0.9622796410282716,
+    "sharpe": 0.800297408873827,
     "ci95": [
-     -0.46057333460123284,
-     2.2229077864463105
+     -0.5514366278266909,
+     2.004326786643245
     ],
-    "p_sharpe_le_0": 0.0936
+    "p_sharpe_le_0": 0.1189
    },
    "IV": {
-    "sharpe": 1.0868783562243833,
+    "sharpe": 0.9711950458328457,
     "ci95": [
-     -0.3939234351478079,
-     2.3420971930617447
+     -0.4263133899481272,
+     2.1920762707226116
     ],
-    "p_sharpe_le_0": 0.0736
+    "p_sharpe_le_0": 0.0825
    },
    "RB": {
-    "sharpe": 1.1192302684319346,
+    "sharpe": 1.1143779130042124,
     "ci95": [
-     -0.383105434680367,
-     2.3755649786784323
+     -0.31253735227080987,
+     2.3467559916612686
     ],
-    "p_sharpe_le_0": 0.0701
+    "p_sharpe_le_0": 0.061
    },
    "CONS": {
-    "sharpe": 1.0043472435227077,
+    "sharpe": 0.7857366150253149,
     "ci95": [
-     -0.4988512014102347,
-     2.273522855776154
+     -0.6256902712865816,
+     2.0281858319677433
     ],
-    "p_sharpe_le_0": 0.0927
+    "p_sharpe_le_0": 0.1349
    },
    "MOM_ONLY": {
     "sharpe": 1.0731848898637022,
@@ -699,43 +942,61 @@
   },
   "vs_mom_only": {
    "EW": {
-    "dSharpe": -0.11090524883543063,
-    "p_one_sided": 0.5174482551744826,
+    "dSharpe": -0.27288748098987514,
+    "p_one_sided": 0.6942305769423057,
     "dSharpe_ci95": [
-     -0.954153985326033,
-     0.780694203969601
+     -1.0664452124113841,
+     0.6289099861500778
     ],
     "holm_p": 1.0
    },
    "IV": {
-    "dSharpe": 0.013693466360681139,
-    "p_one_sided": 0.47885211478852113,
+    "dSharpe": -0.10198984403085654,
+    "p_one_sided": 0.513948605139486,
     "dSharpe_ci95": [
-     -0.6118855498796675,
-     0.6681247329230737
+     -0.785307325266072,
+     0.6724722891004496
     ],
     "holm_p": 1.0
    },
    "RB": {
-    "dSharpe": 0.04604537856823243,
-    "p_one_sided": 0.48225177482251774,
+    "dSharpe": 0.04119302314051021,
+    "p_one_sided": 0.3758624137586241,
     "dSharpe_ci95": [
-     -0.432630289150787,
-     0.5451205742022278
+     -0.5801110847719887,
+     0.7404948889320689
     ],
     "holm_p": 1.0
    },
    "CONS": {
-    "dSharpe": -0.06883764634099454,
-    "p_one_sided": 0.8113188681131887,
+    "dSharpe": -0.2874482748383873,
+    "p_one_sided": 0.911008899110089,
     "dSharpe_ci95": [
-     -0.678619546966052,
-     0.57554690007105
+     -0.9193092906586736,
+     0.42212955617248266
     ],
     "holm_p": 1.0
    }
   },
-  "per_sleeve_oos_trades": {
+  "per_scheme_oos_trades": {
+   "EW": {
+    "CRY-MOM-101": 157,
+    "CRY-VEX-103": 604
+   },
+   "IV": {
+    "CRY-MOM-101": 156,
+    "CRY-VEX-103": 610
+   },
+   "RB": {
+    "CRY-MOM-101": 156,
+    "CRY-VEX-103": 623
+   },
+   "CONS": {
+    "CRY-MOM-101": 114,
+    "CRY-VEX-103": 468
+   }
+  },
+  "standalone_oos_trades": {
    "CRY-MOM-101": 116,
    "CRY-VEX-103": 671
   },
@@ -768,115 +1029,115 @@
   "results": {
    "EW": {
     "days": 1461,
-    "total_return": 0.2420329037668536,
-    "cagr": 0.05564323198240517,
-    "ann_vol": 0.12970533891527028,
-    "sharpe": 0.4815135606593,
-    "sortino": 0.9280400351483397,
-    "max_dd": -0.17370368388640756,
-    "longest_underwater_days": 583,
-    "var95": 0.007780701675593301,
-    "es95": 0.012197268056161526,
+    "total_return": 0.17365688799030354,
+    "cagr": 0.04081463054545331,
+    "ann_vol": 0.13101616040973263,
+    "sharpe": 0.37020956338645616,
+    "sortino": 0.6589946190824132,
+    "max_dd": -0.16071481887433636,
+    "longest_underwater_days": 716,
+    "var95": 0.008007113793885967,
+    "es95": 0.0135567496758906,
     "es95_ci": [
-     0.010597193058520808,
-     0.013712453685526434
+     0.011552023449892104,
+     0.015552757574876026
     ],
     "tail_obs95": 74,
-    "var99": 0.015546706060953604,
-    "es99": 0.01902681939178871,
+    "var99": 0.016600815677880826,
+    "es99": 0.022308438080751343,
     "es99_ci": [
-     0.016074559429532738,
-     0.02208814298330473
+     0.018850060141923475,
+     0.025755023784905736
     ],
     "tail_obs99": 15,
-    "gauss_es99": 0.017923263895637673,
-    "es7d_95": 0.02805837236188199,
-    "worst_7d": -0.04929618745985087,
-    "worst_day": -0.035227873718157054
+    "gauss_es99": 0.01814435146299964,
+    "es7d_95": 0.02956953555837597,
+    "worst_7d": -0.05653844594158142,
+    "worst_day": -0.03136249180301309
    },
    "IV": {
     "days": 1461,
-    "total_return": 0.26832863867831325,
-    "cagr": 0.061183002708095735,
-    "ann_vol": 0.11887150515268309,
-    "sharpe": 0.5583412244395255,
-    "sortino": 1.0418641732862406,
-    "max_dd": -0.169821260661287,
-    "longest_underwater_days": 582,
-    "var95": 0.007062547648718606,
-    "es95": 0.011865697315183138,
+    "total_return": 0.2520329020553891,
+    "cagr": 0.05776022419961535,
+    "ann_vol": 0.13431539875036924,
+    "sharpe": 0.48458112789369634,
+    "sortino": 0.8652611812988688,
+    "max_dd": -0.1583337353741343,
+    "longest_underwater_days": 686,
+    "var95": 0.007998331897147824,
+    "es95": 0.013953380627155568,
     "es95_ci": [
-     0.009939492222316918,
-     0.013665973241713722
+     0.011721062506566396,
+     0.01616383700673726
     ],
     "tail_obs95": 74,
-    "var99": 0.016011709106300006,
-    "es99": 0.019755728663840868,
+    "var99": 0.019038581208164394,
+    "es99": 0.023072204122499974,
     "es99_ci": [
-     0.01650865819170249,
-     0.023013120916279696
+     0.019785643179988835,
+     0.026413750318540936
     ],
     "tail_obs99": 15,
-    "gauss_es99": 0.01640117541042734,
-    "es7d_95": 0.027173937841257077,
-    "worst_7d": -0.047357022258893156,
-    "worst_day": -0.0349741197351261
+    "gauss_es99": 0.018559173758105195,
+    "es7d_95": 0.03063587436412925,
+    "worst_7d": -0.059331381284587925,
+    "worst_day": -0.03425325439888305
    },
    "RB": {
     "days": 1461,
-    "total_return": 0.286039344990356,
-    "cagr": 0.06486577457693876,
-    "ann_vol": 0.1151804075740272,
-    "sharpe": 0.6026473666067523,
-    "sortino": 1.0955970431402167,
-    "max_dd": -0.17166518942789988,
-    "longest_underwater_days": 574,
-    "var95": 0.0064146717885566985,
-    "es95": 0.012033449101108096,
+    "total_return": 0.30683612935845583,
+    "cagr": 0.06914201298118416,
+    "ann_vol": 0.1303872395459311,
+    "sharpe": 0.5773438308003471,
+    "sortino": 1.0316315132182017,
+    "max_dd": -0.15778580335941383,
+    "longest_underwater_days": 677,
+    "var95": 0.007669036978230952,
+    "es95": 0.013676206596692922,
     "es95_ci": [
-     0.009761833809374615,
-     0.014180359233715863
+     0.011278200769238205,
+     0.01617473138291563
     ],
     "tail_obs95": 74,
-    "var99": 0.01659720311488436,
-    "es99": 0.021239292162867372,
+    "var99": 0.018755970757689193,
+    "es99": 0.023085103917643898,
     "es99_ci": [
-     0.017487819620365674,
-     0.02437991789348186
+     0.019791530861854735,
+     0.0263962904714066
     ],
     "tail_obs99": 15,
-    "gauss_es99": 0.01587791859555225,
-    "es7d_95": 0.02749252255341175,
-    "worst_7d": -0.04966376147034435,
-    "worst_day": -0.03481673667804963
+    "gauss_es99": 0.017983258976558638,
+    "es7d_95": 0.03032419329466106,
+    "worst_7d": -0.060441382882844175,
+    "worst_day": -0.03496555401287205
    },
    "CONS": {
     "days": 1461,
-    "total_return": 0.18194572266822062,
-    "cagr": 0.042646190408693885,
-    "ann_vol": 0.09041386358392824,
-    "sharpe": 0.5067282290593658,
-    "sortino": 0.9288314543426255,
-    "max_dd": -0.13339865986263277,
-    "longest_underwater_days": 582,
-    "var95": 0.005190623339690667,
-    "es95": 0.009201670545785495,
+    "total_return": 0.12127837815879183,
+    "cagr": 0.02901061573162589,
+    "ann_vol": 0.08119368746080295,
+    "sharpe": 0.3925552744482047,
+    "sortino": 0.6981763023621043,
+    "max_dd": -0.12082348973441348,
+    "longest_underwater_days": 574,
+    "var95": 0.0051245846580635305,
+    "es95": 0.008381156151304785,
     "es95_ci": [
-     0.007622589476185225,
-     0.010716700784444075
+     0.007236760671391273,
+     0.00954568608964988
     ],
     "tail_obs95": 74,
-    "var99": 0.01249552227053429,
-    "es99": 0.01570245199038202,
+    "var99": 0.01079489614882767,
+    "es99": 0.013737904542017117,
     "es99_ci": [
-     0.013054646076122604,
-     0.018270100685021568
+     0.011715308901947052,
+     0.015649288134175095
     ],
     "tail_obs99": 15,
-    "gauss_es99": 0.012487546180179304,
-    "es7d_95": 0.021215757699240775,
-    "worst_7d": -0.03678997936269124,
-    "worst_day": -0.027685309240872646
+    "gauss_es99": 0.011239495541570483,
+    "es7d_95": 0.019469754819429697,
+    "worst_7d": -0.035304626771592185,
+    "worst_day": -0.019210746713238858
    }
   },
   "sleeves": {
@@ -935,6 +1196,24 @@
     "es7d_95": 0.04797077503469807,
     "worst_7d": -0.09010474999999363,
     "worst_day": -0.04481499311488646
+   }
+  },
+  "trades": {
+   "EW": {
+    "CRY-MOM-101": 190,
+    "CRY-VEX-103": 928
+   },
+   "IV": {
+    "CRY-MOM-101": 190,
+    "CRY-VEX-103": 946
+   },
+   "RB": {
+    "CRY-MOM-101": 190,
+    "CRY-VEX-103": 969
+   },
+   "CONS": {
+    "CRY-MOM-101": 139,
+    "CRY-VEX-103": 738
    }
   },
   "ew_bh_9": {
@@ -999,43 +1278,43 @@
   "results": {
    "EW": {
     "days": 365,
-    "total_return": 0.0062650351873385635,
-    "cagr": 0.0062650351873385635,
-    "ann_vol": 0.11066264869040555,
-    "sharpe": 0.110906542322113,
-    "sortino": 0.21989516323914945,
-    "max_dd": -0.0827072406290279,
+    "total_return": -0.011995709807655297,
+    "cagr": -0.011995709807655297,
+    "ann_vol": 0.1097406657355206,
+    "sharpe": -0.05566793647827367,
+    "sortino": -0.09704970493877774,
+    "max_dd": -0.08142498404401022,
     "longest_underwater_days": 176
    },
    "IV": {
     "days": 365,
-    "total_return": -0.01064778055951443,
-    "cagr": -0.01064778055951443,
-    "ann_vol": 0.10151408239944323,
-    "sharpe": -0.05536459487883616,
-    "sortino": -0.10133721528610336,
-    "max_dd": -0.06964831505784197,
+    "total_return": -0.009924833960213486,
+    "cagr": -0.009924833960213486,
+    "ann_vol": 0.11605812526121806,
+    "sharpe": -0.02853538791332583,
+    "sortino": -0.049582205676725034,
+    "max_dd": -0.08417314715795232,
     "longest_underwater_days": 176
    },
    "RB": {
     "days": 365,
-    "total_return": -0.022038902108719505,
-    "cagr": -0.022038902108719505,
-    "ann_vol": 0.09853567453039906,
-    "sharpe": -0.17748342100213296,
-    "sortino": -0.30612197976039157,
-    "max_dd": -0.06677115614677664,
-    "longest_underwater_days": 225
+    "total_return": -0.016362456995947627,
+    "cagr": -0.016362456995947627,
+    "ann_vol": 0.11429132946604914,
+    "sharpe": -0.08781157993344708,
+    "sortino": -0.150653699448346,
+    "max_dd": -0.0874559660669364,
+    "longest_underwater_days": 219
    },
    "CONS": {
     "days": 365,
-    "total_return": -0.004937872905020679,
-    "cagr": -0.004937872905020679,
-    "ann_vol": 0.07764195820825062,
-    "sharpe": -0.025367927162562347,
-    "sortino": -0.046941754620169106,
-    "max_dd": -0.048674954679995275,
-    "longest_underwater_days": 176
+    "total_return": 0.017525846124717193,
+    "cagr": 0.017525846124717193,
+    "ann_vol": 0.07027468118978222,
+    "sharpe": 0.28206487887742515,
+    "sortino": 0.5142652042744593,
+    "max_dd": -0.04379485539554595,
+    "longest_underwater_days": 175
    }
   },
   "sleeves": {
@@ -1061,8 +1340,22 @@
    }
   },
   "trades": {
-   "CRY-MOM-101": 34,
-   "CRY-VEX-103": 172
+   "EW": {
+    "CRY-MOM-101": 44,
+    "CRY-VEX-103": 172
+   },
+   "IV": {
+    "CRY-MOM-101": 44,
+    "CRY-VEX-103": 178
+   },
+   "RB": {
+    "CRY-MOM-101": 44,
+    "CRY-VEX-103": 186
+   },
+   "CONS": {
+    "CRY-MOM-101": 32,
+    "CRY-VEX-103": 138
+   }
   },
   "ew_bh_9": {
    "days": 365,
@@ -1118,128 +1411,236 @@
     "CRY-MOM-101": 0.5,
     "CRY-VEX-103": 0.5
    },
-   "cash": 0.0,
-   "peak_open_risk": 0.03599311698191907,
-   "mean_open_risk": 0.0044172821996071795,
-   "p95_open_risk": 0.01961386779374917,
-   "risk_cap_used": 0.03,
-   "peak_util": 1.199770566063969,
-   "mean_util": 0.14724273998690598,
-   "frac_hours_any_position": 0.40451745379876797,
-   "peak_gross": 0.929202115237452,
-   "mean_gross": 0.10063875545217638,
+   "cash_weight": 0.0,
+   "limits": {
+    "open_risk": 0.03,
+    "positions": 6,
+    "single_asset": 0.15,
+    "gross": 0.6,
+    "risk_per_trade": {
+     "CRY-MOM-101": 0.005,
+     "CRY-VEX-103": 0.005
+    }
+   },
+   "peak_open_risk": 0.030390259525577962,
+   "mean_open_risk": 0.004556432055300606,
+   "p95_open_risk": 0.02381749885472414,
+   "peak_util": 1.0130086508525988,
+   "mean_util": 0.1518810685100202,
+   "frac_hours_any_position": 0.405430070727812,
+   "peak_gross": 0.7387599280610107,
+   "mean_gross": 0.09816474368999445,
    "peak_positions": 7,
-   "peak_single_asset": 0.41267177000361743,
-   "hours_single_asset_gt_15pct": 4089,
-   "hours_gross_gt_40pct": 2568,
-   "hours_positions_gt_3": 1786,
-   "hours_same_symbol_overlap": 1175,
-   "hours_open_risk_gt_cap": 110,
-   "max_trade_risk_frac": 0.005
+   "peak_single_asset": 0.1525129019469418,
+   "hours_single_asset_gt_limit": 2271,
+   "hours_gross_gt_limit": 36,
+   "hours_positions_gt_limit": 1,
+   "hours_same_symbol_overlap": 0,
+   "hours_open_risk_gt_limit": 79,
+   "skips": {
+    "cooldown": 67,
+    "symbol_occupied": 3881,
+    "below_min_notional": 54,
+    "gross_cap": 60,
+    "max_positions": 166
+   },
+   "max_trade_risk_frac_reserved": 0.004999999999996922
   },
   "IV": {
    "weights": {
     "CRY-MOM-101": 0.6392626207158857,
     "CRY-VEX-103": 0.36073737928411426
    },
-   "cash": 0.0,
-   "peak_open_risk": 0.03714200780802892,
-   "mean_open_risk": 0.004963036489372107,
-   "p95_open_risk": 0.024715333920700657,
-   "risk_cap_used": 0.03,
-   "peak_util": 1.2380669269342974,
-   "mean_util": 0.1654345496457369,
-   "frac_hours_any_position": 0.40451745379876797,
-   "peak_gross": 0.8982599796293951,
-   "mean_gross": 0.10022868458221204,
+   "cash_weight": 0.0,
+   "limits": {
+    "open_risk": 0.03,
+    "positions": 6,
+    "single_asset": 0.15,
+    "gross": 0.6,
+    "risk_per_trade": {
+     "CRY-MOM-101": 0.006392626207158857,
+     "CRY-VEX-103": 0.0036073737928411427
+    }
+   },
+   "peak_open_risk": 0.03128461125203691,
+   "mean_open_risk": 0.005047171187334983,
+   "p95_open_risk": 0.025820623952830874,
+   "peak_util": 1.042820375067897,
+   "mean_util": 0.1682390395778328,
+   "frac_hours_any_position": 0.4056867442391056,
+   "peak_gross": 0.7103140844440751,
+   "mean_gross": 0.10342971126490652,
    "peak_positions": 7,
-   "peak_single_asset": 0.41879388746594615,
-   "hours_single_asset_gt_15pct": 3744,
-   "hours_gross_gt_40pct": 2343,
-   "hours_positions_gt_3": 1786,
-   "hours_same_symbol_overlap": 1175,
-   "hours_open_risk_gt_cap": 227,
-   "max_trade_risk_frac": 0.006392626207158857
+   "peak_single_asset": 0.15393190249784677,
+   "hours_single_asset_gt_limit": 2001,
+   "hours_gross_gt_limit": 30,
+   "hours_positions_gt_limit": 1,
+   "hours_same_symbol_overlap": 0,
+   "hours_open_risk_gt_limit": 377,
+   "skips": {
+    "cooldown": 68,
+    "symbol_occupied": 3879,
+    "gross_cap": 57,
+    "max_positions": 155,
+    "below_min_notional": 47,
+    "risk_budget_zero": 2,
+    "qty_zero": 2
+   },
+   "max_trade_risk_frac_reserved": 0.0063926262071566115
   },
   "RB": {
    "weights": {
     "CRY-MOM-101": 0.7330587965614348,
     "CRY-VEX-103": 0.2669412034385652
    },
-   "cash": 0.0,
-   "peak_open_risk": 0.03791580888544068,
-   "mean_open_risk": 0.005330612979517928,
-   "p95_open_risk": 0.027955662950842036,
-   "risk_cap_used": 0.03,
-   "peak_util": 1.263860296181356,
-   "mean_util": 0.17768709931726426,
-   "frac_hours_any_position": 0.40451745379876797,
-   "peak_gross": 0.8774198290016749,
-   "mean_gross": 0.09995249360411188,
+   "cash_weight": 0.0,
+   "limits": {
+    "open_risk": 0.03,
+    "positions": 6,
+    "single_asset": 0.15,
+    "gross": 0.6,
+    "risk_per_trade": {
+     "CRY-MOM-101": 0.007330587965614348,
+     "CRY-VEX-103": 0.0026694120343856522
+    }
+   },
+   "peak_open_risk": 0.031081894465160766,
+   "mean_open_risk": 0.005194570538559917,
+   "p95_open_risk": 0.028901666456417473,
+   "peak_util": 1.0360631488386922,
+   "mean_util": 0.17315235128533057,
+   "frac_hours_any_position": 0.4057723020762035,
+   "peak_gross": 0.6358778626223117,
+   "mean_gross": 0.10229257115385203,
    "peak_positions": 7,
-   "peak_single_asset": 0.4229172567023704,
-   "hours_single_asset_gt_15pct": 5493,
-   "hours_gross_gt_40pct": 2711,
-   "hours_positions_gt_3": 1786,
-   "hours_same_symbol_overlap": 1175,
-   "hours_open_risk_gt_cap": 709,
-   "max_trade_risk_frac": 0.007330587965614348
+   "peak_single_asset": 0.1539750392548934,
+   "hours_single_asset_gt_limit": 1714,
+   "hours_gross_gt_limit": 26,
+   "hours_positions_gt_limit": 1,
+   "hours_same_symbol_overlap": 0,
+   "hours_open_risk_gt_limit": 449,
+   "skips": {
+    "cooldown": 68,
+    "symbol_occupied": 3884,
+    "below_min_notional": 34,
+    "gross_cap": 42,
+    "max_positions": 155,
+    "risk_budget_zero": 2,
+    "qty_zero": 2
+   },
+   "max_trade_risk_frac_reserved": 0.007330587965594238
   },
   "CONS": {
    "weights": {
     "CRY-MOM-101": 0.5,
     "CRY-VEX-103": 0.25
    },
-   "cash": 0.25,
-   "peak_open_risk": 0.02756803022740105,
-   "mean_open_risk": 0.0037946018542002573,
-   "p95_open_risk": 0.01928587618020961,
-   "risk_cap_used": 0.015,
-   "peak_util": 1.8378686818267367,
-   "mean_util": 0.25297345694668383,
-   "frac_hours_any_position": 0.40451745379876797,
-   "peak_gross": 0.6286646539072098,
-   "mean_gross": 0.0752697597218482,
+   "cash_weight": 0.25,
+   "limits": {
+    "open_risk": 0.015,
+    "positions": 3,
+    "single_asset": 0.15,
+    "gross": 0.4,
+    "risk_per_trade": {
+     "CRY-MOM-101": 0.005,
+     "CRY-VEX-103": 0.0025
+    }
+   },
+   "peak_open_risk": 0.017271193149288187,
+   "mean_open_risk": 0.003217147634987203,
+   "p95_open_risk": 0.014801852839878886,
+   "peak_util": 1.1514128766192124,
+   "mean_util": 0.2144765089991469,
+   "frac_hours_any_position": 0.4042607802874743,
+   "peak_gross": 0.39778615609787094,
+   "mean_gross": 0.0657618319022983,
+   "peak_positions": 4,
+   "peak_single_asset": 0.13434094570151348,
+   "hours_single_asset_gt_limit": 0,
+   "hours_gross_gt_limit": 0,
+   "hours_positions_gt_limit": 4,
+   "hours_same_symbol_overlap": 0,
+   "hours_open_risk_gt_limit": 304,
+   "skips": {
+    "cooldown": 53,
+    "symbol_occupied": 3058,
+    "max_positions": 1358
+   },
+   "max_trade_risk_frac_reserved": 0.004999999999918169
+  }
+ },
+ "segregated_exhibit_run1_corrected_normalisation": {
+  "EW": {
+   "peak_open_risk": 0.030253029641707195,
+   "hours_open_risk_gt_cap": 1,
    "peak_positions": 7,
-   "peak_single_asset": 0.27339845454581696,
-   "hours_single_asset_gt_15pct": 1757,
-   "hours_gross_gt_40pct": 723,
-   "hours_positions_gt_3": 1786,
-   "hours_same_symbol_overlap": 1175,
-   "hours_open_risk_gt_cap": 3257,
-   "max_trade_risk_frac": 0.005
+   "hours_positions_gt_limit": 1,
+   "peak_single_asset": 0.3271974385539638,
+   "hours_single_asset_gt_15pct": 4074,
+   "peak_gross": 0.768780000002553,
+   "hours_same_symbol_overlap": 1175
+  },
+  "IV": {
+   "peak_open_risk": 0.030294934070716872,
+   "hours_open_risk_gt_cap": 4,
+   "peak_positions": 7,
+   "hours_positions_gt_limit": 1,
+   "peak_single_asset": 0.32626107868948523,
+   "hours_single_asset_gt_15pct": 3579,
+   "peak_gross": 0.7208106714882808,
+   "hours_same_symbol_overlap": 1175
+  },
+  "RB": {
+   "peak_open_risk": 0.0303220992451527,
+   "hours_open_risk_gt_cap": 5,
+   "peak_positions": 7,
+   "hours_positions_gt_limit": 1,
+   "peak_single_asset": 0.3256649113116486,
+   "hours_single_asset_gt_15pct": 4487,
+   "peak_gross": 0.6931786789718833,
+   "hours_same_symbol_overlap": 1175
+  },
+  "CONS": {
+   "peak_open_risk": 0.02363366697443153,
+   "hours_open_risk_gt_cap": 3329,
+   "peak_positions": 7,
+   "hours_positions_gt_limit": 1786,
+   "peak_single_asset": 0.23542040888404991,
+   "hours_single_asset_gt_15pct": 1199,
+   "peak_gross": 0.5278976770492961,
+   "hours_same_symbol_overlap": 1175
   }
  },
  "hypothetical_shocks": {
   "label": "HYPOTHETICAL arithmetic on realised exposure timelines (not measurements)",
   "results": {
    "EW": {
-    "gap20_all_open_loss_max": 0.1858404230474904,
-    "gap20_vs_planned_open_risk_max": 5.163221155334956,
-    "stop_fill_minus_2R_all_open": 0.07198623396383814,
-    "stop_fill_minus_1p5R_all_open": 0.05398967547287861,
-    "all_open_hit_planned_stop": 0.03599311698191907
+    "gap20_all_open_loss_max": 0.14775198561220212,
+    "gap20_vs_planned_open_risk_max": 4.861820462172975,
+    "stop_fill_minus_2R_all_open": 0.060780519051155925,
+    "stop_fill_minus_1p5R_all_open": 0.045585389288366945,
+    "all_open_hit_planned_stop": 0.030390259525577962
    },
    "IV": {
-    "gap20_all_open_loss_max": 0.17965199592587902,
-    "gap20_vs_planned_open_risk_max": 4.836895109559586,
-    "stop_fill_minus_2R_all_open": 0.07428401561605784,
-    "stop_fill_minus_1p5R_all_open": 0.055713011712043375,
-    "all_open_hit_planned_stop": 0.03714200780802892
+    "gap20_all_open_loss_max": 0.14206281688881503,
+    "gap20_vs_planned_open_risk_max": 4.5409807315270845,
+    "stop_fill_minus_2R_all_open": 0.06256922250407382,
+    "stop_fill_minus_1p5R_all_open": 0.046926916878055364,
+    "all_open_hit_planned_stop": 0.03128461125203691
    },
    "RB": {
-    "gap20_all_open_loss_max": 0.17548396580033498,
-    "gap20_vs_planned_open_risk_max": 4.628253252635187,
-    "stop_fill_minus_2R_all_open": 0.07583161777088136,
-    "stop_fill_minus_1p5R_all_open": 0.05687371332816102,
-    "all_open_hit_planned_stop": 0.03791580888544068
+    "gap20_all_open_loss_max": 0.12717557252446235,
+    "gap20_vs_planned_open_risk_max": 4.091628734761054,
+    "stop_fill_minus_2R_all_open": 0.06216378893032153,
+    "stop_fill_minus_1p5R_all_open": 0.04662284169774115,
+    "all_open_hit_planned_stop": 0.031081894465160766
    },
    "CONS": {
-    "gap20_all_open_loss_max": 0.12573293078144196,
-    "gap20_vs_planned_open_risk_max": 4.560823887100595,
-    "stop_fill_minus_2R_all_open": 0.0551360604548021,
-    "stop_fill_minus_1p5R_all_open": 0.041352045341101575,
-    "all_open_hit_planned_stop": 0.02756803022740105
+    "gap20_all_open_loss_max": 0.0795572312195742,
+    "gap20_vs_planned_open_risk_max": 4.6063540909941745,
+    "stop_fill_minus_2R_all_open": 0.03454238629857637,
+    "stop_fill_minus_1p5R_all_open": 0.02590678972393228,
+    "all_open_hit_planned_stop": 0.017271193149288187
    }
   }
  },
@@ -1247,132 +1648,132 @@
   "in_sample": {
    "EW": {
     "n_days": 74,
-    "threshold": -0.0077807016755933045,
+    "threshold": -0.008007113793885967,
     "sleeve_share": {
-     "CRY-MOM-101": 0.4352600101685557,
-     "CRY-VEX-103": 0.5647399898314444
+     "CRY-MOM-101": 0.5442367031064607,
+     "CRY-VEX-103": 0.45576329689353934
     },
     "sleeve_sum": {
-     "CRY-MOM-101": -0.41598157889736936,
-     "CRY-VEX-103": -0.5397266625656572
+     "CRY-MOM-101": -0.5828524019620425,
+     "CRY-VEX-103": -0.4881014654180265
     },
-    "both_negative_share": 0.43243243243243246
+    "both_negative_share": 0.3108108108108108
    },
    "IV": {
     "n_days": 74,
-    "threshold": -0.007062547648718609,
+    "threshold": -0.007998331897147826,
     "sleeve_share": {
-     "CRY-MOM-101": 0.696752237226545,
-     "CRY-VEX-103": 0.30324776277345505
+     "CRY-MOM-101": 0.6415628593780325,
+     "CRY-VEX-103": 0.3584371406219677
     },
     "sleeve_sum": {
-     "CRY-MOM-101": -0.6710680717927404,
-     "CRY-VEX-103": -0.29206923288812925
+     "CRY-MOM-101": -0.7269146214410377,
+     "CRY-VEX-103": -0.4061226340911017
     },
-    "both_negative_share": 0.44594594594594594
+    "both_negative_share": 0.2972972972972973
    },
    "RB": {
     "n_days": 74,
-    "threshold": -0.006414671788556703,
+    "threshold": -0.007669036978230959,
     "sleeve_share": {
-     "CRY-MOM-101": 0.8323589309655691,
-     "CRY-VEX-103": 0.167641069034431
+     "CRY-MOM-101": 0.7595402038548044,
+     "CRY-VEX-103": 0.24045979614519575
     },
     "sleeve_sum": {
-     "CRY-MOM-101": -0.8341771722569099,
-     "CRY-VEX-103": -0.16800727152533154
+     "CRY-MOM-101": -0.8611958247171407,
+     "CRY-VEX-103": -0.27264254268779153
     },
-    "both_negative_share": 0.4594594594594595
+    "both_negative_share": 0.25675675675675674
    },
    "CONS": {
     "n_days": 74,
-    "threshold": -0.00519062333969067,
+    "threshold": -0.005124584658063536,
     "sleeve_share": {
-     "CRY-MOM-101": 0.7297850608378492,
-     "CRY-VEX-103": 0.2702149391621508
+     "CRY-MOM-101": 0.6831165274475252,
+     "CRY-VEX-103": 0.3168834725524749
     },
     "sleeve_sum": {
-     "CRY-MOM-101": -0.5306873180471923,
-     "CRY-VEX-103": -0.19649572052847072
+     "CRY-MOM-101": -0.44670872828736913,
+     "CRY-VEX-103": -0.2072188380042895
     },
-    "both_negative_share": 0.4594594594594595
+    "both_negative_share": 0.25675675675675674
    }
   },
   "oos": {
    "EW": {
     "n_days": 46,
-    "threshold": -0.008250923827828327,
+    "threshold": -0.008355607502758766,
     "sleeve_share": {
-     "CRY-MOM-101": 0.39525882515180444,
-     "CRY-VEX-103": 0.6047411748481957
+     "CRY-MOM-101": 0.5891401166625356,
+     "CRY-VEX-103": 0.41085988333746437
     },
     "sleeve_sum": {
-     "CRY-MOM-101": -0.254040454993971,
-     "CRY-VEX-103": -0.3886787933274381
+     "CRY-MOM-101": -0.4173224654412094,
+     "CRY-VEX-103": -0.29103612980321386
     },
-    "both_negative_share": 0.5434782608695652
+    "both_negative_share": 0.34782608695652173
    },
    "IV": {
     "n_days": 46,
-    "threshold": -0.00808646639339583,
+    "threshold": -0.008400596794511994,
     "sleeve_share": {
-     "CRY-MOM-101": 0.6177456973576123,
-     "CRY-VEX-103": 0.38225430264238763
+     "CRY-MOM-101": 0.6671342868434419,
+     "CRY-VEX-103": 0.332865713156558
     },
     "sleeve_sum": {
-     "CRY-MOM-101": -0.3895582199685124,
-     "CRY-VEX-103": -0.24105437941475383
+     "CRY-MOM-101": -0.4979172855860036,
+     "CRY-VEX-103": -0.24843512862119943
     },
-    "both_negative_share": 0.5
+    "both_negative_share": 0.32608695652173914
    },
    "RB": {
     "n_days": 46,
-    "threshold": -0.008225010021297607,
+    "threshold": -0.008244159051049582,
     "sleeve_share": {
-     "CRY-MOM-101": 0.7806415791967268,
-     "CRY-VEX-103": 0.21935842080327322
+     "CRY-MOM-101": 0.7741062632452804,
+     "CRY-VEX-103": 0.22589373675471952
     },
     "sleeve_sum": {
-     "CRY-MOM-101": -0.49576150607377334,
-     "CRY-VEX-103": -0.13930780010372684
+     "CRY-MOM-101": -0.5698140992336921,
+     "CRY-VEX-103": -0.16627876848819442
     },
-    "both_negative_share": 0.5
+    "both_negative_share": 0.30434782608695654
    },
    "CONS": {
     "n_days": 46,
-    "threshold": -0.006204604857077856,
+    "threshold": -0.005701539755335383,
     "sleeve_share": {
-     "CRY-MOM-101": 0.6473885215373215,
-     "CRY-VEX-103": 0.35261147846267843
+     "CRY-MOM-101": 0.6975930355955121,
+     "CRY-VEX-103": 0.302406964404488
     },
     "sleeve_sum": {
-     "CRY-MOM-101": -0.3065258160904775,
-     "CRY-VEX-103": -0.16695464563069387
+     "CRY-MOM-101": -0.29914337796299434,
+     "CRY-VEX-103": -0.12967881878904972
     },
-    "both_negative_share": 0.5434782608695652
+    "both_negative_share": 0.2826086956521739
    }
   },
   "asset_realised_pnl_on_worst5_days_EW_insample": {
-   "LTC": -0.06823862212794013,
-   "BTC": 0.18519016142303268,
-   "ETH": 0.053868411841675894,
-   "ADA": 0.09465648139006162,
-   "LINK": 0.006531459734434081,
-   "SOL": 0.05622809340009042,
-   "XRP": -0.059314224865545453,
-   "DOGE": -0.07062095970711876,
-   "AVAX": -0.007667399125716689
+   "LTC": -0.014149372523926501,
+   "BTC": 0.07015952901116873,
+   "ETH": 0.03948523462636314,
+   "ADA": 0.021311987766379464,
+   "LINK": 0.03431459540668544,
+   "SOL": 0.05116839249398685,
+   "AVAX": -0.006303064777143642,
+   "XRP": 0.026415013782234664,
+   "DOGE": 0.05116465977743053
   },
-  "asset_realised_pnl_total_sleeves_w1": {
-   "XRP": 0.04429291894857057,
-   "LTC": -0.17415116323911417,
-   "ADA": 0.3891147718457022,
-   "BTC": 0.21666323909332852,
-   "ETH": 0.13521286869228832,
-   "SOL": -0.0703752564852432,
-   "LINK": 0.05611609681032855,
-   "DOGE": -0.07856214924108135,
-   "AVAX": -0.034245518891073995
+  "asset_realised_pnl_total_EW": {
+   "XRP": 0.03762415801702808,
+   "LTC": -0.07630127601809568,
+   "ADA": 0.11163826044435783,
+   "BTC": 0.085786908688578,
+   "ETH": 0.06350510649280033,
+   "SOL": -0.02006785212057597,
+   "LINK": 0.039019949665478726,
+   "DOGE": -0.04436907545040498,
+   "AVAX": -0.023179291728861472
   }
  },
  "cost_sensitivity": {
@@ -1382,24 +1783,24 @@
     0.0
    ],
    "EW": {
-    "sharpe": 1.9020711510684702,
-    "total_return": 1.029417812968195,
-    "max_dd": -0.10607397379143713
+    "sharpe": 1.688816831130579,
+    "total_return": 0.8045420751776127,
+    "max_dd": -0.09301475838192508
    },
    "IV": {
-    "sharpe": 1.8616086007879449,
-    "total_return": 0.900853498291275,
-    "max_dd": -0.12216246998177183
+    "sharpe": 1.760860028632812,
+    "total_return": 0.9156233020236872,
+    "max_dd": -0.0999133199169927
    },
    "RB": {
-    "sharpe": 1.7636717796521744,
-    "total_return": 0.798933497564223,
-    "max_dd": -0.13518814058785011
+    "sharpe": 1.8170177858953513,
+    "total_return": 0.9544422404404991,
+    "max_dd": -0.10061286209115627
    },
    "CONS": {
-    "sharpe": 1.7197555638747648,
-    "total_return": 0.5744590290439588,
-    "max_dd": -0.09805806826551466
+    "sharpe": 1.5197606980480196,
+    "total_return": 0.40363041895935403,
+    "max_dd": -0.08595344376821246
    },
    "MOM_ONLY": {
     "sharpe": 1.238711569374933,
@@ -1416,24 +1817,24 @@
     0.0005
    ],
    "EW": {
-    "sharpe": 0.9622796410282716,
-    "total_return": 0.3917506764170766,
-    "max_dd": -0.172278013290054
+    "sharpe": 0.800297408873827,
+    "total_return": 0.29636990428793086,
+    "max_dd": -0.1477639654616486
    },
    "IV": {
-    "sharpe": 1.0868783562243833,
-    "total_return": 0.41923587887874136,
-    "max_dd": -0.17337254372687072
+    "sharpe": 0.9711950458328457,
+    "total_return": 0.39751288138384133,
+    "max_dd": -0.15101296968746092
    },
    "RB": {
-    "sharpe": 1.1192302684319346,
-    "total_return": 0.4191683955906953,
-    "max_dd": -0.174109222803985
+    "sharpe": 1.1143779130042124,
+    "total_return": 0.4643041655991167,
+    "max_dd": -0.15144882866122356
    },
    "CONS": {
-    "sharpe": 1.0043472435227077,
-    "total_return": 0.2825775168751954,
-    "max_dd": -0.13401414861270378
+    "sharpe": 0.7857366150253149,
+    "total_return": 0.18129264870236117,
+    "max_dd": -0.1257655271718343
    },
    "MOM_ONLY": {
     "sharpe": 1.0731848898637022,
@@ -1450,24 +1851,24 @@
     0.001
    ],
    "EW": {
-    "sharpe": 0.28613192924955066,
-    "total_return": 0.07791394226197568,
-    "max_dd": -0.2197080825737745
+    "sharpe": 0.29211120237359506,
+    "total_return": 0.0785980620482023,
+    "max_dd": -0.17668896716642202
    },
    "IV": {
-    "sharpe": 0.539011680818061,
-    "total_return": 0.16465436024214908,
-    "max_dd": -0.19695177845769196
+    "sharpe": 0.5596720608073544,
+    "total_return": 0.1828756133130811,
+    "max_dd": -0.18385822810748043
    },
    "RB": {
-    "sharpe": 0.6577602033947116,
-    "total_return": 0.20477804807382838,
-    "max_dd": -0.18265811584564928
+    "sharpe": 0.754329130548399,
+    "total_return": 0.2552447943299814,
+    "max_dd": -0.1774593827883898
    },
    "CONS": {
-    "sharpe": 0.46290343668618,
-    "total_return": 0.10516112113171472,
-    "max_dd": -0.1475902439706156
+    "sharpe": 0.4318193524551664,
+    "total_return": 0.08502046172320421,
+    "max_dd": -0.13228279946036814
    },
    "MOM_ONLY": {
     "sharpe": 0.9103203359672506,
@@ -1484,24 +1885,24 @@
     0.0015
    ],
    "EW": {
-    "sharpe": 0.05563407705492679,
-    "total_return": 0.0008153473627419139,
-    "max_dd": -0.18230096457234368
+    "sharpe": -0.007516356579957211,
+    "total_return": -0.016680796091162686,
+    "max_dd": -0.17067965045156053
    },
    "IV": {
-    "sharpe": 0.34604049391172875,
-    "total_return": 0.08239698877927215,
-    "max_dd": -0.17297452219066556
+    "sharpe": 0.37069538553300124,
+    "total_return": 0.09462375405591783,
+    "max_dd": -0.17463940847344894
    },
    "RB": {
-    "sharpe": 0.47606580743097454,
-    "total_return": 0.12391851277946042,
-    "max_dd": -0.17466036533006823
+    "sharpe": 0.5469371734423665,
+    "total_return": 0.15388214112273024,
+    "max_dd": -0.1754433794363388
    },
    "CONS": {
-    "sharpe": 0.32801732701422304,
-    "total_return": 0.05995083206984786,
-    "max_dd": -0.13250813404118356
+    "sharpe": 0.21060684375231264,
+    "total_return": 0.03126291495455602,
+    "max_dd": -0.1280611381093254
    },
    "MOM_ONLY": {
     "sharpe": 0.7510305537474476,
@@ -1518,24 +1919,24 @@
     0.001
    ],
    "EW": {
-    "sharpe": 0.28613192924955066,
-    "total_return": 0.07791394226197568,
-    "max_dd": -0.2197080825737745
+    "sharpe": 0.29211120237359506,
+    "total_return": 0.0785980620482023,
+    "max_dd": -0.17668896716642202
    },
    "IV": {
-    "sharpe": 0.539011680818061,
-    "total_return": 0.16465436024214908,
-    "max_dd": -0.19695177845769196
+    "sharpe": 0.5596720608073544,
+    "total_return": 0.1828756133130811,
+    "max_dd": -0.18385822810748043
    },
    "RB": {
-    "sharpe": 0.6577602033947116,
-    "total_return": 0.20477804807382838,
-    "max_dd": -0.18265811584564928
+    "sharpe": 0.754329130548399,
+    "total_return": 0.2552447943299814,
+    "max_dd": -0.1774593827883898
    },
    "CONS": {
-    "sharpe": 0.46290343668618,
-    "total_return": 0.10516112113171472,
-    "max_dd": -0.1475902439706156
+    "sharpe": 0.4318193524551664,
+    "total_return": 0.08502046172320421,
+    "max_dd": -0.13228279946036814
    },
    "MOM_ONLY": {
     "sharpe": 0.9103203359672506,
@@ -1552,24 +1953,24 @@
     0.002
    ],
    "EW": {
-    "sharpe": 0.142371665458644,
-    "total_return": 0.026061438215286836,
-    "max_dd": -0.236358636408588
+    "sharpe": 0.21428755804823924,
+    "total_return": 0.051258856932241414,
+    "max_dd": -0.19653799767821756
    },
    "IV": {
-    "sharpe": 0.4182663335423377,
-    "total_return": 0.12164716500727923,
-    "max_dd": -0.2097327840038089
+    "sharpe": 0.4806073137154606,
+    "total_return": 0.1533208520174285,
+    "max_dd": -0.20391685914881363
    },
    "RB": {
-    "sharpe": 0.5646550018447878,
-    "total_return": 0.17155062728804737,
-    "max_dd": -0.1943615052517429
+    "sharpe": 0.6821577084729253,
+    "total_return": 0.22818200070848582,
+    "max_dd": -0.19674862031566231
    },
    "CONS": {
-    "sharpe": 0.3911140581930073,
-    "total_return": 0.08760489358928458,
-    "max_dd": -0.15774217923905154
+    "sharpe": 0.29290227451773243,
+    "total_return": 0.054364389517625566,
+    "max_dd": -0.14629232164725525
    },
    "MOM_ONLY": {
     "sharpe": 0.9103203359672519,
@@ -1731,7 +2132,7 @@
   "note": "rebalancing moves capital between segregated sub-books (cash transfers), not market trades; return-level model on DEV w=1 sleeve returns"
  },
  "liquidity_capacity": {
-  "sleeves": {
+  "sleeves_standalone": {
    "CRY-MOM-101": {
     "n": 141,
     "k_p05": 9.922924104227244,
@@ -1747,14 +2148,38 @@
     "account_size_p05_if_sleeve_full": 31938.357570766115
    }
   },
+  "schemes": {
+   "EW": {
+    "n": 1118,
+    "k_p05": 6.462659147635298,
+    "k_p50": 45.940144813740105,
+    "frac_trades_cap_binding_at_10k": 0.0,
+    "account_size_p05": 64626.59147635298
+   },
+   "IV": {
+    "n": 1136,
+    "k_p05": 6.429932552632217,
+    "k_p50": 52.035780332222416,
+    "frac_trades_cap_binding_at_10k": 0.0,
+    "account_size_p05": 64299.32552632217
+   },
+   "RB": {
+    "n": 1159,
+    "k_p05": 7.242526856657771,
+    "k_p50": 63.06565212194838,
+    "frac_trades_cap_binding_at_10k": 0.0,
+    "account_size_p05": 72425.26856657771
+   },
+   "CONS": {
+    "n": 877,
+    "k_p05": 9.309070608170925,
+    "k_p50": 75.36774605472614,
+    "frac_trades_cap_binding_at_10k": 0.0,
+    "account_size_p05": 93090.70608170926
+   }
+  },
   "participation_cap": 0.01,
-  "note": "ratio = (1% of median 168h quote volume)/(entry notional) at a $10k single-sleeve book; account size scales trade size linearly (impact beyond the 1% cap is not modelled)",
-  "per_scheme_account_size_p05": {
-   "EW": 63876.71514153223,
-   "IV": 88536.31313214061,
-   "RB": 119645.66413635924,
-   "CONS": 127753.43028306446
-  }
+  "note": "ratio = (1% of median 168h quote volume)/(entry notional) at $10k; account size scales trade size linearly; impact beyond the 1% cap is not modelled; real fills not observed"
  },
  "diversification": {
   "regime_attribution": {
@@ -1771,7 +2196,10 @@
      "active_days": 97
     },
     "EW": {
-     "sum_ret": -0.10861704631873137
+     "sum_ret": -0.0977426854889194
+    },
+    "CONS": {
+     "sum_ret": -0.06419574578231957
     },
     "btc": {
      "sum_ret": 0.08191788685984802
@@ -1790,7 +2218,10 @@
      "active_days": 129
     },
     "EW": {
-     "sum_ret": -0.01712612205448838
+     "sum_ret": -0.019368441016920923
+    },
+    "CONS": {
+     "sum_ret": -0.023634192701667556
     },
     "btc": {
      "sum_ret": -0.14015731755208338
@@ -1809,7 +2240,10 @@
      "active_days": 41
     },
     "EW": {
-     "sum_ret": -0.01144632621806252
+     "sum_ret": -0.002004685933735817
+    },
+    "CONS": {
+     "sum_ret": -0.02059100306508921
     },
     "btc": {
      "sum_ret": -0.10244564958096858
@@ -1828,7 +2262,10 @@
      "active_days": 383
     },
     "EW": {
-     "sum_ret": 0.3871801221608513
+     "sum_ret": 0.31326244073177645
+    },
+    "CONS": {
+     "sum_ret": 0.23600030592341892
     },
     "btc": {
      "sum_ret": 1.1590529823949638
@@ -1837,28 +2274,28 @@
   },
   "ratios": {
    "EW": {
-    "DR": 1.279575064549824,
+    "DR": 1.2667728690561957,
     "risk_contrib": {
      "CRY-MOM-101": 0.28843919949762065,
      "CRY-VEX-103": 0.7115608005023795
     }
    },
    "IV": {
-    "DR": 1.2878826940327364,
+    "DR": 1.1397989785541471,
     "risk_contrib": {
      "CRY-MOM-101": 0.5000000000000001,
      "CRY-VEX-103": 0.5000000000000001
     }
    },
    "RB": {
-    "DR": 1.2538666605150945,
+    "DR": 1.1076304207724124,
     "risk_contrib": {
      "CRY-MOM-101": 0.6666666666666663,
      "CRY-VEX-103": 0.33333333333333354
     }
    },
    "CONS": {
-    "DR": 1.2489150882893405,
+    "DR": 1.3907391319678022,
     "risk_contrib": {
      "CRY-MOM-101": 0.5478837718581204,
      "CRY-VEX-103": 0.4521162281418796
@@ -2089,94 +2526,94 @@
  "stress": {
   "historical": {
    "EW": {
-    "worst_day": -0.035227873718157054,
-    "worst_day_date": "2024-03-05",
-    "worst_7d": -0.04929618745985098,
-    "worst_7d_start": "2024-09-25",
-    "worst_30d": -0.0765995963089382,
+    "worst_day": -0.03136249180301309,
+    "worst_day_date": "2025-07-23",
+    "worst_7d": -0.056538445941581195,
+    "worst_7d_start": "2025-07-28",
+    "worst_30d": -0.07754139072925237,
     "worst_30d_start": "2024-09-22",
     "luna_2022_05_01_to_06_30": {
-     "total": -0.001491973714888406,
-     "max_dd": -0.022971913867313565,
+     "total": -0.00646655864542145,
+     "max_dd": -0.021355352640964442,
      "days": 60
     },
     "ftx_2022_11_01_to_12_15": {
-     "total": -0.009575033690070622,
-     "max_dd": -0.022994759344921012,
+     "total": -0.015531201835027209,
+     "max_dd": -0.02571252891235798,
      "days": 44
     },
     "bear_2022_full": {
-     "total": -0.13151910809763123,
-     "max_dd": -0.17370368388640778,
+     "total": -0.12405953586700569,
+     "max_dd": -0.15672229931243842,
      "days": 364
     }
    },
    "IV": {
-    "worst_day": -0.0349741197351261,
+    "worst_day": -0.03425325439888305,
     "worst_day_date": "2024-03-05",
-    "worst_7d": -0.047357022258893045,
-    "worst_7d_start": "2025-05-11",
-    "worst_30d": -0.06446055062282086,
-    "worst_30d_start": "2022-03-28",
+    "worst_7d": -0.059331381284588036,
+    "worst_7d_start": "2025-07-28",
+    "worst_30d": -0.07874112879495199,
+    "worst_30d_start": "2024-09-22",
     "luna_2022_05_01_to_06_30": {
-     "total": -0.001084361851600435,
-     "max_dd": -0.01679462007587673,
+     "total": -0.006304266135710335,
+     "max_dd": -0.016794947434639607,
      "days": 60
     },
     "ftx_2022_11_01_to_12_15": {
-     "total": -0.012581394349926556,
-     "max_dd": -0.016868651123901457,
+     "total": -0.023688208672169253,
+     "max_dd": -0.0268200714962068,
      "days": 44
     },
     "bear_2022_full": {
-     "total": -0.12282074599158044,
-     "max_dd": -0.15073922214141522,
+     "total": -0.13818926240523666,
+     "max_dd": -0.15668302784205623,
      "days": 364
     }
    },
    "RB": {
-    "worst_day": -0.03481673667804963,
+    "worst_day": -0.03496555401287205,
     "worst_day_date": "2024-03-05",
-    "worst_7d": -0.049663761470344236,
-    "worst_7d_start": "2022-03-31",
-    "worst_30d": -0.0700827982564618,
-    "worst_30d_start": "2022-03-28",
+    "worst_7d": -0.060441382882844175,
+    "worst_7d_start": "2025-07-28",
+    "worst_30d": -0.07342876631849993,
+    "worst_30d_start": "2022-03-19",
     "luna_2022_05_01_to_06_30": {
-     "total": -0.0008064209775994202,
-     "max_dd": -0.012540418483372506,
+     "total": -0.00629005164583385,
+     "max_dd": -0.012740674622229164,
      "days": 60
     },
     "ftx_2022_11_01_to_12_15": {
-     "total": -0.014552459629528558,
-     "max_dd": -0.01768844812853687,
+     "total": -0.030101508760155937,
+     "max_dd": -0.0321102238867641,
      "days": 44
     },
     "bear_2022_full": {
-     "total": -0.11697694828392025,
-     "max_dd": -0.13531241198176047,
+     "total": -0.14165394929098085,
+     "max_dd": -0.15550666034691107,
      "days": 364
     }
    },
    "CONS": {
-    "worst_day": -0.027685309240872646,
-    "worst_day_date": "2024-03-05",
-    "worst_7d": -0.03678997936269124,
-    "worst_7d_start": "2022-03-31",
-    "worst_30d": -0.052091789766731345,
-    "worst_30d_start": "2024-03-05",
+    "worst_day": -0.019210746713238858,
+    "worst_day_date": "2025-07-23",
+    "worst_7d": -0.035304626771592185,
+    "worst_7d_start": "2024-09-25",
+    "worst_30d": -0.05184621579893167,
+    "worst_30d_start": "2024-09-22",
     "luna_2022_05_01_to_06_30": {
-     "total": -0.005483009244069081,
-     "max_dd": -0.011971888135467124,
+     "total": -0.0008780802729317916,
+     "max_dd": -0.011585698310273673,
      "days": 60
     },
     "ftx_2022_11_01_to_12_15": {
-     "total": -0.011307856960764084,
-     "max_dd": -0.01372162825968104,
+     "total": -0.01195672825087657,
+     "max_dd": -0.014903065864499632,
      "days": 44
     },
     "bear_2022_full": {
-     "total": -0.09852844605568489,
-     "max_dd": -0.11713221433604692,
+     "total": -0.0913270568142881,
+     "max_dd": -0.11103461054695818,
      "days": 364
     }
    },
@@ -2215,11 +2652,23 @@
     }
    }
   },
-  "sleeve_expectancy_minus_0p2R_per_year_pct_equity_HYPOTHETICAL": {
-   "EW": -0.22314724834294425,
-   "IV": -0.18058022438381752,
-   "RB": -0.15191047765660767,
-   "CONS": -0.1345596609902964
+  "sleeve_expectancy_minus_0p2R_per_year_frac_equity_uncompounded_HYPOTHETICAL": {
+   "EW": {
+    "CRY-MOM-101": -0.04706447955625243,
+    "CRY-VEX-103": -0.16026052972632635
+   },
+   "IV": {
+    "CRY-MOM-101": -0.05474021671922552,
+    "CRY-VEX-103": -0.14147128096686964
+   },
+   "RB": {
+    "CRY-MOM-101": -0.05876220942147398,
+    "CRY-VEX-103": -0.11749425052327162
+   },
+   "CONS": {
+    "CRY-MOM-101": -0.03448230257729194,
+    "CRY-VEX-103": -0.07857742806948166
+   }
   }
  },
  "validation_gates": {
@@ -2233,7 +2682,7 @@
    "V3_venue_and_observed_costs": false,
    "V4_prereg_frozen_adjudicated": false,
    "V5_oos_sharpe_ci_lower_gt_0": false,
-   "V5_oos_maxdd_ok": false,
+   "V5_oos_maxdd_ok": true,
    "V6_stage04_gates_open_now": false,
    "V6_detail": {
     "CRY-MOM-101": "NOT_SUPPORTED_GATE_CLOSED",
@@ -2304,7 +2753,7 @@
  "counts": {
   "schemes": 4,
   "benchmarks": 5,
-  "simulations": 122,
+  "simulations": 178,
   "folds": 5,
   "oos_days": 915,
   "dev_days": 1461,
