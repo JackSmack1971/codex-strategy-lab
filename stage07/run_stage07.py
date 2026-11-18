@@ -36,17 +36,22 @@ def asset_returns(syms, names, win):
 
 
 def build_scheme_returns(lab, W, win, cost=C.BASE):
-    """Returns {scheme: (daily returns, per-sleeve contribution dict, sleeve results)} for a window using weights W[scheme]."""
+    """Shared-book simulation of every scheme in a window with weights W[scheme] (plan amendment 1)."""
+    return {sc: lab.shared(sc, W[sc], win, cost) for sc in SCHEMES}
+
+
+def seg_exposure(lab, W, win):
+    """Run-1 exhibit: segregated sub-books, exposures normalised by contemporaneous equity."""
     out = {}
-    base = {sid: lab.sleeve(sid, win, cost) for sid in C.SLEEVES}
     for sc in SCHEMES:
         w = W[sc]
-        if sc == "CONS":
-            sl = {sid: lab.sleeve(sid, win, cost, frac=w[sid], ncap=C.CONS_NCAP_TOTAL[sid] / w[sid]) for sid in C.SLEEVES}
-        else: sl = base
-        g = {sid: sl[sid]["g"] for sid in C.SLEEVES}; r = C.combine(w, g)
-        contrib = {sid: w[sid] * np.diff(np.concatenate([[1.0], g[sid]])) for sid in C.SLEEVES}
-        out[sc] = dict(r=r, contrib=contrib, sl=sl)
+        if sc == "CONS": sl = {sid: lab.sleeve(sid, win, C.BASE, frac=w[sid], ncap=C.CONS_NCAP_TOTAL[sid] / w[sid]) for sid in C.SLEEVES}
+        else: sl = {sid: lab.sleeve(sid, win) for sid in C.SLEEVES}
+        hh = (1 - sum(w.values())) + sum(w[sid] * sl[sid]["hourly"] for sid in C.SLEEVES)
+        e = C.exposure({sid: (sl[sid]["trades"], sl[sid]["cap"]) for sid in C.SLEEVES}, w, win[0], win[1], lab.syms, eq=A.CAP * hh); capr = 0.015 if sc == "CONS" else 0.03
+        out[sc] = dict(peak_open_risk=float(e["open_risk"].max()), hours_open_risk_gt_cap=int((e["open_risk"] > capr + 1e-12).sum()), peak_positions=int(e["positions"].max()),
+                       hours_positions_gt_limit=int((e["positions"] > (3 if sc == "CONS" else 6)).sum()), peak_single_asset=float(e["max_single_asset"].max()),
+                       hours_single_asset_gt_15pct=int((e["max_single_asset"] > 0.15).sum()), peak_gross=float(e["gross"].max()), hours_same_symbol_overlap=int(e["same_symbol_overlap"].sum()))
     return out
 
 
@@ -68,6 +73,11 @@ def main():
         eqv[sid] = dict(max_abs_diff_total_equity=float(np.max(np.abs(0.5 * (half - full)))), final_full=float(full[-1]), final_half=float(half[-1]),
                         trades_full=len(lab.sleeve(sid, C.DEV)["trades"]), trades_half=len(lab.sleeve(sid, C.DEV, frac=0.5)["trades"]))
     R["subbook_equivalence"] = eqv
+    comb = lab.cands(C.MOM, C.BASE) + lab.cands(C.VEX, C.BASE); ref = A.run_window(comb, syms, C.DEV, C.BASE[0], C.BASE[1])
+    from .shared import simulate_shared
+    mine = simulate_shared(comb, syms, C.DEV[0], C.DEV[1], C.BASE[0], C.BASE[1]); key = lambda T: [(t["strategy"], t["symbol"], t["entry_hour"], t["exit_hour"], round(t["qty"], 9), round(t["pnl"], 6)) for t in T]
+    assert key(ref["trades"]) == key(mine["trades"]) and np.allclose(ref["equity"], mine["equity"]), "shared simulator does not reproduce engine.simulate"
+    R["shared_simulator_equivalence"] = dict(trades=len(ref["trades"]), identical=True, max_abs_equity_diff=float(np.max(np.abs(ref["equity"] - mine["equity"]))))
     # ---------- 2. asset correlations
     hsyms, haud = build_holdout_syms(); allsyms = {**syms, **{k: hsyms[k] for k in HOLD}}
     names9 = list(E.SYMS); names13 = names9 + HOLD
@@ -85,18 +95,18 @@ def main():
     w5 = btc <= btc.quantile(0.05); cor["share_assets_down_on_btc_worst5"] = float((R9[w5] < 0).to_numpy().mean())
     R["asset_correlation"] = cor
     # ---------- 3. walk-forward weights and OOS pooled series
-    folds = []; oos = {sc: [] for sc in SCHEMES}; oos_mom, oos_vex, oos_contrib = [], [], {sc: {sid: [] for sid in C.SLEEVES} for sc in SCHEMES}
-    cash_n = 0
+    folds = []; oos = {sc: [] for sc in SCHEMES}; oos_mom, oos_vex, oos_contrib = [], [], {sc: {sid: [] for sid in C.SLEEVES} for sc in SCHEMES}; oos_tr = {sc: [] for sc in SCHEMES}
     for fd in C.FOLDS:
         rt = {sid: lab.sleeve(sid, fd["train"])["r"] for sid in C.SLEEVES}; sig, rho = C.estimate(rt[C.MOM], rt[C.VEX]); W = C.scheme_weights(sig, rho)
-        bs = build_scheme_returns(lab, W, fd["test"]); sl = bs["EW"]["sl"]
+        bs = build_scheme_returns(lab, W, fd["test"]); sl = {sid: lab.sleeve(sid, fd["test"]) for sid in C.SLEEVES}
         for sc in SCHEMES:
-            oos[sc].append(bs[sc]["r"])
-            for sid in C.SLEEVES: oos_contrib[sc][sid].append(bs[sc]["contrib"][sid])
+            oos[sc].append(bs[sc]["r"]); oos_tr[sc] += bs[sc]["trades"]
+            for sid in C.SLEEVES: oos_contrib[sc][sid].append(bs[sc]["contrib"].get(sid, np.zeros(len(bs[sc]["r"]))))
         oos_mom.append(sl[C.MOM]["r"]); oos_vex.append(sl[C.VEX]["r"])
         folds.append(dict(k=fd["k"], train_end=day(fd["train"][1]), test=[day(fd["test"][0]), day(fd["test"][1])], sigma=sig, rho=rho, weights=W,
                           oos_sharpe={sc: C.sharpe(bs[sc]["r"]) for sc in SCHEMES}, sleeve_oos_sharpe={C.MOM: C.sharpe(sl[C.MOM]["r"]), C.VEX: C.sharpe(sl[C.VEX]["r"])},
-                          oos_trades={sid: len(sl[sid]["trades"]) for sid in C.SLEEVES}, fold_maxdd={sc: C.max_dd(bs[sc]["r"]) for sc in SCHEMES}))
+                          oos_trades={sc: {sid: len(bs[sc]["trades_by"][sid]) for sid in C.SLEEVES} for sc in SCHEMES}, standalone_trades={sid: len(sl[sid]["trades"]) for sid in C.SLEEVES},
+                          fold_maxdd={sc: C.max_dd(bs[sc]["r"]) for sc in SCHEMES}, skips={sc: bs[sc]["skips"] for sc in SCHEMES}))
     P = {sc: np.concatenate(oos[sc]) for sc in SCHEMES}; Pm, Pv = np.concatenate(oos_mom), np.concatenate(oos_vex)
     d_idx = np.concatenate([np.arange(f["test"][0] // 24, f["test"][1] // 24) for f in C.FOLDS]); Pcash = np.zeros_like(Pm)
     R["folds"] = folds
@@ -115,15 +125,15 @@ def main():
         r = P.get(sc) if sc in P else (Pm if sc == "MOM_ONLY" else Pv); (lo, hi), pnon = C.sharpe_ci(r); ci[sc] = dict(sharpe=C.sharpe(r), ci95=[lo, hi], p_sharpe_le_0=pnon)
     pb = {sc: C.paired_boot(P[sc], Pm) for sc in SCHEMES}; hp = C.holm({sc: pb[sc]["p_one_sided"] for sc in SCHEMES})
     for sc in SCHEMES: pb[sc]["holm_p"] = hp[sc]
-    R["oos"] = dict(days=int(len(Pm)), results=oosres, sharpe_ci=ci, vs_mom_only=pb, per_sleeve_oos_trades={sid: int(sum(f["oos_trades"][sid] for f in folds)) for sid in C.SLEEVES},
+    R["oos"] = dict(days=int(len(Pm)), results=oosres, sharpe_ci=ci, vs_mom_only=pb, per_scheme_oos_trades={sc: {sid: int(sum(f["oos_trades"][sc][sid] for f in folds)) for sid in C.SLEEVES} for sc in SCHEMES}, standalone_oos_trades={sid: int(sum(f["standalone_trades"][sid] for f in folds)) for sid in C.SLEEVES},
                     sleeve_corr_daily=float(np.corrcoef(Pm, Pv)[0, 1]))
     # ---------- 4. in-sample (weights estimated on all of DEV) and consumed descriptive
     rD = {sid: lab.sleeve(sid, C.DEV)["r"] for sid in C.SLEEVES}; sigD, rhoD = C.estimate(rD[C.MOM], rD[C.VEX]); WD = C.scheme_weights(sigD, rhoD)
     insm = build_scheme_returns(lab, WD, C.DEV); R["in_sample"] = dict(weights=WD, sigma=sigD, rho=rhoD, results={sc: block(insm[sc]["r"]) for sc in SCHEMES},
-        sleeves={sid: block(rD[sid]) for sid in C.SLEEVES}, ew_bh_9=block(R9.mean(axis=1).to_numpy()), btc_bh=block(btc.to_numpy()))
+        sleeves={sid: block(rD[sid]) for sid in C.SLEEVES}, trades={sc: {sid: len(insm[sc]["trades_by"][sid]) for sid in C.SLEEVES} for sc in SCHEMES}, ew_bh_9=block(R9.mean(axis=1).to_numpy()), btc_bh=block(btc.to_numpy()))
     cons = build_scheme_returns(lab, WD, C.CONSUMED); cc = asset_returns(allsyms, names9, C.CONSUMED)
     R["consumed_descriptive"] = dict(note="CONSUMED_LEGACY 2025-11-17..2026-11-17; weights from DEV; descriptive only", results={sc: C.stats(cons[sc]["r"]) for sc in SCHEMES},
-        sleeves={sid: C.stats(cons["EW"]["sl"][sid]["r"]) for sid in C.SLEEVES}, trades={sid: len(cons["EW"]["sl"][sid]["trades"]) for sid in C.SLEEVES},
+        sleeves={sid: C.stats(lab.sleeve(sid, C.CONSUMED)["r"]) for sid in C.SLEEVES}, trades={sc: {sid: len(cons[sc]["trades_by"][sid]) for sid in C.SLEEVES} for sc in SCHEMES},
         ew_bh_9=C.stats(cc.mean(axis=1).to_numpy()), btc_bh=C.stats(cc["BTC"].to_numpy()))
     # ---------- 5. strategy-level correlations (in-sample DEV, w=1 sleeves)
     rm_, rv_ = rD[C.MOM], rD[C.VEX]; ex = C.exposure({sid: (lab.sleeve(sid, C.DEV)["trades"], lab.sleeve(sid, C.DEV)["cap"]) for sid in C.SLEEVES}, {C.MOM: 1.0, C.VEX: 1.0}, C.DEV[0], C.DEV[1], syms)
@@ -140,21 +150,21 @@ def main():
         both_lose_on_btc_worst_decile=float(np.mean((rm_[stressmask] < 0) & (rv_[stressmask] < 0))), either_lose_on_btc_worst_decile=float(np.mean((rm_[stressmask] < 0) | (rv_[stressmask] < 0))),
         both_flat_on_btc_worst_decile=float(np.mean((rm_[stressmask] == 0) & (rv_[stressmask] == 0))))
     # ---------- 6. exposure / risk-budget utilisation (in-sample DEV timelines with in-sample weights)
-    expo = {}
+    expo = {}; EX = {}
     for sc in SCHEMES:
-        w = WD[sc]; sl = insm[sc]["sl"]; e = C.exposure({sid: (sl[sid]["trades"], sl[sid]["cap"]) for sid in C.SLEEVES}, w, C.DEV[0], C.DEV[1], syms)
-        capr = 0.015 if sc == "CONS" else 0.03
-        expo[sc] = dict(weights=w, cash=1 - sum(w.values()), peak_open_risk=float(e["open_risk"].max()), mean_open_risk=float(e["open_risk"].mean()), p95_open_risk=float(np.quantile(e["open_risk"], .95)),
-            risk_cap_used=capr, peak_util=float(e["open_risk"].max() / capr), mean_util=float(e["open_risk"].mean() / capr), frac_hours_any_position=float((e["positions"] > 0).mean()),
-            peak_gross=float(e["gross"].max()), mean_gross=float(e["gross"].mean()), peak_positions=int(e["positions"].max()), peak_single_asset=float(e["max_single_asset"].max()),
-            hours_single_asset_gt_15pct=int((e["max_single_asset"] > 0.15).sum()), hours_gross_gt_40pct=int((e["gross"] > 0.40).sum()), hours_positions_gt_3=int((e["positions"] > 3).sum()),
-            hours_same_symbol_overlap=int(e["same_symbol_overlap"].sum()), hours_open_risk_gt_cap=int((e["open_risk"] > capr + 1e-12).sum()), max_trade_risk_frac=float(max(w[s] for s in C.SLEEVES) * 0.01))
-        if sc == "EW": exposure_EW = e
-    R["exposure_and_budget"] = expo
+        w = WD[sc]; e = C.exposure({sid: (insm[sc]["trades_by"][sid], A.CAP) for sid in C.SLEEVES}, {sid: 1.0 for sid in C.SLEEVES}, C.DEV[0], C.DEV[1], syms, eq=insm[sc]["eqh"]); EX[sc] = e
+        prm = C.scheme_params(sc, w); capr = prm["total"]
+        expo[sc] = dict(weights=w, cash_weight=1 - sum(w.values()), limits=dict(open_risk=capr, positions=prm["max_pos"], single_asset=prm["single_cap"], gross=prm["gross_cap"], risk_per_trade=prm["per_trade"]),
+            peak_open_risk=float(e["open_risk"].max()), mean_open_risk=float(e["open_risk"].mean()), p95_open_risk=float(np.quantile(e["open_risk"], .95)), peak_util=float(e["open_risk"].max() / capr), mean_util=float(e["open_risk"].mean() / capr),
+            frac_hours_any_position=float((e["positions"] > 0).mean()), peak_gross=float(e["gross"].max()), mean_gross=float(e["gross"].mean()), peak_positions=int(e["positions"].max()), peak_single_asset=float(e["max_single_asset"].max()),
+            hours_single_asset_gt_limit=int((e["max_single_asset"] > prm["single_cap"] + 1e-9).sum()), hours_gross_gt_limit=int((e["gross"] > prm["gross_cap"] + 1e-9).sum()), hours_positions_gt_limit=int((e["positions"] > prm["max_pos"]).sum()),
+            hours_same_symbol_overlap=int(e["same_symbol_overlap"].sum()), hours_open_risk_gt_limit=int((e["open_risk"] > capr + 1e-9).sum()), skips=insm[sc]["skips"],
+            max_trade_risk_frac_reserved=float(max((t["reserved_risk"] / t["E_entry"] for t in insm[sc]["trades"]), default=0.0)))
+    R["exposure_and_budget"] = expo; R["segregated_exhibit_run1_corrected_normalisation"] = seg_exposure(lab, WD, C.DEV)
     # hypothetical shocks on the realised timeline
     shock = {}
     for sc in SCHEMES:
-        sl = insm[sc]["sl"]; e = C.exposure({sid: (sl[sid]["trades"], sl[sid]["cap"]) for sid in C.SLEEVES}, WD[sc], C.DEV[0], C.DEV[1], syms)
+        e = EX[sc]
         shock[sc] = dict(gap20_all_open_loss_max=float(0.20 * e["gross"].max()), gap20_vs_planned_open_risk_max=float((0.20 * e["gross"]).max() / max(e["open_risk"].max(), 1e-12)),
                          stop_fill_minus_2R_all_open=float(2 * e["open_risk"].max()), stop_fill_minus_1p5R_all_open=float(1.5 * e["open_risk"].max()),
                          all_open_hit_planned_stop=float(e["open_risk"].max()))
@@ -168,10 +178,10 @@ def main():
     # by asset: exit-day realised pnl of the trades on worst-5% days (in-sample EW)
     r_ew = insm["EW"]["r"]; kk = max(1, int(math.ceil(0.05 * len(r_ew)))); worst = set(np.argsort(r_ew)[:kk].tolist()); by_asset = {}; by_asset_all = {}
     for sid in C.SLEEVES:
-        for t in insm["EW"]["sl"][sid]["trades"]:
+        for t in insm["EW"]["trades_by"][sid]:
             di = (t["exit_hour"] - C.DEV[0]) // 24; by_asset_all[t["symbol"]] = by_asset_all.get(t["symbol"], 0) + t["pnl"] / A.CAP
             if di in worst: by_asset[t["symbol"]] = by_asset.get(t["symbol"], 0) + t["pnl"] / A.CAP
-    R["tail_concentration"]["asset_realised_pnl_on_worst5_days_EW_insample"] = by_asset; R["tail_concentration"]["asset_realised_pnl_total_sleeves_w1"] = by_asset_all
+    R["tail_concentration"]["asset_realised_pnl_on_worst5_days_EW_insample"] = by_asset; R["tail_concentration"]["asset_realised_pnl_total_EW"] = by_asset_all
     # ---------- 8. cost sensitivity (pooled OOS; weights fixed from base-cost estimation)
     costs = {"0x": (0.0, 0.0), "1x": C.BASE, "2x": (0.002, 0.001), "3x": (0.003, 0.0015), "stressA": C.STRESS_A, "stressB": C.STRESS_B}; cs = {}
     for cn, cost in costs.items():
@@ -179,7 +189,7 @@ def main():
         for fd, fr in zip(C.FOLDS, folds):
             bs = build_scheme_returns(lab, fr["weights"], fd["test"], cost)
             for sc in SCHEMES: pooled[sc].append(bs[sc]["r"])
-            pm.append(bs["EW"]["sl"][C.MOM]["r"]); pv.append(bs["EW"]["sl"][C.VEX]["r"])
+            pm.append(lab.sleeve(C.MOM, fd["test"], cost)["r"]); pv.append(lab.sleeve(C.VEX, fd["test"], cost)["r"])
         cs[cn] = dict(cost=cost, **{sc: dict(sharpe=C.sharpe(np.concatenate(pooled[sc])), total_return=float(np.prod(1 + np.concatenate(pooled[sc])) - 1), max_dd=C.max_dd(np.concatenate(pooled[sc]))) for sc in SCHEMES},
                       MOM_ONLY=dict(sharpe=C.sharpe(np.concatenate(pm)), total_return=float(np.prod(1 + np.concatenate(pm)) - 1)), VEX_ONLY=dict(sharpe=C.sharpe(np.concatenate(pv)), total_return=float(np.prod(1 + np.concatenate(pv)) - 1)))
     R["cost_sensitivity"] = cs
@@ -205,14 +215,17 @@ def main():
             if np.isfinite(qm) and t["qty"] * t["entry_fill"] > 0: ratios.append(0.01 * qm / (t["qty"] * t["entry_fill"]))
         ratios = np.array(ratios); cap[sid] = dict(n=int(len(ratios)), k_p05=float(np.quantile(ratios, .05)), k_p50=float(np.median(ratios)), frac_cap_binding_at_10k=float(np.mean(ratios < 1.05)),
             account_size_p05_if_sleeve_full=float(A.CAP * np.quantile(ratios, .05)))
-    R["liquidity_capacity"] = dict(sleeves=cap, participation_cap=0.01, note="ratio = (1% of median 168h quote volume)/(entry notional) at a $10k single-sleeve book; account size scales trade size linearly (impact beyond the 1% cap is not modelled)",
-        per_scheme_account_size_p05={sc: float(min(cap[s]["account_size_p05_if_sleeve_full"] / max(WD[sc][s], 1e-9) for s in C.SLEEVES)) for sc in SCHEMES})
+    sch_cap = {}
+    for sc in SCHEMES:
+        ratios = np.array([0.01 * syms[t["symbol"]].qmed168[t["entry_hour"] - 1] / (t["qty"] * t["entry_fill"]) for t in insm[sc]["trades"] if np.isfinite(syms[t["symbol"]].qmed168[t["entry_hour"] - 1])])
+        sch_cap[sc] = dict(n=int(len(ratios)), k_p05=float(np.quantile(ratios, .05)), k_p50=float(np.median(ratios)), frac_trades_cap_binding_at_10k=float(np.mean(ratios < 1.05)), account_size_p05=float(A.CAP * np.quantile(ratios, .05)))
+    R["liquidity_capacity"] = dict(sleeves_standalone=cap, schemes=sch_cap, participation_cap=0.01, note="ratio = (1% of median 168h quote volume)/(entry notional) at $10k; account size scales trade size linearly; impact beyond the 1% cap is not modelled; real fills not observed")
     # ---------- 11. regimes (BTC regime label on the day, Stage 02 definition) and cash share
     lab_r = A.btc_regime_by_day(syms)[C.DEV[0] // 24: C.DEV[1] // 24]; rg = {}
     for lbl in sorted(set(lab_r)):
         m = lab_r == lbl; rg[lbl] = dict(days=int(m.sum()), **{sid: dict(sum_ret=float(rD[sid][m].sum()), mean_ret=float(rD[sid][m].mean()), active_days=int((rD[sid][m] != 0).sum())) for sid in C.SLEEVES},
-                                          EW=dict(sum_ret=float(insm["EW"]["r"][m].sum())), btc=dict(sum_ret=float(bt[m].sum())))
-    sg = {sc: dict(DR=float(sum(WD[sc][s] * sigD[s] for s in C.SLEEVES) / np.std(insm[sc]["r"], ddof=1)), risk_contrib=C.risk_contrib({k: v for k, v in WD[sc].items()}, sigD, rhoD) if sc != "CONS" else C.risk_contrib({s: WD[sc][s] for s in C.SLEEVES}, sigD, rhoD)) for sc in SCHEMES}
+                                          EW=dict(sum_ret=float(insm["EW"]["r"][m].sum())), CONS=dict(sum_ret=float(insm["CONS"]["r"][m].sum())), btc=dict(sum_ret=float(bt[m].sum())))
+    sg = {sc: dict(DR=float(sum(WD[sc][s_] * sigD[s_] for s_ in C.SLEEVES) / np.std(insm[sc]["r"], ddof=1)), risk_contrib=C.risk_contrib({s_: WD[sc][s_] for s_ in C.SLEEVES}, sigD, rhoD)) for sc in SCHEMES}
     R["diversification"] = dict(regime_attribution=rg, ratios=sg, frac_days_flat_both_sleeves=float(np.mean((rD[C.MOM] == 0) & (rD[C.VEX] == 0))), frac_days_flat_mom=float(np.mean(rD[C.MOM] == 0)), frac_days_flat_vex=float(np.mean(rD[C.VEX] == 0)))
     # ---------- 12. estimation-error sensitivity
     rng = np.random.default_rng(C.SEED); n = len(rD[C.MOM]); idx = C._blocks(n, 500, C.BLOCK, rng); bw = {"IV": [], "RB": []}
@@ -247,11 +260,10 @@ def main():
     stw["EW_BH_9"] = dict(luna=win_ret(R9.mean(axis=1).to_numpy(), "2022-05-01", "2022-06-30"), ftx=win_ret(R9.mean(axis=1).to_numpy(), "2022-11-01", "2022-12-15"), bear_2022=win_ret(R9.mean(axis=1).to_numpy(), "2022-01-01", "2022-12-31"))
     stw["BTC_BH"] = dict(luna=win_ret(bt, "2022-05-01", "2022-06-30"), ftx=win_ret(bt, "2022-11-01", "2022-12-15"), bear_2022=win_ret(bt, "2022-01-01", "2022-12-31"))
     # sleeve-failure arithmetic: each trade at -0.2R
-    fail = {}
+    fail = {}; yrs = (C.DEV[1] - C.DEV[0]) / 24 / 365
     for sc in SCHEMES:
-        sl = insm[sc]["sl"]; yrs = (C.DEV[1] - C.DEV[0]) / 24 / 365
-        fail[sc] = float(sum(-0.2 * t["reserved_risk"] / t["E_entry"] * WD[sc][sid] for sid in C.SLEEVES for t in sl[sid]["trades"]) / yrs)
-    R["stress"] = dict(historical=stw, sleeve_expectancy_minus_0p2R_per_year_pct_equity_HYPOTHETICAL=fail)
+        fail[sc] = {sid: float(sum(-0.2 * t["reserved_risk"] / t["E_entry"] for t in insm[sc]["trades_by"][sid]) / yrs) for sid in C.SLEEVES}
+    R["stress"] = dict(historical=stw, sleeve_expectancy_minus_0p2R_per_year_frac_equity_uncompounded_HYPOTHETICAL=fail)
     # ---------- 14. V-gates (predeclared in the plan)
     h06 = json.loads((ROOT / "docs/strategy-specs/stage06/stage06_holdout_results.json").read_text()); h04 = json.loads((ROOT / "docs/strategy-specs/STAGE_04_HANDOFF.json").read_text())
     hb = {sid: h06["results"][f"{sid}|BASELINE"]["dev"]["sharpe"] for sid in C.SLEEVES}
