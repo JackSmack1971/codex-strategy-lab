@@ -15,6 +15,6 @@ ax[0].set_title("Factor information coefficient by period (9 assets; IC SE ~0.05
 ic = pd.read_csv(OUT / "factor_ic_daily_h7.csv", index_col=0, parse_dates=True)
 for k in ["MOM", "TREND", "VOL", "LIQ", "VALUE"]: ax[1].plot(ic.index, ic[k].rolling(90, min_periods=60).mean(), color=C[k], lw=1.4, label=k)
 ax[1].axhline(0, color="k", lw=0.8); ax[1].axvline(pd.Timestamp("2024-11-17", tz="UTC") if ic.index.tz else pd.Timestamp("2024-11-17"), color="#555", ls="--", lw=1); ax[1].text(ic.index[-1], ax[1].get_ylim()[1] * 0.9, "validation starts at dashed line", ha="right", fontsize=8)
-ax[1].set_ylabel("rolling 90-day mean IC"); ax[1].legend(ncol=5, frameon=False, fontsize=8, loc="lower left"); ax[1].set_title("Stability over time (train + validation; gap = purged days)", loc="left", fontsize=10)
+ax[1].set_ylabel("rolling 90-day mean IC"); ax[1].legend(ncol=5, frameon=False, fontsize=8, loc="lower left"); ax[1].set_title("Stability over time (train + validation concatenated; rolling window spans the split boundary)", loc="left", fontsize=10)
 for a in ax: a.spines[["top", "right"]].set_visible(False)
 fig.savefig(OUT / "factor_ic.png", dpi=130)

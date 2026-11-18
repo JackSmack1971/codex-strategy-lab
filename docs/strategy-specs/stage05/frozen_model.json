@@ -1,0 +1,54 @@
+{
+ "model_id": "CRY-MFS-201",
+ "version": "0.1.0-draft",
+ "chosen_candidate": "EQ",
+ "factor_signs": {
+  "MOM": 1,
+  "TREND": 1,
+  "VOL": -1,
+  "LIQ": 1,
+  "VALUE": -1,
+  "VALUE_MVRV": -1
+ },
+ "params": {
+  "mom_n": 30,
+  "ema_fast": 50,
+  "ema_slow": 200,
+  "vol_n": 30,
+  "vol_minobs": 27,
+  "liq_short": 7,
+  "liq_base": 90,
+  "liq_lag": 7,
+  "val_far": 365,
+  "val_near": 90,
+  "min_assets": 5,
+  "clip": 2.0,
+  "min_factors": 3,
+  "ema_minobs": 200
+ },
+ "weights": {
+  "MOM": 0.3333333333333333,
+  "TREND": 0.0,
+  "VOL": 0.3333333333333333,
+  "LIQ": 0.0,
+  "VALUE": 0.3333333333333333
+ },
+ "composite_experimental": [
+  "VALUE_MVRV"
+ ],
+ "factor_status": {
+  "MOM": "EXPERIMENTAL_WEAK",
+  "TREND": "EXCLUDED",
+  "VOL": "SUPPORTED",
+  "LIQ": "EXCLUDED",
+  "VALUE": "EXPERIMENTAL_WEAK",
+  "VALUE_MVRV": "EXCLUDED"
+ },
+ "horizon_days": 7,
+ "topk": 3,
+ "rebalance_days": 7,
+ "cost_per_side": 0.0015,
+ "seed": 20261118,
+ "regime_tag_source": "BTC Stage 04 direction rule (>=4/5 votes)",
+ "sha256": "0c6ebcd7dc7f1040030b232a18760928f54b0deaacaaa98b571a91952a8634fb"
+}
