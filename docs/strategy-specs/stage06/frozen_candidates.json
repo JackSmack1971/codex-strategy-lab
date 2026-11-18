@@ -1,0 +1,80 @@
+{
+ "baselines": [
+  "CRY-MOM-101",
+  "CRY-VEX-103"
+ ],
+ "code_commit": "ce43d5e372759e9f913ea19d61023e1f3b215ed2",
+ "combo": {
+  "CRY-MOM-101": {
+   "P_overrides": {
+    "stop_k": 2.5,
+    "trail_k": 4.0
+   },
+   "boot": {
+    "ci95_mean_diff": [
+     7.632744796580614e-05,
+     0.0009245488599048812
+    ],
+    "dSharpe_ci95": [
+     0.15433335936096979,
+     1.582137178946223
+    ],
+    "dSharpe_lower90": 0.37120457096072007,
+    "mean_diff": 0.00043580442137332564,
+    "n_days": 915,
+    "p_one_sided": 0.004399560043995601
+   },
+   "members": [
+    "CRY-MOM-101|ENTRY_CONFIRM",
+    "CRY-MOM-101|STOP",
+    "CRY-MOM-101|FACTOR_OVERLAY"
+   ],
+   "oos_dSharpe": 0.8377421046163807,
+   "x": {
+    "confirm": 3,
+    "factor": [
+     "EQ3",
+     0.0
+    ]
+   }
+  }
+ },
+ "finalists": [
+  {
+   "P_overrides": {},
+   "cid": "CRY-MOM-101|ENTRY_CONFIRM|confirm=3",
+   "family": "ENTRY_CONFIRM",
+   "key": "CRY-MOM-101|ENTRY_CONFIRM",
+   "sid": "CRY-MOM-101",
+   "x": {
+    "confirm": 3
+   }
+  },
+  {
+   "P_overrides": {
+    "stop_k": 2.5,
+    "trail_k": 4.0
+   },
+   "cid": "CRY-MOM-101|STOP|stop_k=2.5,trail_k=4.0",
+   "family": "STOP",
+   "key": "CRY-MOM-101|STOP",
+   "sid": "CRY-MOM-101",
+   "x": {}
+  },
+  {
+   "P_overrides": {},
+   "cid": "CRY-MOM-101|FACTOR_OVERLAY|factor=('EQ3', 0.0)",
+   "family": "FACTOR_OVERLAY",
+   "key": "CRY-MOM-101|FACTOR_OVERLAY",
+   "sid": "CRY-MOM-101",
+   "x": {
+    "factor": [
+     "EQ3",
+     0.0
+    ]
+   }
+  }
+ ],
+ "plan": "docs/strategy-specs/STAGE_06_ANALYSIS_PLAN.md",
+ "selection_record_sha256": "067c47349c9d1cbf42a444c5c9c8e036ea59c127e7b2c7dc8ab6c7d22918d64a"
+}
