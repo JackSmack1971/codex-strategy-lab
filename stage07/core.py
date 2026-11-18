@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 import numpy as np, pandas as pd
 from stage02 import engine as E, analysis as A, load_grid
+from .shared import simulate_shared
 
 MOM, VEX, REV = "CRY-MOM-101", "CRY-VEX-103", "CRY-REV-102"
 SLEEVES = [MOM, VEX]
@@ -56,6 +57,13 @@ def w_riskbudget(sig, rho, budget=BUDGET_RB):
 def estimate(rm, rv):
     """Sleeve volatility (daily) and correlation from estimation-window daily returns of the w=1 sleeves."""
     return {MOM: float(np.std(rm, ddof=1)), VEX: float(np.std(rv, ddof=1))}, float(np.corrcoef(rm, rv)[0, 1])
+
+
+def scheme_params(sc, w):
+    """Shared-book admission parameters of a scheme (design choices declared in the plan amendment): per-trade risk = w_i x 1 % of equity."""
+    if sc == "CONS":
+        return dict(per_trade={k: w[k] * 0.01 for k in SLEEVES}, total=0.015, max_pos=3, ncap=dict(CONS_NCAP_TOTAL), single_cap=0.15, gross_cap=0.40)
+    return dict(per_trade={k: w[k] * 0.01 for k in SLEEVES}, total=0.03, max_pos=6, ncap=0.33, single_cap=0.15, gross_cap=0.60)
 
 
 def scheme_weights(sig, rho):
@@ -170,6 +178,13 @@ class Lab:
         if k not in self._c: self._c[k] = A.cands_for(sid, E.DEFAULTS[sid], self.syms, cost[0], cost[1])
         return self._c[k]
 
+    def shared(self, sc, w, win, cost=BASE):
+        prm = scheme_params(sc, w); k = ("shared", sc, tuple(sorted((a, round(b, 9)) for a, b in w.items())), win, cost)
+        if k not in self._s:
+            cands = self.cands(MOM, cost) + self.cands(VEX, cost)
+            res = simulate_shared(cands, self.syms, win[0], win[1], cost[0], cost[1], **prm); self.n_sims += 1; self._s[k] = _shared_view(res)
+        return self._s[k]
+
     def sleeve(self, sid, win, cost=BASE, frac=1.0, ncap=0.33):
         k = (sid, win, cost, round(frac, 9), ncap)
         if k not in self._s:
@@ -179,7 +194,14 @@ class Lab:
         return self._s[k]
 
 
-def exposure(trades_by_sleeve, w, ws, we, syms):
+def _shared_view(res, cap=A.CAP):
+    d = res["equity"][23::24][: len(res["equity"]) // 24]; ser = np.concatenate([[cap], d]); r = ser[1:] / ser[:-1] - 1
+    contrib = {sid: np.diff(np.concatenate([[0.0], pn[23::24][: len(pn) // 24]])) / cap for sid, pn in res["pnl_by"].items()}
+    by = {sid: [t for t in res["trades"] if t["strategy"] == sid] for sid in SLEEVES}
+    return dict(r=r, contrib=contrib, trades=res["trades"], trades_by=by, eqh=res["equity"], skips=res["skips"], growth=d / cap)
+
+
+def exposure(trades_by_sleeve, w, ws, we, syms, eq=None):
     """Hourly open risk, gross notional, positions and per-symbol notional (fractions of TOTAL equity ~ E_entry) from realised trades scaled by sleeve weight.
     `trades_by_sleeve[sid]` = (trades, cap) where cap is the sub-book capital in $ the trades were simulated on."""
     H = we - ws; risk = np.zeros(H); notl = np.zeros(H); npos = np.zeros(H); per = {}; occ = {sid: {} for sid in trades_by_sleeve}
@@ -188,9 +210,11 @@ def exposure(trades_by_sleeve, w, ws, we, syms):
         for t in trs:
             a = max(t["entry_hour"], ws) - ws; b = min(t["exit_hour"] + (t["tf"] if t["kind"] in ("stop", "target") else 1), we) - ws
             if b <= a: continue
-            r = t["reserved_risk"] * sc / A.CAP; nt = t["qty"] * t["entry_fill"] * sc / A.CAP
+            r = t["reserved_risk"] * sc; nt = t["qty"] * t["entry_fill"] * sc
             risk[a:b] += r; notl[a:b] += nt; npos[a:b] += 1; per.setdefault(t["symbol"], np.zeros(H))[a:b] += nt
             occ[sid].setdefault(t["symbol"], np.zeros(H, bool))[a:b] = True
+    den = np.full(H, A.CAP) if eq is None else np.asarray(eq, float)       # contemporaneous total equity in $ (default: initial capital)
+    risk, notl = risk / den, notl / den; per = {k: v / den for k, v in per.items()}
     maxsym = np.max(np.vstack(list(per.values())), axis=0) if per else np.zeros(H)
     overlap = np.zeros(H, bool)
     if len(trades_by_sleeve) > 1:

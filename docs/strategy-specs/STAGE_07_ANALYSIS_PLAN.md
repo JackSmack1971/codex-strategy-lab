@@ -68,3 +68,13 @@ Thresholds are judgement-based and uncalibrated.
 ## 7. Multiple testing
 Four schemes + 2 sleeve-only benchmarks are compared; scheme-vs-benchmark p-values are Holm-adjusted over the 4 schemes. Weight estimates are never tuned on test folds.
 Dispositions are research assessments; `adjudicate.py` is NOT run (needs an independent recorded review).
+
+## 8. AMENDMENT 1 (recorded after run 1, before run 2; disclosed in the report)
+Run 1 (segregated sub-books, plan section 2) was executed and is preserved as `stage07/stage07_run1_segregated_results.json`. It showed that segregated sleeves
+**cannot honour the portfolio-level limits**: up to 7 simultaneous positions, same-symbol overlap in 1,175 hours, and single-asset notional well above 15 %
+(run 1 also normalised exposures by initial rather than contemporaneous equity, which overstated the open-risk figures). The amendment is driven by those limit
+violations, not by performance; OOS Sharpe values from run 1 were visible when it was written, which is disclosed as a selection-bias caveat.
+Primary design from run 2: **one shared book per scheme** with portfolio admission control (`stage07/shared.py`, a port of `engine.simulate`, asserted identical to the engine under uniform parameters):
+per-trade risk = w_i x 1 % of equity; EW/IV/RB: open-risk cap 3 %, <= 6 positions, single-asset notional <= 15 %, gross <= 60 %, per-position notional <= 33 %; CONS (Stage 03 budgets): per-trade 0.5 % / 0.25 %,
+open-risk cap 1.5 %, <= 3 positions, per-position notional 13.3 % (MOM) / 10 % (VEX), single-asset 15 %, gross 40 %. One position per symbol across sleeves is already an engine rule.
+Weights, folds, windows, costs, statistics, gates V1-V6 and the default NO ALLOCATION are unchanged. Exposure ratios use contemporaneous equity.
