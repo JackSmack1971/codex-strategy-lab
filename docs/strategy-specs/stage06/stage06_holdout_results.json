@@ -1,0 +1,379 @@
+{
+ "head": "ace56f4e3c76aa2774f83b6ed53f415b2e600d34",
+ "frozen_candidates_sha256": "85cc5f873d24dd188fccd6a978467f5c33a41c50f3dc0e2aea21c72f5478a7b1",
+ "assets": [
+  "BNB",
+  "DOT",
+  "ATOM",
+  "BCH"
+ ],
+ "windows": {
+  "dev": [
+   "2021-11-17 00:00:00+00:00",
+   "2025-11-17 00:00:00+00:00"
+  ],
+  "consumed": [
+   "2025-11-17 00:00:00+00:00",
+   "2026-11-17 00:00:00+00:00"
+  ]
+ },
+ "data_audit": {
+  "BNB": {
+   "symbol": "BNB",
+   "files": 83,
+   "raw_rows": 48641,
+   "duplicates": 0,
+   "first": "2021-05-01 00:00:00+00:00",
+   "last_open": "2026-11-17 23:00:00+00:00",
+   "rows": 48641,
+   "gap_events": 3,
+   "missing_bars": 7,
+   "max_gap_hours": 4,
+   "nonfinite": 0,
+   "ohlc_violations": 0,
+   "zero_volume_bars": 1,
+   "jumps_gt_20pct": 0,
+   "max_abs_1h_logret": 0.16204787967405632
+  },
+  "DOT": {
+   "symbol": "DOT",
+   "files": 83,
+   "raw_rows": 48641,
+   "duplicates": 0,
+   "first": "2021-05-01 00:00:00+00:00",
+   "last_open": "2026-11-17 23:00:00+00:00",
+   "rows": 48641,
+   "gap_events": 3,
+   "missing_bars": 7,
+   "max_gap_hours": 4,
+   "nonfinite": 0,
+   "ohlc_violations": 0,
+   "zero_volume_bars": 1,
+   "jumps_gt_20pct": 5,
+   "max_abs_1h_logret": 0.3799975857125382
+  },
+  "ATOM": {
+   "symbol": "ATOM",
+   "files": 83,
+   "raw_rows": 48641,
+   "duplicates": 0,
+   "first": "2021-05-01 00:00:00+00:00",
+   "last_open": "2026-11-17 23:00:00+00:00",
+   "rows": 48641,
+   "gap_events": 3,
+   "missing_bars": 7,
+   "max_gap_hours": 4,
+   "nonfinite": 0,
+   "ohlc_violations": 0,
+   "zero_volume_bars": 1,
+   "jumps_gt_20pct": 6,
+   "max_abs_1h_logret": 0.3149387890110902
+  },
+  "BCH": {
+   "symbol": "BCH",
+   "files": 83,
+   "raw_rows": 48641,
+   "duplicates": 0,
+   "first": "2021-05-01 00:00:00+00:00",
+   "last_open": "2026-11-17 23:00:00+00:00",
+   "rows": 48641,
+   "gap_events": 3,
+   "missing_bars": 7,
+   "max_gap_hours": 4,
+   "nonfinite": 0,
+   "ohlc_violations": 0,
+   "zero_volume_bars": 1,
+   "jumps_gt_20pct": 1,
+   "max_abs_1h_logret": 0.2905976635131555
+  }
+ },
+ "criteria": {
+  "dSharpe_min": 0.0,
+  "trade_frac": 0.75,
+  "dd_tol": 0.01
+ },
+ "results": {
+  "CRY-MOM-101|BASELINE": {
+   "kind": "baseline",
+   "sid": "CRY-MOM-101",
+   "testable": true,
+   "dev": {
+    "n": 71,
+    "ratio": -0.08854855156121019,
+    "sharpe": -0.19622496793804475,
+    "sortino": -0.2900283711559248,
+    "max_dd": -0.12774891863810856,
+    "total_return": -0.05893787374077586,
+    "cagr": -0.015061558200855973,
+    "ann_vol": 0.06620466419973937,
+    "turnover_per_year": 4.883423852286109,
+    "exposure_time": 0.1669233401779603,
+    "win_rate": 0.29577464788732394,
+    "profit_factor": 0.8162126536514084,
+    "expectancy_R": -0.07679928263233744,
+    "worst5_loss": -493.85300692059695,
+    "forced_closes": 0.0
+   },
+   "consumed_descriptive": {
+    "n": 8,
+    "ratio": 0.4449964697072728,
+    "sharpe": 0.8659507573629419,
+    "sortino": 1.6624579568716458,
+    "max_dd": -0.023008594994023523,
+    "total_return": 0.035344257027802195,
+    "cagr": 0.035344257027802195,
+    "ann_vol": 0.04107937945573961,
+    "turnover_per_year": 4.064210768974271,
+    "exposure_time": 0.10273972602739725,
+    "win_rate": 0.375,
+    "profit_factor": 2.2118309640221305,
+    "expectancy_R": 0.4970558330364658,
+    "worst5_loss": -291.6599598222261,
+    "forced_closes": 0.0
+   },
+   "stress_A": {
+    "n": 71,
+    "sharpe": -0.30889744396251223,
+    "ratio": -0.1274751422015408,
+    "max_dd": -0.13834029249143864
+   },
+   "stress_B": {
+    "n": 71,
+    "sharpe": -0.3088974439625166,
+    "ratio": -0.1274751422015406,
+    "max_dd": -0.1383402924914391
+   }
+  },
+  "CRY-VEX-103|BASELINE": {
+   "kind": "baseline",
+   "sid": "CRY-VEX-103",
+   "testable": true,
+   "dev": {
+    "n": 325,
+    "ratio": -0.24034046505189677,
+    "sharpe": -1.7083433167582982,
+    "sortino": -2.583250690270375,
+    "max_dd": -0.46493435861936094,
+    "total_return": -0.4452014429535748,
+    "cagr": -0.13686721474900054,
+    "ann_vol": 0.08409237993705616,
+    "turnover_per_year": 50.24907713668432,
+    "exposure_time": 0.07591832078485056,
+    "win_rate": 0.21846153846153846,
+    "profit_factor": 0.5299279569078236,
+    "expectancy_R": -0.24178985743768316,
+    "worst5_loss": -476.1081408960137,
+    "forced_closes": 0.0
+   },
+   "consumed_descriptive": {
+    "n": 40,
+    "ratio": -0.24430768824616694,
+    "sharpe": -1.0824685810258072,
+    "sortino": -1.9524023518300098,
+    "max_dd": -0.06154459420044045,
+    "total_return": -0.05102969981179961,
+    "cagr": -0.05102969981179961,
+    "ann_vol": 0.04735850217708704,
+    "turnover_per_year": 26.183762591931618,
+    "exposure_time": 0.042922374429223746,
+    "win_rate": 0.2,
+    "profit_factor": 0.5788894254655829,
+    "expectancy_R": -0.24048391148232856,
+    "worst5_loss": -335.11887767961366,
+    "forced_closes": 0.0
+   },
+   "stress_A": {
+    "n": 231,
+    "sharpe": -1.9719887542112047,
+    "ratio": -0.3052139931255912,
+    "max_dd": -0.4884485881792462
+   },
+   "stress_B": {
+    "n": 255,
+    "sharpe": -2.323381277950483,
+    "ratio": -0.33100570409874214,
+    "max_dd": -0.5390515022611364
+   }
+  },
+  "CRY-MOM-101|ENTRY_CONFIRM|confirm=3": {
+   "kind": "finalist",
+   "sid": "CRY-MOM-101",
+   "testable": true,
+   "dev": {
+    "n": 60,
+    "ratio": -0.09635416427740161,
+    "sharpe": -0.2110815337801064,
+    "sortino": -0.3018512259139868,
+    "max_dd": -0.11727978433752884,
+    "total_return": -0.05490168998562772,
+    "cagr": -0.014007882675369787,
+    "ann_vol": 0.05868324342579908,
+    "turnover_per_year": 3.9740792178214006,
+    "exposure_time": 0.13783367556468173,
+    "win_rate": 0.2833333333333333,
+    "profit_factor": 0.7885256616528469,
+    "expectancy_R": -0.0863009122633275,
+    "worst5_loss": -486.6745535823771,
+    "forced_closes": 0.0
+   },
+   "consumed_descriptive": {
+    "n": 8,
+    "ratio": 0.21146535236202,
+    "sharpe": 0.4581772985481093,
+    "sortino": 0.8079736299739343,
+    "max_dd": -0.023008594813034522,
+    "total_return": 0.01686882281198221,
+    "cagr": 0.01686882281198221,
+    "ann_vol": 0.03808247918886565,
+    "turnover_per_year": 3.96978977682935,
+    "exposure_time": 0.09863013698630137,
+    "win_rate": 0.375,
+    "profit_factor": 1.505449212105856,
+    "expectancy_R": 0.21610629339738183,
+    "worst5_loss": -333.7392245939314,
+    "forced_closes": 0.0
+   },
+   "stress_A": {
+    "n": 60,
+    "sharpe": -0.3197364233278137,
+    "ratio": -0.13506245525278346,
+    "max_dd": -0.12942499576032396
+   },
+   "stress_B": {
+    "n": 60,
+    "sharpe": -0.3197364233278124,
+    "ratio": -0.1350624552527835,
+    "max_dd": -0.12942499576032396
+   }
+  },
+  "CRY-MOM-101|STOP|stop_k=2.5,trail_k=4.0": {
+   "kind": "finalist",
+   "sid": "CRY-MOM-101",
+   "testable": true,
+   "dev": {
+    "n": 74,
+    "ratio": -0.21016181998522696,
+    "sharpe": -0.41155230620818606,
+    "sortino": -0.5733887669779213,
+    "max_dd": -0.20590792383214507,
+    "total_return": -0.13746967753662287,
+    "cagr": -0.03627176509595209,
+    "ann_vol": 0.0816693202867536,
+    "turnover_per_year": 5.980142760478883,
+    "exposure_time": 0.1744524298425736,
+    "win_rate": 0.25675675675675674,
+    "profit_factor": 0.6566227228265947,
+    "expectancy_R": -0.1883139895579883,
+    "worst5_loss": -496.5566336636305,
+    "forced_closes": 0.0
+   },
+   "consumed_descriptive": {
+    "n": 7,
+    "ratio": 0.4206258487033916,
+    "sharpe": 0.6219960272192425,
+    "sortino": 1.086994559697049,
+    "max_dd": -0.0285786261228681,
+    "total_return": 0.02839698970558424,
+    "cagr": 0.02839698970558424,
+    "ann_vol": 0.04676522500446816,
+    "turnover_per_year": 4.077557760098536,
+    "exposure_time": 0.10365296803652968,
+    "win_rate": 0.42857142857142855,
+    "profit_factor": 1.922346640217549,
+    "expectancy_R": 0.5343645009496119,
+    "worst5_loss": -307.8776293789746,
+    "forced_closes": 0.0
+   },
+   "stress_A": {
+    "n": 74,
+    "sharpe": -0.5210520200123168,
+    "ratio": -0.25028108407188265,
+    "max_dd": -0.22206207847848058
+   },
+   "stress_B": {
+    "n": 74,
+    "sharpe": -0.5210520200123132,
+    "ratio": -0.2502810840718823,
+    "max_dd": -0.2220620784784798
+   }
+  },
+  "CRY-MOM-101|FACTOR_OVERLAY|factor=('EQ3', 0.0)": {
+   "kind": "finalist",
+   "sid": "CRY-MOM-101",
+   "testable": false,
+   "reason": "'factor score unavailable for BNB: overlay not testable on this asset'"
+  },
+  "CRY-MOM-101|COMBO": {
+   "kind": "combo",
+   "sid": "CRY-MOM-101",
+   "testable": false,
+   "reason": "'factor score unavailable for BNB: overlay not testable on this asset'"
+  }
+ },
+ "verdict": {
+  "CRY-MOM-101|ENTRY_CONFIRM|confirm=3": {
+   "dSharpe": -0.014856565842061659,
+   "dSharpe_ok": false,
+   "trades": 60,
+   "base_trades": 71,
+   "trades_ok": true,
+   "max_dd": -0.11727978433752884,
+   "base_max_dd": -0.12774891863810856,
+   "dd_ok": true,
+   "stressA_dSharpe": -0.010838979365301482,
+   "stressB_dSharpe": -0.010838979365295764,
+   "paired_boot": {
+    "mean_diff": 1.6549563847503073e-06,
+    "p_one_sided": 0.4644535546445355,
+    "ci95_mean_diff": [
+     -8.420501062450386e-05,
+     7.934471368038835e-05
+    ],
+    "dSharpe_ci95": [
+     -0.44748146730355776,
+     0.4469765655562565
+    ],
+    "dSharpe_lower90": -0.2911623359369342,
+    "n_days": 1461
+   },
+   "holdout": "INCONSISTENT"
+  },
+  "CRY-MOM-101|STOP|stop_k=2.5,trail_k=4.0": {
+   "dSharpe": -0.2153273382701413,
+   "dSharpe_ok": false,
+   "trades": 74,
+   "base_trades": 71,
+   "trades_ok": true,
+   "max_dd": -0.20590792383214507,
+   "base_max_dd": -0.12774891863810856,
+   "dd_ok": false,
+   "stressA_dSharpe": -0.21215457604980453,
+   "stressB_dSharpe": -0.2121545760497966,
+   "paired_boot": {
+    "mean_diff": -5.649366849459058e-05,
+    "p_one_sided": 0.9699030096990301,
+    "ci95_mean_diff": [
+     -0.00012268004696575503,
+     3.089469860689729e-06
+    ],
+    "dSharpe_ci95": [
+     -0.47576630792637226,
+     0.06745089386339499
+    ],
+    "dSharpe_lower90": -0.3823478065765514,
+    "n_days": 1461
+   },
+   "holdout": "INCONSISTENT"
+  },
+  "CRY-MOM-101|FACTOR_OVERLAY|factor=('EQ3', 0.0)": {
+   "holdout": "NOT_TESTABLE",
+   "reason": "'factor score unavailable for BNB: overlay not testable on this asset'"
+  },
+  "CRY-MOM-101|COMBO": {
+   "holdout": "NOT_TESTABLE",
+   "reason": "'factor score unavailable for BNB: overlay not testable on this asset'"
+  }
+ },
+ "status": "SINGLE_SHOT: not re-run, not used to modify any candidate",
+ "caveat": "same calendar period and BTC beta as development cohort; cross-sectional (asset) holdout only; 4 assets; small trade counts"
+}
