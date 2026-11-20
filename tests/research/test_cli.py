@@ -44,6 +44,40 @@ class CliTests(unittest.TestCase):
             return ["--evidence", f"review:{out['sha256']}"]
         return ["--evidence", "ev1"]
 
+    def test_capability_list_is_read_only_and_distinguishes_interfaces(self):
+        import argparse
+        from unittest.mock import patch
+
+        root = self.repo / "work" / "research"
+        with patch.object(cli.lg, "Ledger", side_effect=AssertionError("ledger accessed")):
+            code, out = self.call("capability-list")
+            self.assertEqual(self.call("capability-list"), (code, out))
+        self.assertEqual(code, 0)
+        self.assertFalse(root.exists())
+        self.assertEqual(out["schema_version"], 1)
+        self.assertEqual(out["status"], "navigation_only")
+        self.assertEqual(out["authorization"], "not_evaluated")
+        self.assertEqual(out["runtime_availability"], "not_evaluated")
+        entries = out["capabilities"]
+        commands = {e["name"]: e for e in entries if e["interface"] == "cli"}
+        # Compare against the actual parser; a new CLI command must be classified.
+        sub = next(a for a in cli.parser()._actions if isinstance(a, argparse._SubParsersAction))
+        self.assertEqual(set(commands), set(sub.choices))
+        self.assertEqual(len(commands), 10)
+        self.assertEqual(commands["capability-list"]["effect"], "read_only")
+        self.assertEqual(commands["register"]["owner"], "supervisor_only")
+        self.assertNotIn("run_candidate", commands)
+        modules = {e["name"]: e for e in entries if e["interface"] == "python"}
+        self.assertEqual(modules["run_candidate"]["owner"], "supervisor_only")
+        self.assertEqual(modules["adjudicate_trial"]["owner"], "supervisor_only")
+        self.assertEqual(modules["qualify_ohlcv"]["effect"], "derived_only")
+        for e in modules.values():
+            import ast
+            tree = ast.parse((ROOT / e["source"]).read_text(encoding="utf-8"))
+            self.assertIn(e["name"], {n.name for n in tree.body if isinstance(n, (ast.FunctionDef, ast.ClassDef))})
+        code, out = self.call("--root", str(self.tmp), "capability-list")
+        self.assertEqual((code, out["error"]), (2, "ROOT_REFUSED"))
+
     def test_register_advance_freeze_status_flow(self):
         code, out = self.call("register", "--file", self.write("h.json", b.hypothesis()), *WHO)
         self.assertEqual((code, out["created"], out["resulting_state"]), (0, True, "REGISTERED"))

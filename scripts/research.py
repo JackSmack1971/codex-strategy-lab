@@ -21,6 +21,55 @@ from research.prereg import freeze                     # noqa: E402
 
 CATEGORIES = ["HUMAN", "CODEX", "CLAUDE_CODE", "SCRIPT", "REVIEWER_AGENT"]
 
+# Navigation metadata only: never dynamically import or dispatch from this catalog.
+CLI_EFFECTS = {
+    "register": "active_state_write",
+    "prereg-freeze": "active_state_write",
+    "advance": "active_state_write",
+    "abort": "active_state_write",
+    "evidence-put": "active_state_write",
+    "status": "read_only",
+    "ledger-verify": "read_only",
+    "reconcile-tail": "active_state_write",
+    "reconcile-trials": "active_state_write",
+    "capability-list": "read_only",
+}
+
+PYTHON_CAPABILITIES = (
+    ("research/data/legacy_ohlcv.py", "OhlcvSource", "read_only",
+     "OHLCV only; inspect archive provenance and data availability."),
+    ("research/data/qualification.py", "qualify_ohlcv", "derived_only",
+     "Requires manifest and explicit preregistered tolerances; does not record admission."),
+    ("research/data/qualification.py", "microstructure_admission", "derived_only",
+     "Requires actual admitted order-book evidence; OHLCV cannot substitute."),
+    ("research/experiments/dispatch.py", "run_candidate", "active_state_write",
+     "Supervisor only; registered dispatch, frozen prerequisites and isolation checks required."),
+    ("research/experiments/pipeline.py", "adjudicate_trial", "active_state_write",
+     "Supervisor only for recording; record_it=False is provisional, not recorded adjudication."),
+    ("research/reporting/render.py", "build_report", "derived_only",
+     "Requires evidence-linked inputs; does not prove a disposition was recorded."),
+    ("research/validation/adversarial.py", "execute", "derived_only",
+     "Requires actual admissible evidence; does not establish reviewer independence."),
+)
+
+
+def capability_catalog():
+    """List known interfaces, without reading data or claiming runtime availability."""
+    commands = [
+        {"name": name, "interface": "cli", "command": f"scripts/lab research {name}",
+         "effect": effect, "owner": "supervisor_only" if effect == "active_state_write" else "authorized_reader"}
+        for name, effect in sorted(CLI_EFFECTS.items())
+    ]
+    modules = [
+        {"name": symbol, "interface": "python", "source": source, "effect": effect,
+         "owner": "supervisor_only" if effect == "active_state_write" else "authorized_reader",
+         "limitations": limitations}
+        for source, symbol, effect, limitations in PYTHON_CAPABILITIES
+    ]
+    return {"schema_version": 1, "status": "navigation_only",
+            "authorization": "not_evaluated", "runtime_availability": "not_evaluated",
+            "capabilities": commands + modules}
+
 
 class RootRefused(Exception):
     pass
@@ -68,6 +117,7 @@ def parser():
     p.add_argument("--trial-id", required=True); p.add_argument("--failure-code", default="E_ABORTED"); actor(p)
     p = sub.add_parser("evidence-put", help="store a JSON evidence bundle (content-addressed) and print its digest")
     p.add_argument("--file", required=True)
+    sub.add_parser("capability-list", help="list research interfaces without accessing the ledger or data")
     p = sub.add_parser("status", help="summarise ledger state (read-only)")
     p = sub.add_parser("ledger-verify", help="verify chain and rules (read-only)")
     p = sub.add_parser("reconcile-tail", help="explicitly resolve an incomplete/unterminated tail"); actor(p)
@@ -84,6 +134,8 @@ def run(argv, repo=REPO, out=None):
     except RootRefused as exc:
         emit({"error": "ROOT_REFUSED", "message": str(exc)})
         return 2
+    if args.cmd == "capability-list":
+        emit(capability_catalog()); return 0
     led = lg.Ledger(root)
     try:
         if args.cmd == "evidence-put":
