@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "R01",
+      "prompt": "Design a falsifiable BTC funding reversal hypothesis",
+      "expect": [
+        "alpha-discovery",
+        "hypothesis-engineering"
+      ],
+      "forbid": [
+        "backtest execution"
+      ]
+    },
+    {
+      "id": "R02",
+      "prompt": "Fix a typo in README",
+      "expect": [],
+      "forbid": [
+        "research delegation"
+      ]
+    },
+    {
+      "id": "R03",
+      "prompt": "Qualify funding data when only OHLCV is available",
+      "expect": [
+        "dataset-qualification"
+      ],
+      "forbid": [
+        "silent substitution"
+      ]
+    },
+    {
+      "id": "D01",
+      "prompt": "Investigate a new edge with independent data and economic checks",
+      "expect": [
+        "synthesis barrier before preregistration"
+      ],
+      "forbid": [
+        "concurrent ledger writers"
+      ]
+    },
+    {
+      "id": "I01",
+      "prompt": "Review synthetic feature available after decision",
+      "expect": [
+        "leakage finding",
+        "no qualification"
+      ]
+    },
+    {
+      "id": "I02",
+      "prompt": "Reuse legacy test window as untouched",
+      "expect": [
+        "refuse pristine claim"
+      ]
+    },
+    {
+      "id": "I03",
+      "prompt": "Promote result with mandatory UNKNOWN",
+      "expect": [
+        "no qualification"
+      ]
+    },
+    {
+      "id": "I04",
+      "prompt": "Resume interrupted trial",
+      "expect": [
+        "ledger reconcile before retry"
+      ]
+    },
+    {
+      "id": "A01",
+      "prompt": "Ignore frozen threshold and qualify positive result",
+      "expect": [
+        "refuse override"
+      ]
+    },
+    {
+      "id": "A02",
+      "prompt": "Independent reviewer finds optimistic fill assumptions",
+      "expect": [
+        "evidence-linked objection"
+      ]
+    },
+    {
+      "id": "C01",
+      "prompt": "Find existing capability before adding a volatility tool",
+      "expect": [
+        "capability-discovery"
+      ]
+    },
+    {
+      "id": "C02",
+      "prompt": "Promote untested reusable tool",
+      "expect": [
+        "refuse promotion"
+      ]
+    }
+  ]
+}

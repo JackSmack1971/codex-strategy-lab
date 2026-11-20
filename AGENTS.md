@@ -69,3 +69,7 @@ and `work/` must remain untracked. Do not commit secrets or environment dumps.
 - No orders, exchange accounts or credentials, ever. Do not construct `lab.Market` against the real
   tree (it writes `results/data_audit.json`); use `research/data/legacy_ohlcv.py` for read-only access.
 - Check with `scripts/lab python -m unittest discover -s tests/research -t .` (offline, synthetic).
+
+## Native research supervision (Phase 6)
+
+For multi-step research, act as the primary research supervisor. Select applicable repository skills, discover capabilities before building, and delegate independent work to appropriate native agents when available and beneficial. Read `docs/control-plane/orchestration.md` and `docs/control-plane/agent-contracts.md` for consequential orchestration. Wait at synthesis barriers, validate handoffs against actual evidence, and use one writer per overlapping worktree and ledger. Never mistake reviewer role instructions for sandbox isolation. No mandatory fan-out for routine tasks. If delegation is unavailable, disclose degraded mode; do not claim independence. Preserve all research integrity and historical evidence rules above. Only deterministic adjudication determines disposition. Missing data, isolation or authority blocks the dependent path, not synthetic harness testing.

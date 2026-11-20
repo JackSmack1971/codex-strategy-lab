@@ -35,9 +35,8 @@ G01 `test_isolation`, `test_vertical_slice` (protected hashes) | G02-G04 `test_a
 G16 final diff review (manual).
 
 ## Deferred (not implemented)
-Codex custom agents and Skills (phase 6), real historical order-book/derivatives/catalyst data (7-8),
-memory and adaptive models (9), governance/cost evaluation (10), `.codex/config.toml`. These are blocked
-on provider/licence, preregistered thresholds and a genuinely unopened confirmation set; see the blueprint.
+Phase 6 native custom agents, Skills, project orchestration configuration and evaluation corpus are authored; see `orchestration.md` and `evaluation-policy.md`. Runtime qualification, additional research CLI integration and automated capability promotion remain deferred. Synthetic orchestration testing does not require a real provider or untouched confirmation set.
+Real historical order-book/derivatives/catalyst data (7-8), memory and adaptive models (9), and governance/cost evaluation (10) remain deferred; provider/licence, preregistered thresholds and a genuinely unopened confirmation set remain prerequisites where applicable.
 
 ## Known limitations
 - Legacy OHLCV has no depth, spread, queue, funding or liquidation data; costs are preregistered assumptions.
